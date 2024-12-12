@@ -1,0 +1,58 @@
+    *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    /* Estilos CSS incorporados para simplicidade */
+    :root {
+        /* espaço para deix */
+    }
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+    .container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    input, select, textarea {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    #mensagem {
+        margin-top: 15px;
+        padding: 10px;
+        text-align: center;
+    }
+    .sucesso {
+        background-color: #dff0d8;
+        color: #3c763d;
+        border: 1px solid #d6e9c6;
+    }
+    .erro {
+        background-color: #f2dede;
+        color: #a94442;
+        border: 1px solid #ebccd1;
+    }
