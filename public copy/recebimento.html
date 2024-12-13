@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recebimento de Solicitação</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Recebimento de Solicitação</h1>
+        <div id="dadosSolicitacao">
+            <!-- Os dados da solicitação serão exibidos aqui -->
+        </div>
+        <button id="limparDados">Limpar Dados</button>
+    </div>
+
+    <script>
+        // Obtém os dados armazenados no localStorage
+        const dadosSolicitacao = localStorage.getItem('solicitacaoKit');
+        const dadosDiv = document.getElementById('dadosSolicitacao');
+
+        if (dadosSolicitacao) {
+            // Converte os dados para um objeto
+            const dados = JSON.parse(dadosSolicitacao);
+
+            // Cria a exibição dos dados
+            dadosDiv.innerHTML = `
+                <p><strong>Nome:</strong> ${dados.nome}</p>
+                <p><strong>Curso:</strong> ${dados.curso}</p>
+                <p><strong>Kit:</strong> ${dados.kit}</p>
+                <p><strong>Justificativa:</strong> ${dados.justificativa}</p>
+                <p><strong>E-mail:</strong> ${dados.email}</p>
+                <p><strong>Data:</strong> ${dados.data}</p>
+            `;
+        } else {
+            dadosDiv.innerHTML = '<p>Nenhuma solicitação encontrada.</p>';
+        }
+
+        // Adiciona funcionalidade ao botão para limpar os dados
+        document.getElementById('limparDados').addEventListener('click', () => {
+            localStorage.removeItem('solicitacaoKit');
+            dadosDiv.innerHTML = '<p>Os dados foram limpos.</p>';
+        });
+    </script>
+</body>
+</html>

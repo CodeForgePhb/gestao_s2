@@ -1,22 +1,30 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require('express');
 const cors = require('cors');
-const routes = require('./routes'); // Importar o arquivo de rotas
-
-require('dotenv').config();
+const bodyParser = require('body-parser');
+const Controllersrouter = require('./routes/routes'); // Importar o arquivo de rotas
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+// Rotas
+app.use('/api/routes', Controllersrouter);
 
 app.use(express.static('public'));
 
-// Rotas
-app.use('/api', routes); // Prefixo /api para todas as rotas
+
+app.get('/login', (req, res) => {
+  // res.send('Conectado ao servidor.')
+  res.sendFile(__dirname + '/public/index.html')
+})
+
+
 
 // Inicialização do servidor
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta http://localhost:${PORT}/api`);
+  console.log(`Servidor rodando na porta http://localhost:${PORT}`);
 });
