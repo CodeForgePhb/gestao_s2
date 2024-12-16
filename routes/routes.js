@@ -1,12 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const Controller = require('../controllers/controller'); //importa o controlador de transações
-const path = require('path');
-const autentication = require('./autent');
+// const express = require('express');
+// const router = express.Router();
+// const Controller = require('../controllers/controller'); //importa o controlador de transações
+// const path = require('path');
+// const autentication = require('./autent');
 
 
-router.post('/login', autentication.login); //login
-router.post('/register', autentication.cadastro); //cadastro
+// router.post('/login', autentication.login); //login
+// router.post('/register', autentication.cadastro); //cadastro
 
 
 //const authMiddleware = require('../middlewares/authMiddleware'); // Importa o middleware de autenticação
@@ -39,4 +39,4 @@ router.post('/register', autentication.cadastro); //cadastro
 //router.delete('/:id',authMiddleware, transactionsController.deleteTransaction);
 
 
-module.exports = router;
+// module.exports = router;
