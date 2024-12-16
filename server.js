@@ -10,12 +10,13 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+
 app.use(express.static('public'));
 
 const authenRoutes = require('./routes/authen');
 const routes = require('./routes/routes');
 app.use('/api/authen', authenRoutes);
-//app.use('/api/routes', routes);
+app.use('/api/routes', routes);
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');

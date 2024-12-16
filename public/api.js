@@ -1,3 +1,5 @@
+
+
 // Define a URL base da API como 'http://localhost:3000/api'.
 const API_URL = 'http://localhost:3001/api';
 
@@ -31,29 +33,106 @@ async function cadastro(nome_usuario, email, senha, setor) {
     }
 }
 
+// async function login(email, senha) {
+//     try {
+//         // Exibe no console os dados de login que serão enviados ao servidor.
+//         console.log('Enviando dados para login:', { email, senha, setor });
+//         // Envia uma requisição POST à API na rota '/authen/login'.
+//         // A requisição inclui um cabeçalho para indicar que o conteúdo é JSON e envia o 'email' e 'password' no corpo da requisição.
+//         const response = await fetch(`${API_URL}/authen/login`, {
+//             method: 'POST', // Define o método HTTP como POST.
+//             headers: {
+//                 'Content-Type': 'application/json' // Informa que o corpo da requisição está no formato JSON.
+//             },
+//             body: JSON.stringify({ email, senha, setor}) // Converte os dados de login para o formato JSON e envia no corpo da requisição.
+//         });
+//         // Aguarda e converte a resposta do servidor para JSON.
+//         const result = await response.json();
+//         // Exibe no console a resposta recebida do servidor.
+//         console.log('Resposta do servidor para login:', result);
+//         // Retorna o resultado da requisição.
+//         return result;
+//     } catch (error) {
+//         // Captura qualquer erro que ocorra durante a requisição e exibe no console.
+//         console.error('Erro ao fazer login:', error);
+//         // Retorna um objeto com 'success: false' indicando que o login falhou.
+//         return { success: false };
+//     }
+// }
+
 async function login(email, senha) {
+    const token = localStorage.getItem('token');
     try {
-        // Exibe no console os dados de login que serão enviados ao servidor.
-        console.log('Enviando dados para login:', { email, senha, setor });
-        // Envia uma requisição POST à API na rota '/authen/login'.
-        // A requisição inclui um cabeçalho para indicar que o conteúdo é JSON e envia o 'email' e 'password' no corpo da requisição.
         const response = await fetch(`${API_URL}/authen/login`, {
-            method: 'POST', // Define o método HTTP como POST.
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Informa que o corpo da requisição está no formato JSON.
+                'Authorization':`Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, senha, setor}) // Converte os dados de login para o formato JSON e envia no corpo da requisição.
+            body: JSON.stringify({ email, senha })
         });
-        // Aguarda e converte a resposta do servidor para JSON.
+
         const result = await response.json();
-        // Exibe no console a resposta recebida do servidor.
         console.log('Resposta do servidor para login:', result);
-        // Retorna o resultado da requisição.
-        return result;
+
+        return result; // Inclui o token e o setor
     } catch (error) {
-        // Captura qualquer erro que ocorra durante a requisição e exibe no console.
         console.error('Erro ao fazer login:', error);
-        // Retorna um objeto com 'success: false' indicando que o login falhou.
         return { success: false };
     }
+}
+
+
+async function getCursosVigentes() {
+
+    //Enviar uma requisição GET para a rota 'transactions' da API para obter todas as transações
+    const token = localStorage.getItem('token')
+    const professor = 'miguel'
+
+    const response = await fetch(`${API_URL}/cursos-vigentes`,{
+
+        method: 'GET', // Define o método HTTP como GET, que solicita dados do servidor sem enviar informações no corpo.
+
+        headers:{
+            //Inclui o tokem JWT no cabeçãlho Authorization para autenticar a requisição, necessário para acessar rotas protegidas
+            
+            'Authorization': `Bearer ${localStorage.getItem('token')}` // Obtém o tokem do localStorage e envia em formato Bearer Token.
+        }
+    });
+
+    //Converte a resposta do servidor para JSON e retorna para ser usada na aplicação.
+
+    return response.json(); //Retorna o objeto JSON da resposta
+
+}
+
+
+
+async function getCursosVigentes() {
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+        console.log('Token não encontrado');
+        return;
+    }
+
+    // Decodifica o token e obtém o nome do professor
+    const decoded = jwt_decode(token);
+    const professor = decoded.professor || '';  // Substitua 'professor' pela chave certa
+
+    if (!professor) {
+        console.log('Professor não encontrado no token');
+        return;
+    }
+
+    const response = await fetch(`${API_URL}/cursos-vigentes?professor=${professor}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    const cursos = await response.json();
+    console.log('Cursos recebidos:', cursos);
+    return cursos;
 }

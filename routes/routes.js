@@ -1,8 +1,10 @@
-// const express = require('express');
-// const router = express.Router();
-// const Controller = require('../controllers/controller'); //importa o controlador de transações
-// const path = require('path');
-// const autentication = require('./autent');
+const express = require('express');
+const router = express.Router();
+const controllerDocente = require('../controllers/routesDocente'); //importa o controlador de transações
+const authMiddleware = require('../middleware/authorization')
+
+router.get('/cursos-vigentes', authMiddleware,controllerDocente.buscarCursos)
+
 
 
 // router.post('/login', autentication.login); //login
@@ -38,5 +40,4 @@
 //Definir uma rota para deletar uma transação existente
 //router.delete('/:id',authMiddleware, transactionsController.deleteTransaction);
 
-
-// module.exports = router;
+module.exports = router;

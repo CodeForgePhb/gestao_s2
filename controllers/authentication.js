@@ -24,31 +24,77 @@ const cadastro = async (req, res) => {
     res.status(500).send('Erro ao cadastrar usuário.');
   }
 };
-// Função para autenticar um usuário
+// // Função para autenticar um usuário
+// const login = async (req, res) => {
+//   const { email, senha } = req.body; // Desestrutura os dados do corpo da requisição
+//   // Verificar se o usuário existe no banco de dados
+//   try {
+//     const [user] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
+//     if (user.length === 0) {
+//       return res.status(400).send('Credenciais inválidas (email)'); //quando sucesso remover (email)
+//     }
+//     // Comparar a senha fornecida com a senha criptografada no banco de dados
+//     const isMatch = await bcrypt.compare(senha, user[0].senha);
+//     if (!isMatch) {
+//       return res.status(400).send('Credenciais inválidas (senha)'); //quando sucesso remover (senha)
+//     }
+//     // Gerar um token JWT
+//     const token = jwt.sign(
+//       { userId: user[0].id, email: user[0].email, nome: user[0].setor }, //aqui gera o token com essas informações para depois ser descriptografado
+//       process.env.JWT_SECRET, { expiresIn: '1h' }
+//     );
+//     res.json({ token, usuario: { id: usuario.id, email: usuario.email, nome: usuario.setor } }); //aqui mostra o token e os dados sem necessidade de descriptografar
+//   } catch (err) {
+//     console.error('Erro ao autenticar usuário:', err);
+//     res.status(500).send('Erro ao autenticar usuário');
+//   }
+// };
+
 const login = async (req, res) => {
-  const { email, senha } = req.body; // Desestrutura os dados do corpo da requisição
-  // Verificar se o usuário existe no banco de dados
+  const { email, senha } = req.body;
   try {
     const [user] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
     if (user.length === 0) {
-      return res.status(400).send('Credenciais inválidas (email)'); //quando sucesso remover (email)
+      return res.status(400).send('Credenciais inválidas (email)');
     }
-    // Comparar a senha fornecida com a senha criptografada no banco de dados
+
     const isMatch = await bcrypt.compare(senha, user[0].senha);
     if (!isMatch) {
-      return res.status(400).send('Credenciais inválidas (senha)'); //quando sucesso remover (senha)
+      return res.status(400).send('Credenciais inválidas (senha)');
     }
-    // Gerar um token JWT
+
+    // Gerar o token JWT com setor incluído
     const token = jwt.sign(
-      { userId: user[0].id, email: user[0].email, nome: user[0].nome }, //aqui gera o token com essas informações para depois ser descriptografado
-      process.env.JWT_SECRET, { expiresIn: '1h' }
+      { 
+        userId: user[0].id, 
+        email: user[0].email, 
+        nome: user[0].nome, 
+        setor: user[0].setor // Inclui setor no token
+      },
+      process.env.JWT_SECRET, 
+      { expiresIn: '1m' }
     );
-    res.json({ token, usuario: { id: usuario.id, email: usuario.email, nome: usuario.nome } }); //aqui mostra o token e os dados sem necessidade de descriptografar
+
+    // Envia token e setor na resposta
+    res.json({ 
+      token, 
+      usuario: { 
+        id: user[0].id, 
+        email: user[0].email, 
+        nome: user[0].nome, 
+        setor: user[0].setor 
+      } 
+    });
+    console.log(token)
+    const decodedToken = jwt.decode(token);
+    console.log('Token Decodificado:', decodedToken);
+
   } catch (err) {
     console.error('Erro ao autenticar usuário:', err);
     res.status(500).send('Erro ao autenticar usuário');
   }
 };
+
 
 module.exports = {
   cadastro,

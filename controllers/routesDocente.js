@@ -1,8 +1,24 @@
-// const express = require('express');
-// const db = require('../db'); // Importar a conexão com o banco
-// const router = express.Router();
+const db = require('../config/db'); // Importar a conexão com o banco
 
 // //------------------------ROTAS GET
+
+const buscarCursos = (req, res)=>{
+    const {professor} = req.body
+
+    db.query(
+        'SELECT nome_curso FROM cursos_vigentes where professor=?',[professor],
+        (err, results)=>{
+            if(err){
+                console.error('Erro ao obter dado cursos vigentes',err)
+                res.status(500).send('Erro ao obter dado cursos vigentes')
+                return
+            }
+            res.json(results)
+            console.log(results)
+        }
+    )
+}
+
 
 // // Rota para buscar cursos
 // router.get('/cursos', async (req, res) => {
@@ -116,6 +132,7 @@
 // //     }
 // //
 
-// module.exports = {
-//    router
-// }
+ module.exports = {
+    buscarCursos
+ }
+

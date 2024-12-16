@@ -46,38 +46,51 @@ document.querySelector('#registrationForm').addEventListener('submit', async (ev
 });
 
 
+// document.querySelector('#loginForm').addEventListener('submit', async (event) => {
+//     event.preventDefault(); // Impede o comportamento padrão de envio do formulário para a página.
+
+//     const email = document.getElementById('email').value;
+//     const senha = document.getElementById('senha').value;
+
+//     const result = await login(email, senha);
+
+//     // Verifica se a resposta contém um token.
+//     if (result.token) {
+//         // Armazena o token JWT no localStorage para uso em futuras requisições autenticadas.
+//         localStorage.setItem('token', result.token);
+
+//         // Redireciona o usuário para a página principal após o login bem-sucedido.
+//         window.location.href = 'docente.html';
+//     } else {
+//         // Exibe uma mensagem de erro personalizada se o login falhar.
+//         alert(result.message || 'Login falhou! Verifique suas credenciais.');
+//     }
+// })
 document.querySelector('#loginForm').addEventListener('submit', async (event) => {
-    event.preventDefault(); // Impede o comportamento padrão de envio do formulário para a página.
+    event.preventDefault();
 
     const email = document.getElementById('email').value;
     const senha = document.getElementById('senha').value;
 
     const result = await login(email, senha);
 
-    // Verifica se a resposta contém um token.
     if (result.token) {
-        // Armazena o token JWT no localStorage para uso em futuras requisições autenticadas.
+        console.log('Token recebido do servidor', result.token);
         localStorage.setItem('token', result.token);
 
-        // Redireciona o usuário para a página principal após o login bem-sucedido.
-        window.location.href = 'docente.html';
+        // Redireciona o usuário para a página com base no setor
+        const setor = result.usuario.setor;
+
+        if (setor === 'docente') {
+            window.location.href = 'docente.html';
+        } else if (setor === 'coordenação') {
+            window.location.href = 'coordenação.html';
+        } else if (setor === 'gestão') {
+            window.location.href = 'gestão.html';
+        } else {
+            window.location.href = 'setor_de_compras.html'; // Página genérica para outros casos
+        }
     } else {
-        // Exibe uma mensagem de erro personalizada se o login falhar.
         alert(result.message || 'Login falhou! Verifique suas credenciais.');
     }
-
-    // Redirecionar com base no tipo de usuário
-    // if (userType === 'docente') {
-    //     window.location.href = 'docente.html';
-    // } else if (userType === 'coordenação') {
-    //     window.location.href = 'coordenação.html';
-    // } else if (userType === 'gestão') {
-    //     window.location.href = 'gestão.html';
-    // } else {
-    //     alert('Tipo de usuário desconhecido!');
-    // }
-    // } else {
-    // alert('E-mail ou senha incorretos!');
-
-}
-)
+});
