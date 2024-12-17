@@ -50,6 +50,39 @@ const cadastro = async (req, res) => {
 //   }
 // };
 
+
+
+
+
+const buscarSetor = async (req, res) => {
+  try {
+    // 1. Extrai o token do cabeçalho Authorization
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Token não fornecido.' });
+    }
+
+    // 2. Verifica e decodifica o token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { email } = decoded; // Desestrutura o email do payload do token
+
+    // 3. Consulta SQL para buscar o setor do usuário
+    const [result] = await db.query('SELECT setor FROM usuarios WHERE email = ?', [email]);
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+
+    // 4. Retorna o setor do usuário
+    const { setor } = result[0]; // Desestrutura o setor da resposta do banco
+    res.status(200).json({ setor });
+  } catch (err) {
+    console.error('Erro ao buscar setor do usuário:', err);
+    res.status(500).json({ message: 'Erro no servidor.' });
+  }
+};
+
+
 const login = async (req, res) => {
   const { email, senha } = req.body;
   try {
@@ -98,5 +131,6 @@ const login = async (req, res) => {
 
 module.exports = {
   cadastro,
+  buscarSetor,
   login
 };

@@ -2,6 +2,8 @@ const sign_in_btn = document.querySelector("#sign-in-btn");
 const sign_up_btn = document.querySelector("#sign-up-btn");
 const container = document.querySelector(".container");
 
+const URL = 'http://localhost:3001/api'
+
 sign_up_btn.addEventListener("click", () => {
     container.classList.add("sign-up-mode");
 });
@@ -78,17 +80,24 @@ document.querySelector('#loginForm').addEventListener('submit', async (event) =>
         console.log('Token recebido do servidor', result.token);
         localStorage.setItem('token', result.token);
 
-        // Redireciona o usuário para a página com base no setor
-        const setor = result.usuario.setor;
+        // Busca o setor do usuário
+        const setorResult = await buscarSetor(result.token);
 
-        if (setor === 'docente') {
-            window.location.href = 'docente.html';
-        } else if (setor === 'coordenação') {
-            window.location.href = 'coordenação.html';
-        } else if (setor === 'gestão') {
-            window.location.href = 'gestão.html';
+        if (setorResult.setor) {
+            const setor = setorResult.setor;
+
+            // Redireciona com base no setor
+            if (setor === 'docente') {
+                window.location.href = 'docente.html';
+            } else if (setor === 'coordenação') {
+                window.location.href = 'coordenação.html';
+            } else if (setor === 'gestão') {
+                window.location.href = 'gestão.html';
+            } else {
+                window.location.href = 'setor_de_compras.html'; // Página padrão
+            }
         } else {
-            window.location.href = 'setor_de_compras.html'; // Página genérica para outros casos
+            alert(setorResult.message || 'Erro ao obter setor do usuário.');
         }
     } else {
         alert(result.message || 'Login falhou! Verifique suas credenciais.');

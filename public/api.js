@@ -60,25 +60,39 @@ async function cadastro(nome_usuario, email, senha, setor) {
 //     }
 // }
 
+
+// Função para fazer o login
 async function login(email, senha) {
-    const token = localStorage.getItem('token');
     try {
         const response = await fetch(`${API_URL}/authen/login`, {
             method: 'POST',
-            headers: {
-                'Authorization':`Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, senha })
         });
 
         const result = await response.json();
-        console.log('Resposta do servidor para login:', result);
-
-        return result; // Inclui o token e o setor
+        return result; // Retorna o resultado da API (token, mensagem de erro, etc.)
     } catch (error) {
         console.error('Erro ao fazer login:', error);
-        return { success: false };
+        return { success: false, message: 'Erro ao conectar ao servidor.' };
+    }
+}
+
+// Função para buscar o setor do usuário com base no token
+async function buscarSetor(token) {
+    try {
+        const response = await fetch(`${API_URL}/authen/usuario/setor`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const result = await response.json();
+        return result; // Retorna o setor ou mensagem de erro
+    } catch (error) {
+        console.error('Erro ao buscar setor do usuário:', error);
+        return { success: false, message: 'Erro ao conectar ao servidor.' };
     }
 }
 
@@ -87,7 +101,7 @@ async function getCursosVigentes() {
 
     //Enviar uma requisição GET para a rota 'transactions' da API para obter todas as transações
     const token = localStorage.getItem('token')
-    const professor = 'miguel'
+    
 
     const response = await fetch(`${API_URL}/cursos-vigentes`,{
 
