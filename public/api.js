@@ -98,55 +98,54 @@ async function buscarSetor(token) {
 
 
 async function getCursosVigentes() {
-
-    //Enviar uma requisição GET para a rota 'transactions' da API para obter todas as transações
-    const token = localStorage.getItem('token')
-    
-
-    const response = await fetch(`${API_URL}/cursos-vigentes`,{
-
-        method: 'GET', // Define o método HTTP como GET, que solicita dados do servidor sem enviar informações no corpo.
-
-        headers:{
-            //Inclui o tokem JWT no cabeçãlho Authorization para autenticar a requisição, necessário para acessar rotas protegidas
-            
-            'Authorization': `Bearer ${localStorage.getItem('token')}` // Obtém o tokem do localStorage e envia em formato Bearer Token.
-        }
-    });
-
-    //Converte a resposta do servidor para JSON e retorna para ser usada na aplicação.
-
-    return response.json(); //Retorna o objeto JSON da resposta
-
-}
-
-
-
-async function getCursosVigentes() {
     const token = localStorage.getItem('token');
-    
-    if (!token) {
-        console.log('Token não encontrado');
-        return;
-    }
+    try {
+        const response = await fetch(`${API_URL}/routes/cursos-vigentes`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
-    // Decodifica o token e obtém o nome do professor
-    const decoded = jwt_decode(token);
-    const professor = decoded.professor || '';  // Substitua 'professor' pela chave certa
-
-    if (!professor) {
-        console.log('Professor não encontrado no token');
-        return;
-    }
-
-    const response = await fetch(`${API_URL}/cursos-vigentes?professor=${professor}`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
         }
-    });
 
-    const cursos = await response.json();
-    console.log('Cursos recebidos:', cursos);
-    return cursos;
+        return await response.json();
+    } catch (error) {
+        console.error('Erro ao buscar cursos:', error);
+        return { cursos: [] }; // Retorna um array vazio em caso de erro
+    }
 }
+
+
+
+
+// async function getCursosVigentes() {
+//     const token = localStorage.getItem('token');
+    
+//     if (!token) {
+//         console.log('Token não encontrado');
+//         return;
+//     }
+
+//     // Decodifica o token e obtém o nome do professor
+//     const decoded = jwt_decode(token);
+//     const professor = decoded.professor || '';  // Substitua 'professor' pela chave certa
+
+//     if (!professor) {
+//         console.log('Professor não encontrado no token');
+//         return;
+//     }
+
+//     const response = await fetch(`${API_URL}/cursos-vigentes?professor=${professor}`, {
+//         method: 'GET',
+//         headers: {
+//             'Authorization': `Bearer ${token}`
+//         }
+//     });
+
+//     const cursos = await response.json();
+//     console.log('Cursos recebidos:', cursos);
+//     return cursos;
+// }

@@ -151,7 +151,7 @@
         .tabs button:hover {
             background-color: #1a428a;
         }
-
+        
         .courses {
             background-color: #fFFFFF;
             padding: 20px;
@@ -161,11 +161,13 @@
             overflow-x: scroll;
             overflow-x: hidden;
         }
+        
+        
 
         .courses h3 {
             margin-bottom: 15px;
         }
-
+        
         .course {
             background-color: #f3f3f3;
             padding: 15px;
@@ -198,7 +200,7 @@
             border-radius: 8px;
             overflow: scroll;
             
-          
+            
 
         }
 
@@ -256,6 +258,26 @@
             color: #666;
             margin: 0;
         }
+
+        .loader {
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            border: 6px solid #ddd;
+            border-top-color: #007bff; /* Cor do spinner */
+            border-radius: 50%;
+            animation: spin 1s linear infinite; /* Animação */
+        }
+
+    /* Animação keyframe */
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
     </style>
 </head>
 
@@ -305,10 +327,7 @@
         <h3>Cursos Vigentes</h3>
         <div class="courses" id="courses">
 
-            <div class="course">
-                <span>Técnico em Informática para Internet</span>
-                <span class="arrow">&#9662;</span>
-            </div>
+            <div class="loader"></div>
             
         </div>
 

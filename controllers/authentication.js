@@ -105,7 +105,7 @@ const login = async (req, res) => {
         setor: user[0].setor // Inclui setor no token
       },
       process.env.JWT_SECRET, 
-      { expiresIn: '1m' }
+      { expiresIn: '1h' }
     );
 
     // Envia token e setor na resposta

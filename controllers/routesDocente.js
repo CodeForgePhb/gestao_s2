@@ -1,23 +1,97 @@
 const db = require('../config/db'); // Importar a conexão com o banco
+const jwt = require('jsonwebtoken');
+
 
 // //------------------------ROTAS GET
 
-const buscarCursos = (req, res)=>{
-    const {professor} = req.body
+const buscarNome = async (req, res) => {
+    try {
+      // 1. Extrai o token do cabeçalho Authorization
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) {
+        return res.status(401).json({ message: 'Token não fornecido.' });
+      }
+  
+      // 2. Verifica e decodifica o token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const { email } = decoded; // Desestrutura o email do payload do token
 
-    db.query(
-        'SELECT nome_curso FROM cursos_vigentes where professor=?',[professor],
-        (err, results)=>{
-            if(err){
-                console.error('Erro ao obter dado cursos vigentes',err)
-                res.status(500).send('Erro ao obter dado cursos vigentes')
-                return
-            }
-            res.json(results)
-            console.log(results)
-        }
-    )
-}
+      // 3. Consulta SQL para buscar o setor do usuário
+      const [result] = await db.query('SELECT nome_usuario FROM usuarios WHERE nome = ?', [email]);
+  
+      if (result.length === 0) {
+        return res.status(404).json({ message: 'Usuário não encontrado.' });
+      }
+  
+      // 4. Retorna o setor do usuário
+      const { nome_usuario } = result[0]; // Desestrutura o setor da resposta do banco
+      res.status(200).json({ nome_usuario });
+    } catch (err) {
+      console.error('Erro ao buscar setor do usuário:', err);
+      res.status(500).json({ message: 'Erro no servidor.' });
+    }
+  };
+  
+
+// const buscarCursos = (req, res)=>{
+//     const {professor} = req.body
+
+//     db.query(
+//         'SELECT nome_curso FROM cursos_vigentes where professor=?',[professor],
+//         (err, results)=>{
+//             if(err){
+//                 console.error('Erro ao obter dado cursos vigentes',err)
+//                 res.status(500).send('Erro ao obter dado cursos vigentes')
+//                 return
+//             }
+//             res.json({results})
+//             console.log(results)
+//         }
+//     )
+// }
+
+const buscarCursos = async (req, res) => {
+    try {
+      // 1. Extrai o token do cabeçalho Authorization
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) {
+        return res.status(401).json({ message: 'Token não fornecido.' });
+      }
+  
+      // 2. Verifica e decodifica o token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const { email } = decoded; // Desestrutura o email do payload do token
+  
+      // 3. Busca o nome do usuário na tabela usuarios
+      const [userResult] = await db.query(
+        'SELECT nome_usuario FROM usuarios WHERE email = ?',
+        [email]
+      );
+  
+      if (userResult.length === 0) {
+        return res.status(404).json({ message: 'Usuário não encontrado.' });
+      }
+  
+      const { nome_usuario } = userResult[0]; // Nome do usuário
+  
+      // 4. Busca os cursos onde professor = nome_usuario
+      const [cursosResult] = await db.query(
+        'SELECT nome_curso FROM cursos_vigentes WHERE professor = ?',
+        [nome_usuario]
+      );
+  
+      if (cursosResult.length === 0) {
+        return res.status(404).json({ message: 'Nenhum curso encontrado para este professor.' });
+      }
+  
+      // 5. Retorna a lista de cursos
+      res.status(200).json({ cursos: cursosResult });
+    } catch (err) {
+      console.error('Erro ao buscar cursos:', err);
+      res.status(500).json({ message: 'Erro ao buscar cursos.' });
+    }
+  };
+  
 
 
 // // Rota para buscar cursos
@@ -133,6 +207,7 @@ const buscarCursos = (req, res)=>{
 // //
 
  module.exports = {
+    buscarNome,
     buscarCursos
  }
 

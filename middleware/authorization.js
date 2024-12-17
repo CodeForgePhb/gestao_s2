@@ -13,6 +13,7 @@ const autenticarToken = (req, res, next) => {
         req.userId = decoded.userId; // Passar o ID do usuário para o próximo middleware
         req.email = decoded.email;
         req.setor = decoded.setor;
+        req.nome = decoded.nome;
         
         next();
     } catch (err) {

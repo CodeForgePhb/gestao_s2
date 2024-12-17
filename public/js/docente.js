@@ -8,7 +8,7 @@ async function carregarCursosVigentes() {
     console.log('Token armazenado:', token); // Adiciona um log para "verificar"(remover após testes) o token recuperado.
 
     //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
-    const cursos = await getCursosVigentes;
+    const cursos = await getCursosVigentes();
     console.log('Cursos Vigentes:', cursos); //Adiciona um log para verificar os dados carregados.
 
     //Obtém o corpo da tabela onde as transações serão inseridas.
@@ -16,16 +16,18 @@ async function carregarCursosVigentes() {
     div.innerHTML = ''; //Limpa o conteúdo da tabela antes de adicionar as novas transações
 
     //Verificar se a lista de trasações está vazia.
-    if (cursos.length === 0) {
+    if (!cursos.cursos || cursos.cursos.length === 0) {
         console.log('Nenhum curso encontrado.') //Loga se não houver transações
         const divInterna = document.createElement('div'); // Cria uma nova div.
         divInterna.innerHTML = `<span>Nenhum curso encontrado.</span>`; //Exibir uma mensagem informando que nao há transações
+        divInterna.classList.add('course')
         div.appendChild(divInterna); // Adiciona a linha na tabela.
         return; //Sai da função, já que nao há transaçoes a serem exibidas.
     }
 
     // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
-    cursos.forEach(curso => {
+
+    cursos.cursos.forEach(curso => {
         const divInterna = document.createElement('div'); // Criar uma nova linha na tabela.
         divInterna.classList.add('course')
         divInterna.innerHTML = `

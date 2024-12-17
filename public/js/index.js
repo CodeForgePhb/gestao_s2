@@ -90,9 +90,9 @@ document.querySelector('#loginForm').addEventListener('submit', async (event) =>
             if (setor === 'docente') {
                 window.location.href = 'docente.html';
             } else if (setor === 'coordenação') {
-                window.location.href = 'coordenação.html';
+                window.location.href = 'coordenacao.html';
             } else if (setor === 'gestão') {
-                window.location.href = 'gestão.html';
+                window.location.href = 'gestao.html';
             } else {
                 window.location.href = 'setor_de_compras.html'; // Página padrão
             }
