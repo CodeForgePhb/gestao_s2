@@ -30,7 +30,7 @@
             flex-direction: column;
             justify-content: space-between;
             padding-top: 40px;
-            
+
         }
 
 
@@ -79,7 +79,7 @@
             align-items: center;
             gap: 10px;
         }
-      
+
         .sidebar .profile img {
             width: 50px;
             height: 50px;
@@ -95,7 +95,7 @@
             flex-grow: 1;
             padding: 20px;
             max-height: 100vh;
-          
+
         }
 
         .main-header {
@@ -105,7 +105,7 @@
             margin-bottom: 20px;
             width: 100%;
             display: flex;
-           
+
 
         }
 
@@ -151,7 +151,7 @@
         .tabs button:hover {
             background-color: #1a428a;
         }
-        
+
         .courses {
             background-color: #fFFFFF;
             padding: 20px;
@@ -161,13 +161,13 @@
             overflow-x: scroll;
             overflow-x: hidden;
         }
-        
-        
+
+
 
         .courses h3 {
             margin-bottom: 15px;
         }
-        
+
         .course {
             background-color: #f3f3f3;
             padding: 15px;
@@ -199,8 +199,8 @@
             padding: 20px;
             border-radius: 8px;
             overflow: scroll;
-            
-            
+
+
 
         }
 
@@ -209,10 +209,12 @@
             color: #333;
             margin-bottom: 20px;
         }
-        h1{
+
+        h1 {
             margin-top: 30px;
         }
-        h3{
+
+        h3 {
             margin-bottom: 20px;
         }
 
@@ -259,25 +261,34 @@
             margin: 0;
         }
 
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .loader {
             align-items: center;
             width: 60px;
             height: 60px;
-            border: 6px solid #ddd;
-            border-top-color: #007bff; /* Cor do spinner */
+            border: 6px solid rgb(185, 185, 185);
+            border-top-color: #163193;
+            /* Cor do spinner */
             border-radius: 50%;
-            animation: spin 1s linear infinite; /* Animação */
+            animation: spin 1s linear infinite;
+            /* Animação */
         }
 
-    /* Animação keyframe */
-    @keyframes spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
+        /* Animação keyframe */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -316,7 +327,7 @@
     <div class="main">
         <div class="main-header">
             <div>
-                <h2>Olá, Turiano</h2>
+                <h2 id="saudacao"></h2>
                 <div class="tabs">
                     <button class="curso">Cursos</button>
                     <button class="status">Status</button>
@@ -327,8 +338,10 @@
         <h3>Cursos Vigentes</h3>
         <div class="courses" id="courses">
 
-            <div class="loader"></div>
-            
+            <div class="loading">
+                <div class="loader"></div>
+            </div>
+
         </div>
 
         <h1 class="title">Concluídos</h1>
@@ -336,43 +349,16 @@
         <div class="search-filters">
             <input type="date" placeholder="dd/mm/aaaa">
             <input type="date" placeholder="dd/mm/aaaa">
-            <input type="text" placeholder="Busque por cursos concluídos...">
+            <input type="text" placeholder="Busque por cursos concluídos..." id="busca-de-cursos">
+            <button type="submit" id="cursos-concluidos">buscar</button>
         </div>
 
         <div class="content-wrapper">
-         
-
             <div class="course-item">
                 <h2 class="course-title">Introdução à Programação</h2>
                 <p class="course-date">Concluído em 01/12/2022</p>
             </div>
-
-            <div class="course-item">
-                <h2 class="course-title">Design de Interfaces</h2>
-                <p class="course-date">Concluído em 15/03/2023</p>
-            </div>
-
-            <div class="course-item">
-                <h2 class="course-title">Machine Learning</h2>
-                <p class="course-date">Concluído em 10/06/2023</p>
-            </div>
-            <div class="course-item">
-                <h2 class="course-title">Machine Learning</h2>
-                <p class="course-date">Concluído em 10/06/2023</p>
-            </div>
-            <div class="course-item">
-                <h2 class="course-title">Machine Learning</h2>
-                <p class="course-date">Concluído em 10/06/2023</p>
-            </div>
-            <div class="course-item">
-                <h2 class="course-title">Machine Learning</h2>
-                <p class="course-date">Concluído em 10/06/2023</p>
-            </div>
         </div>
-
-
-
-
 
     </div>
 </body>

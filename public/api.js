@@ -118,34 +118,44 @@ async function getCursosVigentes() {
     }
 }
 
+async function getCursosConcluidos() { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONANDO
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`${API_URL}/routes/cursos-concluidos`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
 
+        return await response.json();
+    } catch (error) {
+        console.error('Erro ao buscar cursos:', error);
+        return { cursos: [] }; // Retorna um array vazio em caso de erro
+    }
+}
 
-// async function getCursosVigentes() {
-//     const token = localStorage.getItem('token');
-    
-//     if (!token) {
-//         console.log('Token não encontrado');
-//         return;
-//     }
+async function getNome() {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`${API_URL}/routes/nome`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
-//     // Decodifica o token e obtém o nome do professor
-//     const decoded = jwt_decode(token);
-//     const professor = decoded.professor || '';  // Substitua 'professor' pela chave certa
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
 
-//     if (!professor) {
-//         console.log('Professor não encontrado no token');
-//         return;
-//     }
-
-//     const response = await fetch(`${API_URL}/cursos-vigentes?professor=${professor}`, {
-//         method: 'GET',
-//         headers: {
-//             'Authorization': `Bearer ${token}`
-//         }
-//     });
-
-//     const cursos = await response.json();
-//     console.log('Cursos recebidos:', cursos);
-//     return cursos;
-// }
+        return await response.json();
+    } catch (error) {
+        console.error('Erro ao buscar o nome:', error);
+        return { nome: [] }; // Retorna um array vazio em caso de erro
+    }
+}
