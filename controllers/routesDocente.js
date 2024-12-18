@@ -34,6 +34,7 @@ const buscarNome = async (req, res) => {
     }
   };
 
+  //---------BUSCA CURSOS VIGENTES----------
 const buscarCursosVigentes = async (req, res) => {
     try {
       // 1. Extrai o token do cabeçalho Authorization
@@ -76,6 +77,7 @@ const buscarCursosVigentes = async (req, res) => {
     }
   };
 
+  // ----- BUSCAR CURSOS CONCLUIDOS --------
   const buscarCursosConcluidos = async (req, res) => {
     try {
       // 1. Extrai o token do cabeçalho Authorization
@@ -83,26 +85,26 @@ const buscarCursosVigentes = async (req, res) => {
       if (!token) {
         return res.status(401).json({ message: 'Token não fornecido.' });
       }
-  
+
       // 2. Verifica e decodifica o token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const { email } = decoded; // Desestrutura o email do payload do token
-  
+ 
       // 3. Busca o nome do usuário na tabela usuarios
       const [userResult] = await db.query(
         'SELECT nome_usuario FROM usuarios WHERE email = ?',
         [email]
       );
-  
+      
       if (userResult.length === 0) {
-        return res.status(404).json({ message: 'Usuário não encontrado.' });
+        return res.status(404).json({ message: 'Curso não encontrado.' });
       }
-  
-      const { nome_usuario } = userResult[0]; // Nome do usuário
+
+      const { nome_usuario} = userResult[0];
   
       // 4. Busca os cursos onde professor = nome_usuario
       const [cursosResult] = await db.query(
-        'SELECT nome_curso FROM cursos_vigentes WHERE professor = ?',
+        'SELECT nome_curso FROM cursos_concluidos WHERE professor = ? AND ',
         [nome_usuario]
       );
   
@@ -112,13 +114,14 @@ const buscarCursosVigentes = async (req, res) => {
   
       // 5. Retorna a lista de cursos
       res.status(200).json({ cursos: cursosResult });
+      
     } catch (err) {
-      console.error('Erro ao buscar cursos:', err);
-      res.status(500).json({ message: 'Erro ao buscar cursos.' });
+      console.error('Erro ao buscar cursos Concluidos:', err);
+      res.status(500).json({ message: 'Erro ao buscar cursos Concluidos.' });
     }
   };
   
-
+  
 
 
  module.exports = {

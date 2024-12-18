@@ -5,7 +5,7 @@ const authMiddleware = require('../middleware/authorization')
 
 router.get('/cursos-vigentes', authMiddleware,controllerDocente.buscarCursosVigentes)
 router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosConcluidos)
-router.get('/nome', authMiddleware,controllerDocente.buscarNom)
+router.get('/nome', authMiddleware,controllerDocente.buscarNome)
 
 
 // router.post('/login', autentication.login); //login
