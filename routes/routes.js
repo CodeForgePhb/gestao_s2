@@ -3,9 +3,8 @@ const router = express.Router();
 const controllerDocente = require('../controllers/routesDocente'); //importa o controlador de transações
 const authMiddleware = require('../middleware/authorization')
 
-router.get('/cursos-vigentes', authMiddleware,controllerDocente.buscarCursosVigentes)
-router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosConcluidos)
-router.get('/nome', authMiddleware,controllerDocente.buscarNome)
+router.get('/cursos-vigentes', authMiddleware,controllerDocente.buscarCursosVigentes);
+router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosConcluidos);
 
 
 // router.post('/login', autentication.login); //login

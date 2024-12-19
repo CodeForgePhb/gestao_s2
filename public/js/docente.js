@@ -207,15 +207,18 @@ async function carregarCursosConcluidos() {
     });
 }
 
-//Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
-document.addEventListener('click', carregarCursosVigentes, carregarCursosConcluidos);
-
 
 //Função assíncrona para carregar e exibir as transações na tabela.
 async function carregarNome() {
+    console.log("Função carregarNome chamada."); // Adicionado para teste
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
     const token = localStorage.getItem('token');
     console.log('Token armazenado:', token); // Adiciona um log para "verificar"(remover após testes) o token recuperado.
+
+    if (!token) {
+        console.error("Token JWT não encontrado no localStorage.");
+        return;
+    }
 
     //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
     const nome = await getNome();
@@ -226,14 +229,16 @@ async function carregarNome() {
     saudacao.innerText = ''; //Limpa o conteúdo da tabela antes de adicionar as novas transações
 
     //Verificar se a lista de trasações está vazia.
-    if (!nome || nome.length === 0) {
+    // if (!nome || nome.length === 0) {
+    if (!nome || nome.nome) {
         console.log('Nenhum nome encontrado.') //Loga se não houver transações
         saudacao.innerText = `Favor faça login`; //Exibir uma mensagem informando que nao há transações
         return; //Sai da função, já que nao há transaçoes a serem exibidas.
     }
-
     // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
-    saudacao.innerText = `${nome.nome}`
+    saudacao.innerText = `Olá ${nome.nome}`
 }
 
 
+//Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
+document.addEventListener('DOMContentLoaded', carregarCursosVigentes, carregarCursosConcluidos, carregarNome);

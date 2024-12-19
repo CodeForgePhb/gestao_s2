@@ -172,9 +172,8 @@ form.sign-in-form {
   top: 10%;
   right: 0%;
   transform: translateY(-58%);
-  background-image:url(img/test.jpg);
+  background-image:url(../img/test.jpg);
   transition: 1.8s ease-in-out;
- 
   z-index: 4 ;
 }
 

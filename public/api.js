@@ -113,7 +113,7 @@ async function getCursosConcluidos() { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONAN
 async function getNome() {
     const token = localStorage.getItem('token');
     try {
-        const response = await fetch(`${API_URL}/routes/nome`, {
+        const response = await fetch(`${API_URL}/auth/nome`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -123,8 +123,9 @@ async function getNome() {
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.statusText}`);
         }
-
+        console.log(response);
         return await response.json();
+        
     } catch (error) {
         console.error('Erro ao buscar o nome:', error);
         return { nome: [] }; // Retorna um array vazio em caso de erro
