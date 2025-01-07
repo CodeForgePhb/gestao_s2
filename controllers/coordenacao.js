@@ -155,7 +155,7 @@ import jwt from 'jsonwebtoken';
 export const addCurso = async (req, res) => {
     const { nome, matriculas_previstas, turno, ch_total, modalidade, financiamento, localidade, turma, data_inicio, data_fim } = req.body;
     try {
-        const [duplicidade] = await db.execute(
+        const [duplicidade] = await db.query(
             'SELECT * FROM curso WHERE nome = ? AND turma = ? AND data_inicio = ? AND data_fim = ?',
             [nome, turma, data_inicio, data_fim]
         );
@@ -194,7 +194,7 @@ export const addDocente = async (req, res) => {
 // ------------------------ ROTAS GET ------------------------
 export const buscarCursos = async (req, res) => {
     try {
-        const [resultado] = await db.execute('SELECT * FROM curso');
+        const [resultado] = await db.query('SELECT * FROM curso');
         return res.json(resultado);
     } catch (error) {
         console.error('Erro ao processar a requisição.', error);
@@ -205,7 +205,7 @@ export const buscarCursos = async (req, res) => {
 export const buscarCursosVigentes = async (req, res) => {
     try {
         await db.execute('CALL AtualizarCursosVigentes()');
-        const [resultado] = await db.execute('SELECT * FROM cursos_vigentes');
+        const [resultado] = await db.query('SELECT * FROM cursos_vigentes');
         return res.json(resultado);
     } catch (error) {
         console.error('Erro ao processar a requisição.', error);
@@ -215,7 +215,7 @@ export const buscarCursosVigentes = async (req, res) => {
 
 export const buscarCursosConcluidos = async (req, res) => {
     try {
-        await db.execute('CALL AtualizarCursosConcluidos()');
+        await db.execute('CALL AtualizarCursosConcluidos()'); // oque é isso elaine?
         const [resultado] = await db.execute('SELECT * FROM cursos_concluidos');
         return res.json(resultado);
     } catch (error) {

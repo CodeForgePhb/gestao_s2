@@ -38,6 +38,7 @@ async function carregarCursosVigentes() {
 }
 document.querySelector('#cursos-concluidos').addEventListener('submit', async (event) => {
 });
+
 //------ função de carregamento de cursos 
 async function carregarCursosConcluidos() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
@@ -68,6 +69,7 @@ async function carregarCursosConcluidos() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
+
 //Função assíncrona para carregar e exibir as transações na tabela.
 async function carregarNome() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.

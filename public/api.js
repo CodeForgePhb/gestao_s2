@@ -173,6 +173,8 @@ export async function getCursosVigentes() {
         return { cursos: [] }; // Retorna um array vazio em caso de erro
     }
 }
+
+
 export async function getCursosConcluidos() { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONANDO
     const token = localStorage.getItem('token');
     try {
@@ -189,9 +191,11 @@ export async function getCursosConcluidos() { //FALTA EDITAR, AINDA NÃO ESTA FU
         return await response.json();
     } catch (error) {
         console.error('Erro ao buscar cursos:', error);
-        return { cursos: [] }; // Retorna um array vazio em caso de erro
+        return { cursos: [''] }; // Retorna um array vazio em caso de erro
     }
 }
+
+
 export async function getNome() {
     const token = localStorage.getItem('token');
     // Verificar se o token existe antes de fazer a requisição

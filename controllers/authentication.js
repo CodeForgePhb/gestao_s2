@@ -277,6 +277,8 @@ export const resetSenha = async (req, res) => {
       res.status(500).send('Erro ao redefinir senha');
   }
 };
+
+
 export const buscarSetor = async (req, res) => {
   try {
     // 1. Extrai o token do cabeçalho Authorization
@@ -297,6 +299,7 @@ export const buscarSetor = async (req, res) => {
     res.status(500).json({ message: 'Erro no servidor.' });
   }
 };
+
 export const buscarNome = async (req, res) => {
   try {
     // 1. Extrai o token do cabeçalho Authorization
@@ -317,6 +320,8 @@ export const buscarNome = async (req, res) => {
     res.status(500).json({ message: 'Erro no servidor.' });
   }
 };
+
+
 export const logout = async (req, res) => {
   try {
     // Verifica se a sessão está ativa (ou se o usuário está autenticado)
@@ -339,12 +344,3 @@ export const logout = async (req, res) => {
     return res.status(500).json({ message: 'Erro no servidor ao tentar fazer logout' });
   }
 };
-// module.exports = {
-//   cadastro,
-//   login,
-//   buscarNome,
-//   buscarSetor,
-//   requestResetSenha,
-//   resetSenha,
-//   logout
-// };
