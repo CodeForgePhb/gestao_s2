@@ -1008,6 +1008,7 @@ button:hover {
 .fot {
     width: 50px;
      height: 50px; 
+      border: 2px solid #007BFF; 
        border-radius: 50%;
        display: flex;
        justify-content: center;

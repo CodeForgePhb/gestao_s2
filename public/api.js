@@ -139,6 +139,30 @@ export async function logoutUser() {
         alert('Houve um erro ao tentar deslogar. Tente novamente.');
     }
 }
+// Função para solicitar a redefinição de senha
+export async function requestResetSenha(email) {
+    try {
+        const response = await fetch(`${API_URL}/authen/request-reset-senha`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao solicitar redefinição de senha.');
+        }
+
+        const result = await response.text();
+        console.log('Resposta do servidor:', result);
+        return { success: true};
+    } catch (error) {
+        console.error('Erro ao solicitar redefinição de senha:', error.message);
+        return { success: false, message: error.message };
+    }
+}
+
+
 // Função para buscar o setor do usuário com base no token
 export async function buscarSetor(token) {
     try {
@@ -158,7 +182,7 @@ export async function buscarSetor(token) {
 export async function getCursosVigentes() {
     const token = localStorage.getItem('token');
     try {
-        const response = await fetch(`${API_URL}/routes/cursos-vigentes`, {
+        const response = await fetch(`${API_URL}/routes/all-cursos-vigentes`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -191,7 +215,7 @@ export async function getCursosConcluidos() { //FALTA EDITAR, AINDA NÃO ESTA FU
         return await response.json();
     } catch (error) {
         console.error('Erro ao buscar cursos:', error);
-        return { cursos: [''] }; // Retorna um array vazio em caso de erro
+        return { cursos: [] }; // Retorna um array vazio em caso de erro
     }
 }
 

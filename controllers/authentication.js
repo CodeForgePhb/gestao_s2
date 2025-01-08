@@ -1,36 +1,9 @@
-// const db = require('../config/db'); // Conexão com o MySQL
-// const crypto = require('crypto');
-// const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcrypt');
-// const sendEmail = require('../services/emailService').sendEmail;
-
 import db from '../config/db.js'; // Conexão com o MySQL
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { sendEmail } from '../services/emailService.js'; // Importação ajustada para ES Modules
 
-// const cadastro = async (req, res) => {
-//   const { nome, email, senha, setor } = req.body; // Desestrutura os dados do corpo da requisição
-//   // Verificar se o usuário já existe no banco de dados
-//   try {
-//     const [existingUser] = await db.query('SELECT * FROM cadastro WHERE email = ?', [email]);
-//     if (existingUser.length > 0) {
-//       return res.status(400).send('Usuário já cadastrado.');
-//     }
-//     // Criptografar a senha usando bcrypt
-//     const hashedSenha = await bcrypt.hash(senha, 10);
-//     // Inserir o novo usuário no banco de dados
-//     await db.query(
-//       'INSERT INTO cadastro (nome, email, senha, setor) VALUES (?, ?, ?, ?)',
-//       [nome, email, hashedSenha, setor]
-//     );
-//     res.status(201).json({ message: 'Usuário cadastrado com sucesso.' });
-//   } catch (err) {
-//     console.error('Erro ao cadastrar usuário:', err);
-//     res.status(500).send('Erro ao cadastrar usuário.');
-//   }
-// };
 export const cadastro = async (req, res) => {
   const { nome, email, senha, setor } = req.body;
   try {
@@ -46,69 +19,6 @@ export const cadastro = async (req, res) => {
       res.status(500).send('Erro ao cadastrar usuário.');
   }
 };
-// const login = async (req, res) => {
-//   const { email, senha } = req.body;
-//   try {
-//     // Verificar usuário na tabela cadastro
-//     let [user] = await db.query('SELECT * FROM cadastro WHERE email = ?', [email]);
-//     // Se não encontrar na tabela cadastro, verificar na tabela docente
-//     if (user.length === 0) {
-//       [user] = await db.query('SELECT * FROM docente WHERE email = ?', [email]);
-//     }
-//     // Se não encontrar o email em nenhuma das tabelas
-//     if (user.length === 0) {
-//       return res.status(400).send('Credenciais inválidas (email)');
-//     }
-//     // Comparar a senha
-//     const isMatch = await bcrypt.compare(senha, user[0].senha);
-//     if (!isMatch) {
-//       // Verificar se a senha é a padrão "000000" para o primeiro login
-//       if (user[0].senha === '000000') {
-//         return res.status(401).json({
-//           message: 'Primeiro login. Por favor, atualize sua senha.',
-//           requiresPasswordChange: true
-//         });
-//       }
-//       return res.status(400).send('Credenciais inválidas (senha)');
-//     }
-//     // Armazenar o usuário na sessão
-//     req.session.usuario = {
-//       id: user[0].id,
-//       nome: user[0].nome,
-//       email: user[0].email,
-//       setor: user[0].setor
-//     };
-//     // Gerar o token JWT
-//     const token = jwt.sign(
-//       {
-//         userId: user[0].id,
-//         email: user[0].email,
-//         nome: user[0].nome,
-//         setor: user[0].setor
-//       },
-//       process.env.JWT_SECRET,
-//       { expiresIn: '2m' }
-//     );
-//     //INFORMAÇÕES PARA DEV
-//     // Envia token e setor na resposta
-//     res.json({
-//       token,
-//       usuario: {
-//         id: user[0].id,
-//         email: user[0].email,
-//         nome: user[0].nome,
-//         setor: user[0].setor
-//       }
-//     });
-//     console.log(token)
-//     const decodedToken = jwt.decode(token);
-//     console.log('Token Decodificado:', decodedToken);
-//     //INFORMAÇÕES PARA DEV
-//   } catch (err) {
-//     console.error('Erro ao autenticar usuário:', err);
-//     res.status(500).send('Erro ao autenticar usuário');
-//   }
-// };
 export const login = async (req, res) => {
   const { email, senha } = req.body;
   try {
@@ -149,41 +59,6 @@ export const login = async (req, res) => {
       res.status(500).send('Erro ao autenticar usuário');
   }
 };
-// const requestResetSenha = async (req, res) => {
-//   const { email } = req.body;
-//   try {
-//     let user;
-//     let tabela; // Variável para armazenar a tabela correspondente
-//     // Verificar usuário na tabela cadastro
-//     [user] = await db.query('SELECT * FROM cadastro WHERE email = ?', [email]);
-//     // Se não encontrar na tabela cadastro, verificar na tabela docente
-//     if (user.length > 0) {
-//       tabela = 'cadastro';
-//     } else {
-//       //Verificar usuário na tabela docente
-//       [user] = await db.query('SELECT * FROM docente WHERE email = ?', [email]);
-//       if (user.length > 0) {
-//         tabela = 'docente';
-//       
-//     }
-//     // Se não encontrar o email em nenhuma das tabelas
-//     if (!tabela) {
-//       return res.status(400).send('Usuário não encontrado');
-//     }
-//     const token = crypto.randomBytes(20).toString('hex'); // Gera um token aleatório 
-//     const expireDate = new Date(Date.now() + 3600000); // 1 hora para expiração 
-//     // Atualizar a tabela correspondente com token e time
-//     await db.query(`UPDATE ${tabela} SET reset_senha = ?, reset_senha_expires = ? WHERE email = ?`,
-//       [token, expireDate, email]);
-//     const resetLink = `http://localhost:3001/reset-senha/${token}`; // Link para redefinição de senha 
-//     await sendEmail(email, 'Recuperação de Senha', `Por favor, clique no link para redefinir sua senha: ${resetLink}`);
-//     res.status(200).send('E-mail de recuperação de senha enviado.');
-//     console.log(resetLink); //PARA DESENVOLVEDOR
-//   } catch (err) {
-//     console.error('Erro ao solicitar redefinição de senha:', err);
-//     res.status(500).send('Erro ao solicitar redefinição de senha');
-//   }
-// };
 export const requestResetSenha = async (req, res) => {
   const { email } = req.body;
   try {
@@ -212,40 +87,6 @@ export const requestResetSenha = async (req, res) => {
       res.status(500).send('Erro ao solicitar redefinição de senha');
   }
 };
-// // Função para redefinir a senha 
-// const resetSenha = async (req, res) => {
-//   const { token, newPassword } = req.body;
-//   try {
-//     // Busca o token em ambas as tabelas
-//     const queries = [
-//       { table: 'cadastro', query: 'SELECT id FROM cadastro WHERE reset_senha = ? AND reset_senha_expires > NOW()' },
-//       { table: 'docente', query: 'SELECT id FROM docente WHERE reset_senha = ? AND reset_senha_expires > NOW()' },
-//     ];
-//     let user = null;
-//     let tableName = null;
-//     for (const { table, query } of queries) {
-//       const [result] = await db.query(query, [token]);
-//       if (result.length > 0) {
-//         user = result[0];
-//         tableName = table;
-//         break;
-//       }
-//     }
-//     if (!user) {
-//       return res.status(400).send('Solicitação de redefinição de senha não encontrada.');
-//     }
-//     // Atualiza a senha na tabela correspondente
-//     const hashedPassword = await bcrypt.hash(newPassword, 10);
-//     await db.query(
-//       `UPDATE ${tableName} SET senha = ?, reset_senha = NULL, reset_senha_expires = NULL WHERE id = ?`,
-//       [hashedPassword, user.id]
-//     );
-//     res.status(200).send('Senha redefinida com sucesso.');
-//   } catch (err) {
-//     console.error('Erro ao redefinir senha:', err);
-//     res.status(500).send('Erro ao redefinir senha');
-//   }
-// };
 export const resetSenha = async (req, res) => {
   const { token, newPassword } = req.body;
   try {
@@ -277,7 +118,6 @@ export const resetSenha = async (req, res) => {
       res.status(500).send('Erro ao redefinir senha');
   }
 };
-
 
 export const buscarSetor = async (req, res) => {
   try {

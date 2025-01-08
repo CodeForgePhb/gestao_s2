@@ -1,5 +1,3 @@
-// const db = require('../config/db'); // Importar a conexão com o banco
-// const jwt = require('jsonwebtoken');
 import db from '../config/db.js'; // Importa a conexão com o banco
 import jwt from 'jsonwebtoken';
 // //------------------------ROTAS GET

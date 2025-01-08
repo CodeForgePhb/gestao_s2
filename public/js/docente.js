@@ -36,8 +36,7 @@ async function carregarCursosVigentes() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
-document.querySelector('#cursos-concluidos').addEventListener('submit', async (event) => {
-});
+    
 
 //------ função de carregamento de cursos 
 async function carregarCursosConcluidos() {
