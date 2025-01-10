@@ -1,6 +1,5 @@
 // Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
-import { getCursosVigentes, getCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
-
+import { uploadProfileImage, uploadSignature, getCursosVigentes, getCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
 };
@@ -36,8 +35,6 @@ async function carregarCursosVigentes() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
-    
-
 //------ função de carregamento de cursos 
 async function carregarCursosConcluidos() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
@@ -68,7 +65,6 @@ async function carregarCursosConcluidos() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
-
 //Função assíncrona para carregar e exibir as transações na tabela.
 async function carregarNome() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
@@ -107,6 +103,79 @@ document.querySelector('#btnLogout').addEventListener('click', async (event) => 
         console.error('Erro no logout:', error);
         alert('Houve um erro ao tentar deslogar. Tente novamente.');
     }
+});
+document.addEventListener('DOMContentLoaded', () => {
+// Função assíncrona para preview de imagem
+async function previewImageAsync(input, previewContainer, width, height) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            previewContainer.innerHTML = `<img src="${e.target.result}" width="${width}" height="${height}" />`;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+// Seletores dos elementos
+const newProfileImage = document.getElementById('newProfileImage');
+const saveProfileImage = document.getElementById('saveProfileImage');
+const profilePreview = document.querySelector('.fot');
+const signatureImage = document.getElementById('signatureImage');
+const saveSignatureImage = document.getElementById('saveSignatureImage');
+const signaturePreview = document.getElementById('signaturePreview');
+// Função assíncrona para alterar a imagem de perfil
+
+newProfileImage.addEventListener('change', async () => {
+    await previewImageAsync(newProfileImage, profilePreview, 50, 50);
+    // Enviar imagem de perfil ao backend
+    const file = newProfileImage.files[0];
+    if (file) {
+      try {
+        const response = await uploadProfileImage(file);
+  
+        // Verificar se a resposta contém o caminho
+        if (response?.path) {
+          console.log('Imagem de perfil salva com sucesso:', response.path);
+          const profileImageElement = document.querySelector('.profile-image');
+  
+          if (profileImageElement) {
+            profileImageElement.src = response.path; // Atualiza a imagem no frontend
+          } else {
+            console.error('Elemento de imagem de perfil não encontrado.');
+          }
+        } else {
+          console.error('Caminho da imagem não encontrado na resposta.');
+        }
+      } catch (error) {
+        console.error('Erro ao enviar imagem de perfil:', error);
+        alert('Erro ao salvar imagem de perfil.');
+      }
+    }
+  });
+  
+// Função assíncrona para envio único da assinatura
+signatureImage.addEventListener('change', async () => {
+    await previewImageAsync(signatureImage, signaturePreview, 100, 50);
+    saveSignatureImage.disabled = false;
+});
+// Função assíncrona para salvar assinatura
+saveSignatureImage.addEventListener('click', async () => {
+    const file = signatureImage.files[0];
+    if (file) {
+        try {
+            const response = await uploadSignature(file);
+            if (response?.path) {
+                alert('Assinatura salva com sucesso!');
+                signatureImage.disabled = true;
+                saveSignatureImage.disabled = true;
+            } else {
+                alert('Erro ao salvar assinatura.');
+            }
+        } catch (error) {
+            console.error('Erro ao salvar assinatura:', error);
+            alert('Erro ao salvar assinatura.');
+        }
+    }
+});
 });
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {

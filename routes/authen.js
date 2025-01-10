@@ -16,10 +16,15 @@
 import express from 'express';
 import * as autentication from '../controllers/authentication.js'; // Importa todas as funções exportadas no arquivo
 import authMiddleware from '../middleware/authorization.js'; // Importa o middleware
+import upload from '../middleware/upload.js';
 
 const router = express.Router();
 
-// Rotas definidas
+// Rotas definidas]
+// Rota para upload de imagem de perfil
+router.post('/foto-perfil', authMiddleware, upload.single('profileImage'), autentication.uploadPerfil);
+// Rota para upload de assinatura
+router.post('/assinatura', authMiddleware, upload.single('signatureImage'), autentication.uploadAssinatura);
 router.post('/login', autentication.login); // login
 router.post('/cadastro', autentication.cadastro); // cadastro
 router.get('/usuario/setor', authMiddleware, autentication.buscarSetor); // buscar setor

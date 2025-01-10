@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/password.css">
+    <title>Esqueci a senha</title>
+</head>
+<body>
+  <form action="#" class="forget-password" id="passwdForm">
+      <h1 class="title">Redefina a sua senha</h1>
+      
+        <p>Um email com as instruções de redefinição serão enviadas para sua conta</p>
+        <div class="input-field">
+
+          <input type="email" id="email" placeholder="E-mail" required  />
+        </div>
+
+        <input type="submit" value="Enviar" class="btn solid" id="reset"/>
+        
+      </form>
+
+</body>
+<script type="module">
+  import { requestResetSenha } from './api.js';
+
+  const form = document.getElementById('passwdForm');
+
+  form.addEventListener('submit', async (event) => {
+      event.preventDefault(); // Evita o reload da página
+      const email = document.getElementById('email').value;
+
+      // Chama a função do api.js para fazer a requisição
+      const result = await requestResetSenha(email);
+
+      // Atualiza a página com a mensagem do resultado
+      if (result.success) {
+         alert('E-mail de recuperação de senha enviado. Verifique sua caixa de entrada.');
+         window.location.href = 'index.html';
+      } else {
+          alert('Erro ao solicitar redefinição de senha. tente novamente');
+      }
+  });
+</script>
+</html>

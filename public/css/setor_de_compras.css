@@ -8,7 +8,7 @@
 body {
   display: flex;
   height: 100vh;
-  background-color: #FCFCFC;
+  background-color: #fcfcfc;
   color: #333;
   overflow: hidden;
 }
@@ -22,7 +22,6 @@ body {
   flex-direction: column;
   justify-content: space-between;
   padding-top: 40px;
-
 }
 
 .sidebar h1 {
@@ -49,7 +48,6 @@ body {
 .no-active {
   border: solid 2px #2222226d;
   pointer-events: none;
-
 }
 
 .sidebar a {
@@ -63,7 +61,6 @@ body {
   justify-content: space-between;
   display: flex;
   width: 100%;
-
 }
 
 .sidebar a:hover {
@@ -93,7 +90,7 @@ body {
 .sidebar .profile .info {
   font-size: 0.9em;
 }
-.name{
+.name {
   border-bottom: 1px solid #fff;
   padding-bottom: 3px;
   margin-bottom: 3px;
@@ -116,7 +113,7 @@ body {
   flex-grow: 1;
   padding: 20px;
   max-height: 100vh;
-
+  overflow: scroll;
 }
 
 /* VIGENTES  */
@@ -133,7 +130,7 @@ body {
 }
 
 .nome-com-linha::after {
-  content: '';
+  content: "";
   flex-grow: 1;
   /* Faz a linha crescer até a borda */
   border-bottom: 2px solid #bebcbc;
@@ -144,27 +141,20 @@ body {
 /* FIM  */
 
 .main-header {
-
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
   width: 100%;
   display: flex;
-
-
 }
 
 .main-header img {
-
   width: 80%;
 }
-
 
 .main-header h2 {
   font-size: 1.5em;
 }
-
-
 
 /* CURSOS E STATUS */
 .tabs {
@@ -172,7 +162,6 @@ body {
   width: fit-content;
   margin: 20px auto;
   position: relative;
-
 }
 
 .tab {
@@ -189,7 +178,7 @@ body {
   background-color: #002d91;
   color: white;
   margin-right: -13px;
-  clip-Path: polygon(0 0, 95% 0, 85% 100%, 0% 100%);
+  clip-path: polygon(0 0, 95% 0, 85% 100%, 0% 100%);
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
@@ -197,7 +186,7 @@ body {
 .tab.status {
   background-color: #d3d3d3;
   color: black;
-  clip-Path: polygon(15% 0, 100% 0, 100% 100%, 5% 100%);
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 5% 100%);
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -214,13 +203,12 @@ body {
 
 .content {
   display: none;
-
   font-size: 16px;
   margin-top: -20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   background-color: #ffffff;
   border-radius: 8px;
-  height: 85%;
+  height: 90%;
 }
 
 .content.active {
@@ -230,16 +218,10 @@ body {
 /* FIM  */
 
 .courses {
-  background-color: #fFFFFF;
+  /* background-color: #ffffff; */
   padding: 20px;
   border-radius: 5px;
-
-  max-height: 32%;
   overflow-x: hidden;
-
-
-
-
 }
 
 .courses h3 {
@@ -248,9 +230,9 @@ body {
 
 .course {
   background-color: #f3f3f3;
-  padding: 15px;
+  padding: 20px;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -258,7 +240,6 @@ body {
   transition: background-color 0.3s;
   box-sizing: border-box;
   flex-direction: column;
-
 }
 
 section {
@@ -279,11 +260,9 @@ section {
   color: #666;
 }
 
-
 /* CONCLUÍDOS */
 
 .content-wrapper {
-
   margin: 20px auto;
   max-height: 35%;
   padding: 20px;
@@ -322,7 +301,6 @@ h3 {
   border-radius: 4px;
   outline: none;
   box-sizing: border-box;
-
 }
 
 .search-filters button {
@@ -332,15 +310,10 @@ h3 {
   padding: 5px 35px;
   border-radius: 6px;
   cursor: pointer;
-
-
 }
 
 .search-filters button:hover {
   background-color: #1558b3;
-
-
-
 }
 
 .search-filters input[type="date"] {
@@ -370,10 +343,8 @@ h3 {
   margin: 0;
 }
 
-
 /* DROPDOWN CURSOS  */
 .accordion-header {
-
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -387,12 +358,9 @@ h3 {
   background-color: #eaeaea;
 }
 
-
-
 .accordion-content {
-  display: none;
+  display: none; /*comentar esse comando para teste*/
   padding: 15px;
-
   width: 100%;
   height: 130px;
 }
@@ -406,13 +374,13 @@ span strong {
 }
 
 /* .accordion-content-course {
-  display: none;
-  padding: 15px;
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-  height: 130px;
-} */
+    display: none;
+    padding: 15px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 130px;
+  } */
 
 .inf {
   display: flex;
@@ -422,7 +390,6 @@ span strong {
 .fa-solid {
   color: #1558b3;
   margin-left: 4px;
-
 }
 
 .accordion-content p {
@@ -460,7 +427,7 @@ span strong {
 /* MODAL  */
 .modal-s {
   font-family: Arial, sans-serif;
-  
+
   color: #000;
   margin: 0;
   display: flex;
@@ -479,7 +446,6 @@ span strong {
   border-radius: 34px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   overflow: hidden;
- 
 }
 .modal-header {
   background: linear-gradient(180deg, #163193 0%, #0f246d 100%);
@@ -498,28 +464,24 @@ span strong {
   font-size: 15pt;
 }
 
-
 .modal-body {
   padding: 16px;
-
- 
 }
 .search-bar {
   margin-bottom: 16px;
   display: flex;
   gap: 8px;
   justify-content: center;
- 
 }
 .search-bar input {
   width: calc(100% - 100px);
   padding: 8px;
   height: 35px;
   font-size: 14px;
-   width: 50%;
-   border: none;
-   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-   border-radius: 5px;
+  width: 50%;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 5px;
 }
 .search-bar button {
   padding: 8px 16px;
@@ -531,9 +493,8 @@ span strong {
   cursor: pointer;
 }
 .info {
-
   font-size: 14px;
- gap: 10px;
+  gap: 10px;
   width: 100%;
   justify-content: space-between;
 }
@@ -546,7 +507,8 @@ span strong {
   border-collapse: collapse;
   margin-bottom: 16px;
 }
-.table th, .table td {
+.table th,
+.table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
@@ -557,22 +519,21 @@ span strong {
   color: white;
 }
 .table td button {
-
   border: none;
   padding: 3px 7px;
   border-radius: 4px;
   cursor: pointer;
 }
-.btn-cont{
- background-color: #E84910;
+.btn-cont {
+  background-color: #e84910;
   color: white;
-} 
-.add{
- background-color: #E84910;
+}
+.add {
+  background-color: #e84910;
   color: white;
-} 
+}
 .table td button.add {
-  background-color: #0554F1;
+  background-color: #0554f1;
 }
 .additional-materials {
   margin-bottom: 16px;
@@ -601,7 +562,7 @@ span strong {
   background-color: white;
   border-radius: 10px;
   width: 300px;
-height: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -615,7 +576,6 @@ height: 100%;
   width: 300px;
   padding-bottom: 10px;
 
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -623,70 +583,57 @@ height: 100%;
   position: relative;
 }
 .modal-content-2 {
-
   text-align: center;
   width: 400px;
-  
-  }
-  .modal-box{
-      padding: 20px;
-  }
-.modal-content p{
-padding-top: 20%;
-
-position: absolute;
-align-items: center;
-width: 100%;
 }
+.modal-box {
+  padding: 20px;
+}
+.modal-content p {
+  padding-top: 20%;
 
-
-
+  position: absolute;
+  align-items: center;
+  width: 100%;
+}
 
 .modal-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
 
-      display: flex;
-      justify-content: space-between; 
-      padding: 16px; 
-     
-     
-      position: absolute;
-      bottom: 0; 
-      width: 100%;
-      box-sizing: border-box; 
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
   max-width: 800px;
-  
 }
 .modal-footer-2 {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
 
-      display: flex;
-      justify-content: space-between; 
-      padding: 16px; 
-     
-     
-      position: absolute;
-      bottom: 0; 
-      width: 100%;
-      box-sizing: border-box; 
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
   max-width: 800px;
-  
 }
 
 .modal-footer button {
-
-      background-color: #002a80; 
-      color: white; 
-      border: none;
-      height: 40px;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-  
+  background-color: #002a80;
+  color: white;
+  border: none;
+  height: 40px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .modal-footer button.cancel {
   background-color: #002d91;
 }
-#okBtn{
+#okBtn {
   background-color: #002a80;
   color: white;
   border: none;
@@ -694,12 +641,10 @@ width: 100%;
   padding: 10px 30px;
   border-radius: 10px;
   cursor: pointer;
-margin-top: 10px;
+  margin-top: 10px;
   width: 100px;
- justify-content: center;
+  justify-content: center;
 }
-
-
 
 .open-modal-btn {
   padding: 10px 20px;
@@ -710,8 +655,7 @@ margin-top: 10px;
   border-radius: 4px;
   cursor: pointer;
 }
-.func{
- 
+.func {
   margin-top: 10px;
 }
 button.delete {
@@ -728,146 +672,140 @@ button.delete:hover {
   color: #444444; /* Preto mais claro ao passar o mouse */
 }
 
-
 /* FINAL MODAL  */
 /* MODAL CONFIRMAÇÃO  */
- /* Estilo do Modal */
+/* Estilo do Modal */
 .modal-2 {
-display: none;
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.5);
-justify-content: center;
-align-items: center;
-z-index: 1000;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal-content {
-background: white;
+  background: white;
 
-border-radius: 10px;
-text-align: center;
-width: 400px;
-height: 210px;
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-
+  border-radius: 10px;
+  text-align: center;
+  width: 400px;
+  height: 210px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
-
-
 
 /* Botões */
 /* button {
-margin: 10px;
-padding: 10px 20px;
-border: none;
-background-color: #0033a0;
-color: white;
-border-radius: 5px;
-cursor: pointer;
-} */
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #0033a0;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  } */
 
 button:hover {
-background-color: #0e44b9;
+  background-color: #0e44b9;
 }
 
 /* Checkmark Animado */
 .checkmark-container {
-position: relative;
-width: 60px;
-height: 80px;
-margin: 0 auto 20px;
+  position: relative;
+  width: 60px;
+  height: 80px;
+  margin: 0 auto 20px;
 }
 
 .checkmark-circle {
-width: 60px;
-height: 60px;
-border-radius: 50%;
-border: 4px solid #002d91;
-position: absolute;
-top: 0;
-left: 0;
-animation: circle-scale 0.5s ease-out forwards;
-background: #002d91;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 4px solid #002d91;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: circle-scale 0.5s ease-out forwards;
+  background: #002d91;
 }
 
 .checkmark {
-position: absolute;
-width: 40px;
-height: 20px;
-top: 28px;
-left: 22px;
+  position: absolute;
+  width: 40px;
+  height: 20px;
+  top: 28px;
+  left: 22px;
 }
 
 .checkmark-stem {
-position: absolute;
-width: 4px;
-height: 20px;
-background-color: #002d91;
-left: 18px;
-top: 0;
-transform: rotate(45deg);
-animation: draw-stem 0.5s ease-out forwards 0.5s;
+  position: absolute;
+  width: 4px;
+  height: 20px;
+  background-color: #002d91;
+  left: 18px;
+  top: 0;
+  transform: rotate(45deg);
+  animation: draw-stem 0.5s ease-out forwards 0.5s;
 }
 
 .checkmark-kick {
-fill: none;
-stroke: #ffffff;
-/* Check branco */
-stroke-width: 5;
-stroke-linecap: round;
-stroke-dasharray: 50;
-stroke-dashoffset: 50;
-animation: check-draw 0.6s ease-in-out 0.6s forwards;
-/* Atraso após o círculo */
+  fill: none;
+  stroke: #ffffff;
+  /* Check branco */
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: check-draw 0.6s ease-in-out 0.6s forwards;
+  /* Atraso após o círculo */
 }
 /* circlo  */
 @keyframes circle-scale {
-0% {
-  transform: scale(0);
-}
+  0% {
+    transform: scale(0);
+  }
 
-100% {
-  transform: scale(1);
-}
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes check-draw {
   from {
-      stroke-dashoffset: 50;
+    stroke-dashoffset: 50;
   }
   to {
-      stroke-dashoffset: 0;
+    stroke-dashoffset: 0;
   }
 }
-
-
 
 /* Tabs */
 .tabs {
-display: flex;
-margin: 20px 0;
+  display: flex;
+  margin: 20px 0;
 }
 
 .tab {
-padding: 10px 20px;
-cursor: pointer;
-border: 1px solid #ddd;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid #ddd;
 }
 
 .tab.active {
-background-color: #002d91;
-color: white;
+  background-color: #002d91;
+  color: white;
 }
 
 .tab-content {
-display: none;
+  display: none;
 }
 
 .tab-content.active {
-display: block;
+  display: block;
 }
 
 .check {
@@ -879,21 +817,21 @@ display: block;
   stroke-dashoffset: 50;
   animation: check-draw 0.6s ease-in-out 0.6s forwards; /* Atraso após o círculo */
 }
-#cancelBtn{
+#cancelBtn {
   background-color: #002d91;
-color: white;
-border: none;
-padding: 10px 35px;
-border-radius: 6px;
-cursor: pointer;
+  color: white;
+  border: none;
+  padding: 10px 35px;
+  border-radius: 6px;
+  cursor: pointer;
 }
-#sendBtn{
+#sendBtn {
   background-color: #002d91;
-color: white;
-border: none;
-padding: 10px 35px;
-border-radius: 6px;
-cursor: pointer;
+  color: white;
+  border: none;
+  padding: 10px 35px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 .loading {
@@ -917,20 +855,20 @@ cursor: pointer;
 /* Animação keyframe */
 @keyframes spin {
   from {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
 
   to {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 @keyframes check-draw {
   from {
-      stroke-dashoffset: 50;
+    stroke-dashoffset: 50;
   }
   to {
-      stroke-dashoffset: 0;
+    stroke-dashoffset: 0;
   }
 }
 /* FINAL  */
@@ -939,7 +877,7 @@ button {
   cursor: pointer;
   padding: 10px 15px;
   border: none;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   border-radius: 5px;
   font-size: 14px;
@@ -964,7 +902,7 @@ button:hover {
 .custom-modal-content {
   background-color: white;
   margin: 10% auto;
- 
+
   border: 1px solid #ccc;
   border-radius: 10px;
   width: 50%;
@@ -997,21 +935,20 @@ button:hover {
   margin-bottom: 20px;
 }
 
-
-.fot img{
+.fot img {
   width: 50px;
   height: 50px;
   border-radius: 100%;
-  border: 2px solid #007BFF;
+  border: 2px solid #007bff;
   object-fit: cover;
 }
 .fot {
   width: 50px;
-   height: 50px; 
-     border-radius: 50%;
-     display: flex;
-     justify-content: center;
-     width: 100%;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 label {
   display: block;

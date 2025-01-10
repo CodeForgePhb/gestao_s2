@@ -243,3 +243,68 @@ export async function getNome() {
         return { nome: 'Erro ao buscar nome' }; // Retorna um array vazio em caso de erro
     }
 }
+
+// Função para enviar imagem de perfil
+export async function uploadProfileImage(file) {
+    const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    const formData = new FormData();
+    formData.append('profileImage', file); // O campo 'profileImage' precisa ser o mesmo usado no backend
+
+    try {
+        const response = await fetch(`${API_URL}/authen/foto-perfil`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: formData, // Envia o arquivo como FormData
+        });
+
+        const data = await response.json();
+        
+        // Log da resposta para verificar o que está sendo retornado
+        console.log('Dados da resposta:', data);
+
+        if (data.path) {
+            return data; // Retorna os dados contendo o path da imagem
+        } else {
+            throw new Error('Caminho da imagem não encontrado');
+        }
+    } catch (error) {
+        console.error('Erro ao enviar imagem de perfil:', error);
+        throw error; // Re-throw para ser capturado no bloco catch do frontend
+    }
+}
+
+
+// Função para enviar assinatura
+export async function uploadSignature(file) {
+    const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    const formData = new FormData();
+    formData.append('signatureImage', file); // O campo 'signatureImage' precisa ser o mesmo usado no backend
+    try {
+        const response = await fetch(`${API_URL}/authen/assinatura`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData, // Envia o arquivo como FormData
+        });
+        const data = await response.json();
+        if (data.path) {
+            console.log('Assinatura salva com sucesso:', data.path);
+            // Atualize a imagem no frontend
+            document.getElementById('signaturePreview').src = data.path;
+        }
+    } catch (error) {
+        // Erro
+        console.error('Erro ao salvar assinatura:', error.response?.data?.message || error.message);
+    }
+}

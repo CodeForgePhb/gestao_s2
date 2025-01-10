@@ -3,25 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="gestao.css">
-    <title>Gestão S - Setor de compras</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/setor_de_compras.css" />
+    <title>Gestão S</title>
   </head>
 
   <body>
     <div class="sidebar">
       <div>
         <div class="sidbox">
-          <a href="#"
+          <a href="#" class="no-active"
             >Docente<img src="./assets/icons/docente.svg" alt="#"
           /></a>
         </div>
         <div class="sidbox">
-          <a href="#"
+          <a href="#" class="no-active"
             >Coordenação<img src="./assets/icons/coordenacao.svg" alt="#"
           /></a>
         </div>
         <div class="sidbox">
-          <a href="#"
+          <a href="#" class="no-active"
             >Gestão<img src="./assets/icons/gestao.svg" alt="#"
           /></a>
         </div>
@@ -38,18 +45,26 @@
           <img src="https://via.placeholder.com/50" alt="Avatar" />
         </div>
         <div class="info">
-          <p>Turiano Santos</p>
-          <p>Docente</p>
-        </div>
+          <span class="name saudacao">Name</span>
+          <span class="func">Compras</span>
+
+      </div>
+      <div class="logout" id="btnLogout">
+          <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
+          <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;" id="perfil"></i></button>
+      </div>
       </div>
     </div>
 
     <div class="main">
       <div class="main-header">
         <div>
-          <h2>Olá, Jorge</h2>
+          <h2 class="saudacao">Olá, </h2>
           <div class="tabs">
-            <button class="curso">Solicitações</button>
+            <div class="tab cursos active" data-tab="cursos">Solicitações</div>
+            <div class="tab status" data-tab="status" id="tabStatus">
+              Concluídas
+            </div>
           </div>
         </div>
         <div>
@@ -60,101 +75,106 @@
           />
         </div>
       </div>
-      <div class="div-pai">
-        <h1 id="cursos-id">Cursos</h1>
-        <div class="accordion">
-          <div class="accordion-item">
-            <div class="accordion-header">
-              <h4>Técnico em Informática para Internet</h4>
-              <div class="accordion-icon">+</div>
-            </div>
-            <div class="accordion-content">
-              <p>Nível B - Em Análise</p>
-              <p>Cód: 000001</p>
-              <p>Turno - Manhã</p>
-              <p>Período: 01/01/2025 a 01/07/2026</p>
-              <button class="button-accordion">Revisar solicitação</button>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <div class="accordion-header">
-              <h4>Técnico em Costura</h4>
-              <div class="accordion-icon">+</div>
-            </div>
-            <div class="accordion-content">
-              <p>Nível C - Em Análise</p>
-              <p>Cód: 000001</p>
-              <p>Turno - Manhã</p>
-              <p>Período: 01/01/2025 a 01/07/2026</p>
-              <button class="button-accordion">Revisar solicitação</button>
-            </div>
-          </div>
-          <!-- Adicione mais itens do acordeão conforme necessário -->
 
-          <div class="accordion-item">
+      <section class="content active" id="cursos">
+        <div class="nome-com-linha">
+          <span class="nome">Cursos</span>
+        </div>
+        <div class="courses" id="courses">
+          <!-- <div class="loading">
+                    <div class="loader"></div>
+                </div> -->
+
+          <div class="course">
             <div class="accordion-header">
-              <h4>Técnico em Edificações</h4>
-              <div class="accordion-icon">+</div>
+              <span style="width: 180px;" >Técnico em Informática para Internet</span>
+              <span>Nível C em - análise</span>
+              <span class="arrow">&#9650;</span>
             </div>
+
             <div class="accordion-content">
-              <p>Nível C - Em Análise</p>
               <p>Cód: 000001</p>
               <p>Turno - Manhã</p>
-              <p>Período: 01/01/2025 a 01/07/2026</p>
-              <button class="button-accordion">Revisar solicitação</button>
+              <p>Período: 01/01/2025 à 01/07/2026</p>
+
+              <button class="open-modal-btn" onclick="openModal()">
+                visualizar Solicitação
+              </button>
             </div>
           </div>
-
-          <div class="accordion-item">
+          <div class="course">
             <div class="accordion-header">
-              <h4>Técnico em Panificação</h4>
-              <div class="accordion-icon">+</div>
+              <span style="width: 180px;">Execel Avançado</span>
+              <span>Nível C em - análise</span>
+              <span class="arrow">&#9650;</span>
             </div>
             <div class="accordion-content">
-              <p>Nível C - Em Análise</p>
               <p>Cód: 000001</p>
               <p>Turno - Manhã</p>
-              <p>Período: 01/01/2025 a 01/07/2026</p>
-              <button class="button-accordion">Revisar solicitação</button>
+              <p>Período: 01/01/2025 à 01/07/2026</p>
+              <button>visualizar Solicitação</button>
             </div>
           </div>
-          <!-- Código HTML existente -->
-
-          <!-- Adicionando o modal -->
-          <div id="modal" class="modal">
-            <div class="modal-content">
-              <span class="close-button">&times;</span>
-              <h2 id="texto-comando">Solicitação de Kits</h2>
-              <div class="modal-content-2">
-                <div class="column-1">
-                  <p><b>Código do Curso:</b> 000001</p>
-                  <p>Curso: Técnico em Informática para Internet</p>
-                  <p>Turno: Manhã</p>
-                </div>
-                <div class="column-2">
-                  <p>Período: 01/01/2025 a 01/12/2025</p>
-                  <p>Modalidade: Qualificação</p>
-                  <p>Linha de ação: gratuidade</p>
-                  <p>Professor: Turiano</p>
-                </div>
-              </div>
+          <div class="course">
+            <div class="accordion-header">
+              <span style="width: 180px;">Execel Avançado</span>
+              <span>Nível C em - análise</span>
+              <span class="arrow">&#9650;</span>
+            </div>
+            <div class="accordion-content">
+              <p>Cód: 000001</p>
+              <p>Turno - Manhã</p>
+              <p>Período: 01/01/2025 à 01/07/2026</p>
+              <button>visualizar Solicitação</button>
+            </div>
+          </div>
+          <div class="course">
+            <div class="accordion-header">
+              <span style="width: 180px;">Execel Avançado</span>
+              <span>Nível C em - análise</span>
+              <span class="arrow">&#9650;</span>
+            </div>
+            <div class="accordion-content">
+              <p>Cód: 000001</p>
+              <p>Turno - Manhã</p>
+              <p>Período: 01/01/2025 à 01/07/2026</p>
+              <button>visualizar Solicitação</button>
+            </div>
+          </div>
+          <div class="course">
+            <div class="accordion-header">
+              <span style="width: 180px;">Execel Avançado</span>
+              <span>Nível C em - análise</span>
+              <span class="arrow">&#9650;</span>
+            </div>
+            <div class="accordion-content">
+              <p>Cód: 000001</p>
+              <p>Turno - Manhã</p>
+              <p>Período: 01/01/2025 à 01/07/2026</p>
+              <button>visualizar Solicitação</button>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="content-box">
-        <h1 class="title">Concluídos</h1>
+        <!-- <div class="nome-com-linha">
+          <span class="nome title">Cursos Concluídos</span>
+        </div> -->
 
-        <div class="search-filters">
+        <!-- <div class="search-filters">
           <input type="date" placeholder="dd/mm/aaaa" />
           <input type="date" placeholder="dd/mm/aaaa" />
           <input type="text" placeholder="Busque por cursos concluídos..." />
+          <button type="submit" id="cursos-concluidos">Buscar</button>
         </div>
 
-        <div class="content-wrapper">
-          <div class="course-item">
-            <h2 class="course-title">Técnico em informática</h2>
+        <div id="cursos-concluidos" class="content-wrapper"> -->
+          <!-- <div class="loading">
+                    <div class="loader"></div>
+                </div> -->
+
+          <!-- RESULTADO DA PESQUISA EXEMPLO!!!! -->
+          <!-- <div class="course-item">
+            <h2 class="course-title">Introdução à Programação</h2>
             <p class="course-date">Concluído em 01/12/2022</p>
           </div>
 
@@ -164,24 +184,263 @@
           </div>
 
           <div class="course-item">
-            <h2 class="course-title">Técnico em panificação</h2>
+            <h2 class="course-title">Machine Learning</h2>
             <p class="course-date">Concluído em 10/06/2023</p>
           </div>
           <div class="course-item">
-            <h2 class="course-title">Técnico em costura</h2>
+            <h2 class="course-title">Machine Learning</h2>
             <p class="course-date">Concluído em 10/06/2023</p>
           </div>
           <div class="course-item">
-            <h2 class="course-title">Técnico em soldagem</h2>
+            <h2 class="course-title">Machine Learning</h2>
             <p class="course-date">Concluído em 10/06/2023</p>
           </div>
           <div class="course-item">
-            <h2 class="course-title">Técnico em mecânica</h2>
+            <h2 class="course-title">Machine Learning</h2>
             <p class="course-date">Concluído em 10/06/2023</p>
+          </div> -->
+        </div>
+      </section>
+      <section class="content" id="status">
+        <div class="nome-com-linha">
+          <span class="nome">Em Andamento</span>
+        </div>
+        <div class="courses">
+          <div class="course">
+            <div class="accordion-header">
+              <span>Administração</span>
+              <span>Nível B - Em Análise</span>
+              <span class="arrow">&#9650;</span>
+            </div>
+            <div class="accordion-content">
+              <div class="inf">
+                <span><strong>Nível B:</strong> Em Análise</span>
+                <span><strong>Data:</strong> 01/02/2025 13:20</span>
+                <span><strong>Departamento:</strong> Coordenação</span>
+              </div>
+              <div class="inf">
+                <span><strong>Cód:</strong> 000001</span>
+                <span><strong>Turno:</strong> Manhã</span>
+                <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
+              </div>
+            </div>
+          </div>
+          <div class="course">
+            <div class="accordion-header">
+              <span>Técnico em Informática para Internet</span>
+              <span>Nível A - Em Análise</span>
+              <span class="arrow">&#9650;</span>
+            </div>
+            <div class="accordion-content">
+              <div class="inf">
+                <span><strong>Nível B:</strong> Em Análise</span>
+                <span><strong>Data:</strong> 01/02/2025 13:20</span>
+                <span><strong>Departamento:</strong> Coordenação</span>
+              </div>
+              <div class="inf">
+                <span><strong>Cód:</strong> 000001</span>
+                <span><strong>Turno:</strong> Manhã</span>
+                <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nome-com-linha">
+          <span class="nome title">Concluídos</span>
+        </div>
+
+        <div class="search-filters">
+          <input type="date" placeholder="dd/mm/aaaa" />
+          <input type="date" placeholder="dd/mm/aaaa" />
+          <input type="text" placeholder="Busque por cursos concluídos..." />
+          <button>Buscar</button>
+        </div>
+
+        <div class="content-wrapper">
+          <div>
+            <div class="course-item accordion-header">
+              <h2 class="course-title">Curso</h2>
+              <p class="course-date">
+                <strong>Concluído<i class="fa-solid fa-check"></i></strong>
+              </p>
+            </div>
+            <div class="accordion-content course-c">
+              <div class="inf">
+                <span><strong>Nível B:</strong> Em Análise</span>
+                <span><strong>Data:</strong> 01/02/2025 13:20</span>
+                <span><strong>Departamento:</strong> Coordenação</span>
+              </div>
+              <div class="inf">
+                <span><strong>Cód:</strong> 000001</span>
+                <span><strong>Turno:</strong> Manhã</span>
+                <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="course-item">
+                    <h2 class="course-title">Curso</h2>
+                    <p class="course-date">Concluído em 15/03/2023</p>
+                </div>
+
+                <div class="course-item">
+                    <h2 class="course-title">Curso</h2>
+                    <p class="course-date">Concluído em 10/06/2023</p>
+                </div>
+                <div class="course-item">
+                    <h2 class="course-title">Curso</h2>
+                    <p class="course-date">Concluído em 10/06/2023</p>
+                </div>
+                <div class="course-item">
+                    <h2 class="course-title">Curso</h2>
+                    <p class="course-date">Concluído em 10/06/2023</p>
+                </div>
+                <div class="course-item">
+                    <h2 class="course-title">Curso</h2>
+                    <p class="course-date">Concluído em 10/06/2023</p>
+                </div>
+            -->
+        </div>
+      </section>
+    </div>
+    <!-- MODAL SOLICITAÇÕES -->
+
+    <!-- MODAL SOLICITAÇÕES -->
+    <div class="modal-s">
+      <div class="modal" id="kitModal">
+        <div class="modal-header">
+          <img src="./assets/logo-2.svg" class="logo-2" alt="logo" />
+          <h2>Solicitação dos Kits</h2>
+        </div>
+        <div class="modal-body">
+          <div class="search-bar">
+            <input type="text" placeholder="Procurar KIT" />
+            <button>Buscar</button>
+          </div>
+          <div class="info">
+            <div>
+              <div><b>Cód Curso:</b> 000001</div>
+              <div><b>Curso:</b> Técnico em Informática</div>
+              <div><b>Turno:</b> Manhã</div>
+            </div>
+            <div><b>Período:</b> 01/01/2025 à 01/12/2025</div>
+            <div>
+              <div><b>Modalidade:</b> Qualificação</div>
+              <div><b>Linha de ação:</b> Gratuidade</div>
+              <div><b>Professor:</b> Nome</div>
+            </div>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>COD</th>
+                  <th>PRODUTO</th>
+                  <th>QUANTIDADE MAX</th>
+                  <th>UNIDADE</th>
+                  <th>SALDO</th>
+                  <th>QUANTIDADE REQUERIDA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>29322</td>
+                  <td>Marcador Quad Bco Azul Ponta 4,0mm</td>
+                  <td>2</td>
+                  <td>CX</td>
+                  <td>0</td>
+                  <td>
+                    <button onclick="decreaseValue(this)" class="btn-cont">
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      value="0"
+                      min="0"
+                      style="width: 40px; text-align: center"
+                      onchange="validateValue(this)"
+                    />
+                    <button class="add" onclick="increaseValue(this)">+</button>
+                    <button class="delete" onclick="deleteRow(this)">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>29322</td>
+                  <td>Marcador Quad Bco Azul Ponta 4,0mm</td>
+                  <td>2</td>
+                  <td>CX</td>
+                  <td>0</td>
+                  <td>
+                    <button onclick="decreaseValue(this)" class="btn-cont">
+                      
+                    </button>
+                    <input
+                      type="number"
+                      value="0"
+                      min="0"
+                      style="width: 40px; text-align: center"
+                      onchange="validateValue(this)"
+                    />
+                    <button class="add" onclick="increaseValue(this)">+</button>
+                    <button class="delete" onclick="deleteRow(this)">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="additional-materials">
+              <label for="additional">MATERIAIS ADICIONAIS</label>
+              <textarea
+                id="additional"
+                placeholder="Uma pasta vermelha e verde uma verde para organização de documentos. Quantidade: 5"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="cancel" onclick="closeModal()">Cancelar</button>
+            <button id="openModalBtn">Enviar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primeiro Modal: Confirmação -->
+      <div id="confirmModal" class="modal-2">
+        <div class="modal-content">
+          <div class="modal-header"></div>
+          <p>Tem certeza que deseja enviar?</p>
+          <div class="modal-footer-2">
+            <button id="cancelBtn" class="cancel">Não</button>
+            <button id="sendBtn">Sim</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Segundo Modal: Sucesso -->
+      <div id="successModal" class="modal-2">
+        <div class="modal-content-2">
+          <div class="modal-box"></div>
+          <div class="checkmark-container">
+            <div class="checkmark-circle"></div>
+
+            <div class="checkmark-container">
+              <svg viewBox="0 0 100 100">
+                <path class="check" d="M30 52 L43 65 L70 35"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="okBtn-box">
+            <p>Solicitação enviada com Sucesso!</p>
+
+            <button id="okBtn">OK</button>
           </div>
         </div>
       </div>
     </div>
-    <script src="/public/js/gestao.js"></script>
+
+    <script></script>
+
+    <script type="module" src="./js/setor_de_compras.js"></script>
+
   </body>
 </html>

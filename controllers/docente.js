@@ -14,17 +14,17 @@ export const buscarCursosVigentes = async (req, res) => {
     const { email } = decoded; // Desestrutura o email do payload do token
     // 3. Busca o nome do usuário na tabela usuarios
     const [userResult] = await db.query(
-      'SELECT nome_usuario FROM usuarios WHERE email = ?',
+      'SELECT nome FROM cadastro WHERE email = ?',
       [email]
     );
     if (userResult.length === 0) {
       return res.status(404).json({ message: 'Usuário não encontrado.' });
     }
-    const { nome_usuario } = userResult[0]; // Nome do usuário
+    const { nome } = userResult[0]; // Nome do usuário
     // 4. Busca os cursos onde professor = nome_usuario
     const [cursosResult] = await db.query(
-      'SELECT nome_curso FROM cursos_vigentes WHERE professor = ?',
-      [nome_usuario]
+      'SELECT nome_curso FROM cursos_vigentes WHERE docente = ?',
+      [nome]
     );
     if (cursosResult.length === 0) {
       return res.status(404).json({ message: 'Nenhum curso encontrado para este professor.' });

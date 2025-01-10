@@ -3,6 +3,10 @@ import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { sendEmail } from '../services/emailService.js'; // Importação ajustada para ES Modules
+import fs from 'fs/promises';
+import path from 'path';
+
+
 
 export const cadastro = async (req, res) => {
   const { nome, email, senha, setor } = req.body;
@@ -182,5 +186,107 @@ export const logout = async (req, res) => {
   } catch (err) {
     console.error('Erro ao tentar fazer logout:', err);
     return res.status(500).json({ message: 'Erro no servidor ao tentar fazer logout' });
+  }
+};
+
+// Rota para upload de imagem de perfil
+export const uploadPerfil = async (req, res) => {
+  const tempPath = req.file?.path;
+  if (!tempPath) {
+    return res.status(400).json({ message: 'Arquivo não enviado.' });
+  }
+  try {
+    // 1. Extrai o token do cabeçalho Authorization
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Token não fornecido.' });
+    }
+    // 2. Verifica e decodifica o token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const email = decoded.email; // Desestrutura o email do payload do token
+    if (!email) {
+      return res.status(400).json({ message: 'Token inválido ou email ausente.' });
+    }
+    // 3. Busca o usuário no banco de dados
+    const [cadastro] = await db.execute('SELECT id FROM cadastro WHERE email = ?', [email]);
+    const [docente] = await db.execute('SELECT id FROM docente WHERE email = ?', [email]);
+    let userData = null;
+    if (cadastro.length > 0) {
+      userData = { tabela: 'cadastro', id: cadastro[0].id };
+    } else if (docente.length > 0) {
+      userData = { tabela: 'docente', id: docente[0].id };
+    }
+    if (!userData) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+    // 4. Obtem o caminho final gerado pelo Multer
+    const filePath = `/uploads/${req.file.filename}`; // Nome já tratado pelo middleware
+    // 5. Atualiza o caminho da imagem no banco de dados
+    await db.query(`UPDATE ${userData.tabela} SET profile_image = ? WHERE id = ?`, [filePath, userData.id]);
+    // 6. Retorna a resposta de sucesso
+    res.status(200).json({ message: 'Imagem de perfil salva com sucesso.', path: filePath });
+  } catch (err) {
+    console.error('Erro ao salvar imagem de perfil:', err);
+    // Remove o arquivo temporário em caso de erro
+    if (tempPath) {
+      await fs.unlink(tempPath).catch((unlinkErr) =>
+        console.error('Erro ao remover arquivo temporário:', unlinkErr)
+      );
+    }
+    res.status(500).json({ error: 'Erro ao salvar a imagem de perfil.' });
+  }
+};
+// Rota para upload de assinatura
+export const uploadAssinatura = async (req, res) => {
+  const tempPath = req.file?.path;
+  if (!tempPath) {
+    return res.status(400).json({ message: 'Arquivo não enviado.' });
+  }
+  try {
+    // 1. Extrai o token do cabeçalho Authorization
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Token não fornecido.' });
+    }
+    // 2. Verifica e decodifica o token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const email = decoded.email; // Desestrutura o email do payload do token
+    if (!email) {
+      return res.status(400).json({ message: 'Token inválido ou email ausente.' });
+    }
+    // 3. Busca o usuário no banco de dados
+    const [cadastro] = await db.execute('SELECT id FROM cadastro WHERE email = ?', [email]);
+    const [docente] = await db.execute('SELECT id FROM docente WHERE email = ?', [email]);
+    let userData = null;
+    if (cadastro.length > 0) {
+      userData = { tabela: 'cadastro', id: cadastro[0].id };
+    } else if (docente.length > 0) {
+      userData = { tabela: 'docente', id: docente[0].id };
+    }
+    if (!userData) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+    // 4. Valida se o usuário já enviou uma assinatura
+    const [rows] = await db.query(`SELECT signature_image FROM ${userData.tabela} WHERE id = ?`, [userData.id]);
+    if (rows[0]?.signature_image) {
+      return res.status(400).json({ error: 'Assinatura já foi enviada anteriormente.' });
+    }
+    // 5. Move o arquivo para o diretório final
+    const targetPath = path.join('uploads', `signature_${userData.id}_${req.file.originalname}`);
+    await fs.rename(tempPath, targetPath); // Renomeia/move o arquivo
+    // 6. Atualiza o caminho da assinatura no banco de dados
+    const filePath = `/uploads/${path.basename(targetPath)}`;
+    await db.query(`UPDATE ${userData.tabela} SET signature_image = ? WHERE id = ?`, [filePath, userData.id]);
+    // 7. Retorna a resposta de sucesso
+    res.status(200).json({ message: 'Assinatura salva com sucesso.', path: filePath });
+  } catch (err) {
+    console.error('Erro ao salvar assinatura:', err);
+    // Remove o arquivo temporário em caso de erro
+    if (tempPath) {
+      await fs.unlink(tempPath).catch((unlinkErr) =>
+        console.error('Erro ao remover arquivo temporário:', unlinkErr)
+      );
+    }
+    res.status(500).json({ error: 'Erro ao salvar a assinatura.' });
   }
 };

@@ -10,7 +10,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="css/docente.css" />
+    <link rel="stylesheet" href="css/gestao.css" />
     <title>Gestão S</title>
   </head>
 
@@ -45,31 +45,21 @@
           <img src="https://via.placeholder.com/50" alt="Avatar" />
         </div>
         <div class="info">
-          <div class="span-name">
-            <!--div span-name para teste fran editando -->
-            <span class="name">Nome responsável</span>
-            <span class="func">Docente</span>
-          </div>
-        </div>
+          <span class="name saudacao">Name</span>
+          <span class="func">Gestor</span>
 
-        <div class="logout">
-          <button>
-            <i
-              class="fa-solid fa-right-from-bracket"
-              style="color: #ffffff"
-            ></i>
-          </button>
-          <button>
-            <i class="fa-solid fa-gear" style="color: #ffffff"></i>
-          </button>
-        </div>
+      </div>
+      <div class="logout" id="btnLogout">
+          <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
+          <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;" id="perfil"></i></button>
+      </div>
       </div>
     </div>
 
     <div class="main">
       <div class="main-header">
         <div>
-          <h2 id="saudacao">Olá, Nome</h2>
+          <h2 class="saudacao">Olá, </h2>
           <div class="tabs">
             <div class="tab cursos active" data-tab="cursos">Cursos</div>
             <div class="tab status" data-tab="status" id="tabStatus">
@@ -97,7 +87,7 @@
 
           <div class="course">
             <div class="accordion-header">
-              <span>Técnico em Informática para Internet</span>
+              <span style="width: 180px;" >Técnico em Informática para Internet</span>
               <span>Nível C em - análise</span>
               <span class="arrow">&#9650;</span>
             </div>
@@ -114,7 +104,7 @@
           </div>
           <div class="course">
             <div class="accordion-header">
-              <span>Execel Avançado</span>
+              <span style="width: 180px;">Execel Avançado</span>
               <span>Nível C em - análise</span>
               <span class="arrow">&#9650;</span>
             </div>
@@ -127,7 +117,7 @@
           </div>
           <div class="course">
             <div class="accordion-header">
-              <span>Execel Avançado</span>
+              <span style="width: 180px;">Execel Avançado</span>
               <span>Nível C em - análise</span>
               <span class="arrow">&#9650;</span>
             </div>
@@ -140,7 +130,7 @@
           </div>
           <div class="course">
             <div class="accordion-header">
-              <span>Execel Avançado</span>
+              <span style="width: 180px;">Execel Avançado</span>
               <span>Nível C em - análise</span>
               <span class="arrow">&#9650;</span>
             </div>
@@ -153,7 +143,7 @@
           </div>
           <div class="course">
             <div class="accordion-header">
-              <span>Execel Avançado</span>
+              <span style="width: 180px;">Execel Avançado</span>
               <span>Nível C em - análise</span>
               <span class="arrow">&#9650;</span>
             </div>
@@ -450,7 +440,7 @@
 
     <script></script>
 
-    <script src="api.js"></script>
-<script src="js/docente.js"></script>
+    <script type="module" src="./js/gestao.js"></script>
+
   </body>
 </html>
