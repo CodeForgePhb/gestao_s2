@@ -45,7 +45,7 @@ export const addDocente = async (req, res) => {
 // ------------------------ ROTAS GET ------------------------
 export const buscarCursos = async (req, res) => {
     try {
-        const [resultado] = await db.query('SELECT * FROM curso');
+        const [resultado] = await db.execute('SELECT * FROM curso');
         return res.json(resultado);
     } catch (error) {
         console.error('Erro ao processar a requisição.', error);
@@ -56,7 +56,7 @@ export const buscarCursos = async (req, res) => {
 export const buscarCursosVigentes = async (req, res) => {
     try {
         await db.execute('CALL AtualizarCursosVigentes()');
-        const [resultado] = await db.query('SELECT * FROM cursos_vigentes');
+        const [resultado] = await db.execute('SELECT * FROM cursos_vigentes');
         return res.json(resultado);
     } catch (error) {
         console.error('Erro ao processar a requisição.', error);
@@ -74,6 +74,9 @@ export const buscarCursosConcluidos = async (req, res) => {
         return res.status(500).send('Erro ao processar a requisição.');
     }
 };
+
+
+
 
 export const buscarDocentes = async (req, res) => {
     try {

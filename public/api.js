@@ -220,6 +220,7 @@ export async function getCursosConcluidos() { //FALTA EDITAR, AINDA NÃO ESTA FU
 }
 
 
+
 export async function getNome() {
     const token = localStorage.getItem('token');
     // Verificar se o token existe antes de fazer a requisição

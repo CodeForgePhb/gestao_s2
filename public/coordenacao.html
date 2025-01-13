@@ -12,6 +12,8 @@
 </head>
 
 <body>
+
+    <!-- Sidebar -->
     <div class="sidebar">
         <div>
             <div class="sidbox">
@@ -29,198 +31,178 @@
         </div>
         <div class="profile">
             <div class="avatar">
-                <img src="https://via.placeholder.com/50" alt="Avatar">
+                <img src="./img/profile.png" alt="Avatar">
+            </div>
+            <div class="info">
+                <span class="name saudacao">Name</span>
+                <span class="func">Cordenação</span>
+            </div>
+            <div class="logout">
+                <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
+                <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;" id="perfil"></i></button>
             </div>
         </div>
-        <div class="info">
-            <span class="name saudacao">Name</span>
-            <span class="func">Coordenador</span>
+    </div>
+    </div>
 
-        </div>
-        <div class="logout" id="btnLogout">
-            <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
-            <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;" id="perfil"></i></button>
-        </div>
-    </div>
-    </div>
+    <!-- Conteúdo Principal -->
     <div class="main">
         <div class="main-header">
             <div>
                 <h2 class="saudacao">Olá, </h2>
-                <div class="tabs">
+                
+                <!-- Menus com botões -->
+                <div class="tabs"> 
                     <div class="tab cursos active" data-tab="cursos">Cursos</div>
+                    <div class="tab registro" data-tab="registro">Registro</div>
                     <div class="tab status" data-tab="status" id="tabStatus">Status</div>
                 </div>
             </div>
             <div><img src="./assets/logo_gestao_s.svg" alt="logo_gestao_s" class="logo"></div>
         </div>
-        <section class="content active" id="cursos">
-            <div class="nome-com-linha">
-                <span class="nome">Cursos Vigentes</span>
-            </div>
-            <div class="courses" id="courses">
-                <div class="loading">
-                    <div class="loader"></div>
-                </div>
-                <!-- <div class="course">
-                    <div class="accordion-header">
-                        <span>Técnico em Informática para Internet</span>
-                        <span class="arrow">&#9650;</span>
+      
+
+        <!-- Section de Cursos -->
+        <section class="main">
+            <div id="cursos" class="content active">
+                <div class="columns">
+                    <div id="primeiro" class="button toggle-button" data-content="professor">
+                        <div class="icone-mais">
+                            <img src="./assets/icons/plus-solid.svg" alt="">
+                        </div>
+                        <b>Docente</b>
                     </div>
-                    <div class="accordion-content">
-                        <p>Cód: 000001</p>
-                        <p>Turno - Manhã</p>
-                        <p>Período: 01/01/2025 à 01/07/2026</p>
-                        <button class="open-modal-btn" onclick="openModal()">Abrir Solicitação</button>
+                    <div id="segundo" class="button toggle-button " data-content="curso">
+                        <div class="icone-mais">
+                            <img src="./assets/icons/plus-solid.svg" alt="">
+                        </div>
+                        <b>Cursos</b>
+                    </div>
+                    <div id="terceiro" class="button toggle-button" data-content="material">
+                        <div class="icone-mais">
+                            <img src="./assets/icons/plus-solid.svg" alt="">
+                        </div>
+                        <b>Kits</b>
                     </div>
                 </div>
-                <div class="course">
-                    <div class="accordion-header">
-                        <span>Execel Avançado</span>
-                        <span class="arrow">&#9650;</span>
+            </div>
+            <div>
+                <!-- Áreas de conteúdo -->
+                <div id="professor" class="toggle-content">
+                    <h3>Cadastrar Professor</h3>
+                    <form>
+                        <input type="text" placeholder="Nome" />
+                        <input type="text" placeholder="Matrícula" />
+                        <input type="email" placeholder="Email" />
+                        <input type="tel" placeholder="Telefone" />
+                        <select>
+                            <option>Curso</option>
+                        </select>
+                        <button type="button">Cancelar</button>
+                        <button type="submit">Salvar</button>
+                    </form>
+                </div>
+        
+                <div id="curso" class="toggle-content">
+                    <h3>Cadastrar Cursos</h3>
+                    <form>
+                        <input type="text" placeholder="Nome do Curso" />
+                        <input type="text" placeholder="Código" />
+                        <input type="text" placeholder="Financiamento" />
+                        <input type="text" placeholder="Modalidade" />
+                        <input type="text" placeholder="Período" />
+                        <input type="text" placeholder="Turma" />
+                        <input type="text" placeholder="Carga Horária" />
+                        <input type="text" placeholder="Matrícula Prevista" />
+                        <button type="button">Cancelar</button>
+                        <button type="submit">Salvar</button>
+                    </form>
+                </div>
+        
+                <div id="material" class="toggle-content">
+                    <h3>Cadastrar Materiais</h3>
+                    <form>
+                        <input type="text" placeholder="Código do Produto" />
+                        <select>
+                            <option>Curso</option>
+                        </select>
+                        <input type="text" placeholder="Descrição" />
+                        <input type="number" placeholder="Quantidade" />
+                        <input type="text" placeholder="Unidade de Medida" />
+                        <button type="button">Cancelar</button>
+                        <button type="submit">Salvar</button>
+                    </form>
+                </div>
+            </div>
+
+
+
+            <section id="status" class="content">
+                Conteúdo para Status
+            </section>
+
+            <!-- Section de Registro -->
+            <section id="registro" class="content">
+                <div class="accordion-container">
+                    <div class="accordion-item">
+                      <div class="accordion-header">
+                        Kit de Informática para Internet - Consumo
+                        <span>cód 2514</span>
+                        <div class="arrow">▼</div>
+                      </div>
+                      <div class="accordion-content">
+                        <p>Descrição do kit de informática.</p>
+                        <button>Ação</button>
+                      </div>
                     </div>
-                    <div class="accordion-content">
-                        <p>Cód: 000001</p>
-                        <p>Turno - Manhã</p>
-                        <p>Período: 01/01/2025 à 01/07/2026</p>
-                        <button>Abrir Solicitação</button>
+                    <div class="accordion-item">
+                      <div class="accordion-header">
+                        Kit de Eletricista - Semipermanente
+                        <span>cód 0043</span>
+                        <div class="arrow">▼</div>
+                      </div>
+                      <div class="accordion-content">
+                        <p>Descrição do kit de eletricista.</p>
+                        <button>Ação</button>
+                      </div>
                     </div>
-                </div>-->
-            </div>
-            <div class="nome-com-linha">
-                <span class="nome title">Cursos Concluídos</span>
-            </div>
-            <div class="search-filters">
-                <input type="date" placeholder="dd/mm/aaaa">
-                <input type="date" placeholder="dd/mm/aaaa">
-                <input type="text" placeholder="Busque por cursos concluídos...">
-                <button type="submit" id="cursos-concluidos">Buscar</button>
-            </div>
-            <div id="all-cursos-concluidos" class="content-wrapper">
-                <div class="loading">
-                    <div class="loader"></div>
-                </div>
-                <!-- RESULTADO DA PESQUISA EXEMPLO!!!! -->
-                <!-- <div class="course-item">
-                    <h2 class="course-title">Introdução à Programação</h2>
-                    <p class="course-date">Concluído em 01/12/2022</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Design de Interfaces</h2>
-                    <p class="course-date">Concluído em 15/03/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div> -->
-            </div>
+                    <div class="accordion-item">
+                      <div class="accordion-header">
+                        Kit de Soldador - Consumo
+                        <span>cód 0088</span>
+                        <div class="arrow">▼</div>
+                      </div>
+                      <div class="accordion-content">
+                        <p>Descrição do kit de soldador.</p>
+                        <button>Ação</button>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <div class="accordion-header">
+                        Kit de Pintor - Consumo
+                        <span>cód 0069</span>
+                        <div class="arrow">▼</div>
+                      </div>
+                      <div class="accordion-content">
+                        <p>Descrição do kit de pintor.</p>
+                        <button>Ação</button>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <div class="accordion-header">
+                        Kit de Costura - Consumo
+                        <span>cód 0032</span>
+                        <div class="arrow">▼</div>
+                      </div>
+                      <div class="accordion-content">
+                        <p>Descrição do kit de costura.</p>
+                        <button>Ação</button>
+                      </div>
+                    </div>
+                  </div>
+            </section>
         </section>
-        <section class="content" id="status">
-            <div class="nome-com-linha">
-                <span class="nome">Em Andamento</span>
-            </div>
-            <div class="courses ">
-                <div class="course">
-                    <div class="accordion-header">
-                        <span>Administração</span>
-                        <span>Nível B - Em Análise</span>
-                        <span class="arrow">&#9650;</span>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="inf">
-                            <span><strong>Nível B:</strong> Em Análise</span>
-                            <span><strong>Data:</strong> 01/02/2025 13:20</span>
-                            <span><strong>Departamento:</strong> Coordenação</span>
-                        </div>
-                        <div class="inf">
-                            <span><strong>Cód:</strong> 000001</span>
-                            <span><strong>Turno:</strong> Manhã</span>
-                            <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="course">
-                    <div class="accordion-header">
-                        <span>Técnico em Informática para Internet</span>
-                        <span>Nível A - Em Análise</span>
-                        <span class="arrow">&#9650;</span>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="inf">
-                            <span><strong>Nível B:</strong> Em Análise</span>
-                            <span><strong>Data:</strong> 01/02/2025 13:20</span>
-                            <span><strong>Departamento:</strong> Coordenação</span>
-                        </div>
-                        <div class="inf">
-                            <span><strong>Cód:</strong> 000001</span>
-                            <span><strong>Turno:</strong> Manhã</span>
-                            <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="nome-com-linha">
-                <span class="nome title">Concluídos</span>
-            </div>
-            <div class="search-filters">
-                <input type="date" placeholder="dd/mm/aaaa">
-                <input type="date" placeholder="dd/mm/aaaa">
-                <input type="text" placeholder="Busque por cursos concluídos...">
-                <button>Buscar</button>
-            </div>
-            <div class="content-wrapper">
-                <div>
-                    <div class="course-item accordion-header">
-                        <h2 class="course-title">Introdução à Programação</h2>
-                        <p class="course-date"> <strong>Concluído<i class="fa-solid fa-check"></i></strong></p>
-                    </div>
-                    <div class="accordion-content course-c">
-                        <div class="inf">
-                            <span><strong>Nível B:</strong> Em Análise</span>
-                            <span><strong>Data:</strong> 01/02/2025 13:20</span>
-                            <span><strong>Departamento:</strong> Coordenação</span>
-                        </div>
-                        <div class="inf">
-                            <span><strong>Cód:</strong> 000001</span>
-                            <span><strong>Turno:</strong> Manhã</span>
-                            <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Design de Interfaces</h2>
-                    <p class="course-date">Concluído em 15/03/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div>
-            </div>
-        </section>
+
     </div>
     <!-- MODAL SOLICITAÇÕES -->
     <!-- MODAL SOLICITAÇÕES -->
@@ -294,6 +276,7 @@
                         </tr>
                     </tbody>
                 </table>
+              
                 <div class="additional-materials">
                     <label for="additional">MATERIAIS ADICIONAIS</label>
                     <textarea id="additional"
@@ -306,6 +289,7 @@
             </div>
         </div>
     </div>
+  
     <!-- Primeiro Modal: Confirmação -->
     <div id="confirmModal" class="modal-2">
         <div class="modal-content">
@@ -372,6 +356,48 @@
                 modal.style.display = "none";
             }
         });
+
+// Selecione todas as abas e conteúdos
+const tabs = document.querySelectorAll('.tab');
+const contents = document.querySelectorAll('.content');
+
+// Adicione o evento de clique para cada aba
+tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        // Remover a classe ativa de todas as abas e conteúdos
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+
+        // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
+        tab.classList.add('active');
+        const target = document.getElementById(tab.dataset.tab);
+        if (target) {
+            target.classList.add('active');
+        }
+    });
+});
+
+
+const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    accordionHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+
+        // Toggle active class for arrow rotation
+        header.classList.toggle('active');
+
+        // Toggle visibility of accordion content
+        if (content.style.display === 'block') {
+          content.style.display = 'none';
+        } else {
+          content.style.display = 'block';
+        }
+      });
+    });
+
+    
+
     </script>
     <script type="module" src="./js/coordenacao.js"></script>
 </body>

@@ -13,6 +13,7 @@ body {
     overflow: hidden;
 }
 
+
 .sidebar {
     width: 250px;
     background-color: #002366;
@@ -43,7 +44,7 @@ body {
 }
 
 #active {
-    border: solid 1px #ffffff;
+    border: solid 2px #ffffff;
     background-color: rgb(30, 58, 138);
 }
 .no-active {
@@ -1022,3 +1023,122 @@ label {
 input[type="file"] {
     margin-bottom: 10px;
 }
+
+.columns {
+    display: flex;
+    grid-column: 3;
+    padding-top: 30px;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+#primeiro, #segundo, #terceiro {
+    display: flex;
+    background-color: #f0f0f0;
+    padding: 20px;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer; /* Mudando o cursor para parecer um botão */
+    transition: background-color 0.3s, transform 0.3s; /* Efeito de transição */
+}
+
+#primeiro:hover, #segundo:hover, #terceiro:hover {
+    background-color: #e0e0e0; /* Mudança de cor ao passar o mouse */
+    transform: scale(1.05); /* Efeito de aumentar levemente */
+}
+
+.icone-mais {
+    display: flex;
+    height: 25px;
+    padding-right: 15px;
+}
+
+        .tab.active {
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+.content {
+    display: none;
+}
+.content.active {
+    display: block;
+}
+
+/* alternar botoes  */
+.toggle-button.active {
+    background-color: #0033a0;
+    color: white;
+}
+
+.toggle-content {
+    display: none;
+    padding: 20px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.accordion-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .accordion-item {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .accordion-header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+
+  .accordion-header:hover {
+    background-color: #e6e6e6;
+  }
+
+  .accordion-header span {
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .accordion-content {
+    padding: 1rem;
+    display: none;
+    background-color: #fff;
+  }
+
+  .accordion-content button {
+    padding: 0.5rem 1rem;
+    background-color: #008cff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+
+  .accordion-content button:hover {
+    background-color: #005bb5;
+  }
+
+  .accordion-header .arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+  }
+
+  .accordion-header.active .arrow {
+    transform: rotate(180deg);
+  }
