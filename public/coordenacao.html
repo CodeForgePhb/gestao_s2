@@ -39,7 +39,8 @@
             </div>
             <div class="logout">
                 <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
-                <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;" id="perfil"></i></button>
+                <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;"
+                        id="perfil"></i></button>
             </div>
         </div>
     </div>
@@ -50,9 +51,9 @@
         <div class="main-header">
             <div>
                 <h2 class="saudacao">Olá, </h2>
-                
+
                 <!-- Menus com botões -->
-                <div class="tabs"> 
+                <div class="tabs">
                     <div class="tab cursos active" data-tab="cursos">Cursos</div>
                     <div class="tab registro" data-tab="registro">Registro</div>
                     <div class="tab status" data-tab="status" id="tabStatus">Status</div>
@@ -60,11 +61,11 @@
             </div>
             <div><img src="./assets/logo_gestao_s.svg" alt="logo_gestao_s" class="logo"></div>
         </div>
-      
+
 
         <!-- Section de Cursos -->
         <section class="main">
-            <div id="cursos" class="content active">
+            <div id="cursos" class="content active" >
                 <div class="columns">
                     <div id="primeiro" class="button toggle-button" data-content="professor">
                         <div class="icone-mais">
@@ -85,8 +86,6 @@
                         <b>Kits</b>
                     </div>
                 </div>
-            </div>
-            <div>
                 <!-- Áreas de conteúdo -->
                 <div id="professor" class="toggle-content">
                     <h3>Cadastrar Professor</h3>
@@ -98,11 +97,14 @@
                         <select>
                             <option>Curso</option>
                         </select>
-                        <button type="button">Cancelar</button>
-                        <button type="submit">Salvar</button>
+                      
                     </form>
+                    <div style="height: 100%;  bottom: 2px;">
+                    <button type="button">Cancelar</button>
+                    <button type="submit">Salvar</button>
                 </div>
-        
+                </div>
+
                 <div id="curso" class="toggle-content">
                     <h3>Cadastrar Cursos</h3>
                     <form>
@@ -118,7 +120,7 @@
                         <button type="submit">Salvar</button>
                     </form>
                 </div>
-        
+
                 <div id="material" class="toggle-content">
                     <h3>Cadastrar Materiais</h3>
                     <form>
@@ -137,6 +139,10 @@
 
 
 
+
+
+
+
             <section id="status" class="content">
                 Conteúdo para Status
             </section>
@@ -145,63 +151,63 @@
             <section id="registro" class="content">
                 <div class="accordion-container">
                     <div class="accordion-item">
-                      <div class="accordion-header">
-                        Kit de Informática para Internet - Consumo
-                        <span>cód 2514</span>
-                        <div class="arrow">▼</div>
-                      </div>
-                      <div class="accordion-content">
-                        <p>Descrição do kit de informática.</p>
-                        <button>Ação</button>
-                      </div>
+                        <div class="accordion-header">
+                            Kit de Informática para Internet - Consumo
+                            <span>cód 2514</span>
+                            <div class="arrow">▼</div>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Descrição do kit de informática.</p>
+                            <button>Ação</button>
+                        </div>
                     </div>
                     <div class="accordion-item">
-                      <div class="accordion-header">
-                        Kit de Eletricista - Semipermanente
-                        <span>cód 0043</span>
-                        <div class="arrow">▼</div>
-                      </div>
-                      <div class="accordion-content">
-                        <p>Descrição do kit de eletricista.</p>
-                        <button>Ação</button>
-                      </div>
+                        <div class="accordion-header">
+                            Kit de Eletricista - Semipermanente
+                            <span>cód 0043</span>
+                            <div class="arrow">▼</div>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Descrição do kit de eletricista.</p>
+                            <button>Ação</button>
+                        </div>
                     </div>
                     <div class="accordion-item">
-                      <div class="accordion-header">
-                        Kit de Soldador - Consumo
-                        <span>cód 0088</span>
-                        <div class="arrow">▼</div>
-                      </div>
-                      <div class="accordion-content">
-                        <p>Descrição do kit de soldador.</p>
-                        <button>Ação</button>
-                      </div>
+                        <div class="accordion-header">
+                            Kit de Soldador - Consumo
+                            <span>cód 0088</span>
+                            <div class="arrow">▼</div>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Descrição do kit de soldador.</p>
+                            <button>Ação</button>
+                        </div>
                     </div>
                     <div class="accordion-item">
-                      <div class="accordion-header">
-                        Kit de Pintor - Consumo
-                        <span>cód 0069</span>
-                        <div class="arrow">▼</div>
-                      </div>
-                      <div class="accordion-content">
-                        <p>Descrição do kit de pintor.</p>
-                        <button>Ação</button>
-                      </div>
+                        <div class="accordion-header">
+                            Kit de Pintor - Consumo
+                            <span>cód 0069</span>
+                            <div class="arrow">▼</div>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Descrição do kit de pintor.</p>
+                            <button>Ação</button>
+                        </div>
                     </div>
                     <div class="accordion-item">
-                      <div class="accordion-header">
-                        Kit de Costura - Consumo
-                        <span>cód 0032</span>
-                        <div class="arrow">▼</div>
-                      </div>
-                      <div class="accordion-content">
-                        <p>Descrição do kit de costura.</p>
-                        <button>Ação</button>
-                      </div>
+                        <div class="accordion-header">
+                            Kit de Costura - Consumo
+                            <span>cód 0032</span>
+                            <div class="arrow">▼</div>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Descrição do kit de costura.</p>
+                            <button>Ação</button>
+                        </div>
                     </div>
-                  </div>
+                </div>
             </section>
-        </section>
+
 
     </div>
     <!-- MODAL SOLICITAÇÕES -->
@@ -276,7 +282,7 @@
                         </tr>
                     </tbody>
                 </table>
-              
+
                 <div class="additional-materials">
                     <label for="additional">MATERIAIS ADICIONAIS</label>
                     <textarea id="additional"
@@ -289,7 +295,7 @@
             </div>
         </div>
     </div>
-  
+
     <!-- Primeiro Modal: Confirmação -->
     <div id="confirmModal" class="modal-2">
         <div class="modal-content">
@@ -321,8 +327,8 @@
         </div>
     </div>
     </div>
-       <!-- MODAL CONFIG -->
-       <div class="custom-modal" id="profileModal">
+    <!-- MODAL CONFIG -->
+    <div class="custom-modal" id="profileModal">
         <div class="custom-modal-content">
             <span class="custom-close" id="closeProfileModal">&times;</span>
             <div class="modal-header">
@@ -342,6 +348,33 @@
         </div>
     </div>
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const buttons = document.querySelectorAll(".toggle-button");
+            const contents = document.querySelectorAll(".toggle-content");
+
+            buttons.forEach(button => {
+                button.addEventListener("click", () => {
+                    // Remover a classe ativa de todos os botões
+                    buttons.forEach(btn => btn.classList.remove("active"));
+
+                    // Esconder todo o conteúdo
+                    contents.forEach(content => (content.style.display = "none"));
+
+                    // Ativar o botão clicado
+                    button.classList.add("active");
+
+                    // Mostrar o conteúdo correspondente
+                    const contentId = button.getAttribute("data-content");
+                    const contentToShow = document.getElementById(contentId);
+                    if (contentToShow) {
+                        contentToShow.style.display = "block";
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script>
         // Abrir e fechar o modal
         document.getElementById("openProfileModal").addEventListener("click", function () {
             document.getElementById("profileModal").style.display = "block";
@@ -357,46 +390,46 @@
             }
         });
 
-// Selecione todas as abas e conteúdos
-const tabs = document.querySelectorAll('.tab');
-const contents = document.querySelectorAll('.content');
+        // Selecione todas as abas e conteúdos
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.content');
 
-// Adicione o evento de clique para cada aba
-tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        // Remover a classe ativa de todas as abas e conteúdos
-        tabs.forEach(t => t.classList.remove('active'));
-        contents.forEach(c => c.classList.remove('active'));
+        // Adicione o evento de clique para cada aba
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remover a classe ativa de todas as abas e conteúdos
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
 
-        // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
-        tab.classList.add('active');
-        const target = document.getElementById(tab.dataset.tab);
-        if (target) {
-            target.classList.add('active');
-        }
-    });
-});
+                // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
+                tab.classList.add('active');
+                const target = document.getElementById(tab.dataset.tab);
+                if (target) {
+                    target.classList.add('active');
+                }
+            });
+        });
 
 
-const accordionHeaders = document.querySelectorAll('.accordion-header');
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
 
-    accordionHeaders.forEach(header => {
-      header.addEventListener('click', () => {
-        const content = header.nextElementSibling;
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
 
-        // Toggle active class for arrow rotation
-        header.classList.toggle('active');
+                // Toggle active class for arrow rotation
+                header.classList.toggle('active');
 
-        // Toggle visibility of accordion content
-        if (content.style.display === 'block') {
-          content.style.display = 'none';
-        } else {
-          content.style.display = 'block';
-        }
-      });
-    });
+                // Toggle visibility of accordion content
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
+                }
+            });
+        });
 
-    
+
 
     </script>
     <script type="module" src="./js/coordenacao.js"></script>

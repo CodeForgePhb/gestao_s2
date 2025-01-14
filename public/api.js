@@ -140,7 +140,7 @@ export async function logoutUser() {
     }
 }
 // Função para solicitar a redefinição de senha
-export async function requestResetSenha(email) {
+export async function requestResetSenhaUsuario(email) {
     try {
         const response = await fetch(`${API_URL}/authen/request-reset-senha`, {
             method: 'POST',
@@ -156,6 +156,29 @@ export async function requestResetSenha(email) {
         const result = await response.text();
         console.log('Resposta do servidor:', result);
         return { success: true};
+    } catch (error) {
+        console.error('Erro ao solicitar redefinição de senha:', error.message);
+        return { success: false, message: error.message };
+    }
+}
+
+// Função para solicitar a redefinição de senha
+export async function resetSenhaUsuario({token, novaSenha}) {
+    try {
+        const response = await fetch(`${API_URL}/authen/reset-senha`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, novaSenha}),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao solicitar redefinição de senha.');
+        }
+
+        const result = await response.text();
+        console.log('Resposta do servidor:', result);
+        return { success: true, message: result.message };
     } catch (error) {
         console.error('Erro ao solicitar redefinição de senha:', error.message);
         return { success: false, message: error.message };
@@ -215,7 +238,7 @@ export async function getCursosConcluidos() { //FALTA EDITAR, AINDA NÃO ESTA FU
         return await response.json();
     } catch (error) {
         console.error('Erro ao buscar cursos:', error);
-        return { cursos: [] }; // Retorna um array vazio em caso de erro
+        return { cursos: [] }; // Retorna um array vazio em caso de erroa
     }
 }
 

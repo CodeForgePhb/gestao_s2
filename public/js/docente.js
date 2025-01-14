@@ -3,6 +3,7 @@ import { uploadProfileImage, uploadSignature, getCursosVigentes, getCursosConclu
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
 };
+
 //Função assíncrona para carregar e exibir as transações na tabela.
 async function carregarCursosVigentes() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
@@ -183,3 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarCursosConcluidos(),
     carregarNome()
 });
+
+
+
+
+
+
+
+

@@ -222,6 +222,7 @@ body {
   padding: 20px;
   border-radius: 5px;
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .courses h3 {
@@ -354,16 +355,31 @@ h3 {
   width: 100%;
 }
 
+/* Estilo para o acordeão */
+.accordion-header {
+  background-color: #f1f1f1;
+  padding: 10px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
 .accordion-header:hover {
-  background-color: #eaeaea;
+  background-color: #ddd;
 }
 
 .accordion-content {
-  display: none; /*comentar esse comando para teste*/
-  padding: 15px;
-  width: 100%;
-  height: 130px;
+  display: none;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #ccc;
 }
+
+.accordion-header.active + .accordion-content {
+  display: block;
+}
+
 
 .course-c {
   background-color: #ddd;

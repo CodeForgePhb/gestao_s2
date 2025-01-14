@@ -22,7 +22,7 @@
 
 </body>
 <script type="module">
-  import { requestResetSenha } from './api.js';
+  import { requestResetSenhaUsuario } from './api.js';
 
   const form = document.getElementById('passwdForm');
 
@@ -31,14 +31,14 @@
       const email = document.getElementById('email').value;
 
       // Chama a função do api.js para fazer a requisição
-      const result = await requestResetSenha(email);
+      const result = await requestResetSenhaUsuario(email);
 
       // Atualiza a página com a mensagem do resultado
       if (result.success) {
          alert('E-mail de recuperação de senha enviado. Verifique sua caixa de entrada.');
          window.location.href = 'index.html';
       } else {
-          alert('Erro ao solicitar redefinição de senha. tente novamente');
+          alert('Erro ao solicitar redefinição de senha. Tente novamente');
       }
   });
 </script>

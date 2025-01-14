@@ -24,6 +24,7 @@ router.delete('/curso-vigente/:id_curso', authMiddleware,controllerCoordenacao.d
 //----------------Docente----------------------------------------------------------------------------------------------
 router.get('/cursos-vigentes', authMiddleware,controllerDocente.buscarCursosVigentes);
 // router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosConcluidos);
+router.get('/solicitacao-kit', authMiddleware,controllerDocente.TodasSolicitacoes);
 
 // module.exports = router;
 

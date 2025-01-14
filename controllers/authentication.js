@@ -31,7 +31,7 @@ export const login = async (req, res) => {
           [user] = await db.query('SELECT * FROM docente WHERE email = ?', [email]);
       }
       if (user.length === 0) {
-          return res.status(400).send('Credenciais inválidas (email)');
+        return res.status(400).json({ message: 'Credenciais inválidas (email)' });
       }
       const isMatch = await bcrypt.compare(senha, user[0].senha);
       if (!isMatch) {
@@ -41,7 +41,7 @@ export const login = async (req, res) => {
                   requiresPasswordChange: true,
               });
           }
-          return res.status(400).send('Credenciais inválidas (senha)');
+          return res.status(400).json({ message: 'Credenciais inválidas (senha)' });
       }
       req.session.usuario = {
           id: user[0].id,
@@ -83,7 +83,7 @@ export const requestResetSenha = async (req, res) => {
       const token = crypto.randomBytes(20).toString('hex');
       const expireDate = new Date(Date.now() + 3600000);
       await db.query(`UPDATE ${tabela} SET reset_senha = ?, reset_senha_expires = ? WHERE email = ?`, [token, expireDate, email]);
-      const resetLink = `http://localhost:3001/reset-senha/${token}`;
+      const resetLink = `http://localhost:3001/reset-senha.html?token=${token}`;
       await sendEmail(email, 'Recuperação de Senha', `Por favor, clique no link para redefinir sua senha: ${resetLink}`);
       res.status(200).send('E-mail de recuperação de senha enviado.');
   } catch (err) {
@@ -92,7 +92,7 @@ export const requestResetSenha = async (req, res) => {
   }
 };
 export const resetSenha = async (req, res) => {
-  const { token, newPassword } = req.body;
+  const { token, novaSenha } = req.body;
   try {
       const queries = [
           { table: 'cadastro', query: 'SELECT id FROM cadastro WHERE reset_senha = ? AND reset_senha_expires > NOW()' },
@@ -111,11 +111,17 @@ export const resetSenha = async (req, res) => {
       if (!user) {
           return res.status(400).send('Solicitação de redefinição de senha não encontrada.');
       }
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      if (!novaSenha) {
+        return res.status(400).send('A nova senha não foi fornecida.');
+    }
+    
+      const hashedPassword = await bcrypt.hash(novaSenha, 10);
       await db.query(
           `UPDATE ${tableName} SET senha = ?, reset_senha = NULL, reset_senha_expires = NULL WHERE id = ?`,
           [hashedPassword, user.id]
       );
+      
       res.status(200).send('Senha redefinida com sucesso.');
   } catch (err) {
       console.error('Erro ao redefinir senha:', err);

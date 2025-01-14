@@ -1,119 +1,232 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestão S - Redefinir Senha</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão S - Redefinir Senha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-  <style>
-    * {
-      font-family: "Poppins", sans-serif;
-    }
+    <style>
+        * {
+            font-family: "Poppins", sans-serif;
+        }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 70vh;
-    }
+        form {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+        }
 
-    body {
-      background-image: url(../img/test.jpg);
-    }
+        form section {
+          background-color: #ffffff;
+          box-shadow: 8.1px 15.1px 23px -9px;
+          border-radius: 20px;
+          padding: 30px;
+        }
 
-    #email {
-      margin: 2px;
-      width: 350px;
-      padding: 10px;
-    }
+        body {
+            background-image: url(../img/test.jpg);
+        }
 
-    .input-field {
-      max-width: 380px;
-      width: 100%;
-      background-color: #f0f0f0;
-      margin: 10px 0;
-      height: 55px;
-      border-radius: 55px;
-      display: grid;
-      grid-template-columns: 15% 85%;
-      padding: 0 0.4rem;
-    }
+        .input-field {
+            max-width: 350px;
+            width: 100%;
+            background-color: #f0f0f0;
+            margin: 10px 0;
+            height: 55px;
+            border-radius: 55px;
+            display: grid;
+            grid-template-columns: 15% 85%;
+            padding: 0 0.4rem;
+        }
 
-    .input-field input {
-      background: none;
-      outline: none;
-      border: none;
-      line-height: 1;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #333;
-    }
+        #senha {
+          width:320px;
+          margin-left: 10px;
+        }
 
-    .wave-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 85%;
-      background-color: #092d6a;
-      border-radius: 0 0 50% 50%/0 0 100% 100%;
-      transform: scaleX(1.5);
-    }
+        #senhaRepetida {
+          width:320px;
+          margin-left: 10px;
+        }
 
-    .container {
-      text-align: left;
-      padding: 10px;
-      padding-top: 20px;
-      font-weight: bold;
-    }
 
-    .btn {
-      width: 150px;
-      background-color: #092d6a;
-      border: none;
-      outline: none;
-      height: 49px;
-      border-radius: 49px;
-      color: #fff;
-      text-transform: uppercase;
-      font-weight: 600;
-      margin: 10px 0;
-      cursor: pointer;
-      transition: 0.5s;
-    }
+        .input-field input {
+            background: none;
+            outline: none;
+            border: none;
+            line-height: 1;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+        }
 
-    h1 {
-      font-size: 2.2rem;
-      color: #333;
-      margin-bottom: 10px;
-    }
-  </style>
+        .container {
+            text-align: left;
+            padding: 10px;
+            padding-top: 20px;
+            font-weight: bold;
+        }
+
+        .btn {
+            width: 150px;
+            background-color: #092d6a;
+            border: none;
+            outline: none;
+            height: 49px;
+            border-radius: 49px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .requirements {
+            max-width: 380px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            margin-top: 25px;
+        }
+
+        .requirement {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .requirement.valid {
+            color: #4CAF50;
+        }
+
+        .requirement.invalid {
+            color: #f44336;
+        }
+
+        .requirement::before {
+            content: '•';
+            margin-right: 5px;
+        }
+
+        .requirement.valid::before {
+            content: '✓';
+            color: #4CAF50;
+        }
+
+        .requirement.invalid::before {
+            content: '×';
+            color: #f44336;
+        }
+    </style>
 </head>
 
 <body>
-  <form action="#" class="forget-password" id="passwdForm">
-    <h1 class="title">Crie sua nova senha</h1>
-    <div class="container">
-      <label for="message">Nova senha</label>
-      <div class="input-field">
-        <input type="password" id="email" placeholder="Digite a nova senha" required />
-      </div>
-      <label for="message">Repetir senha</label>
-      <div class="input-field">
-        <input type="password" id="email" placeholder="Repetir a nova senha" required />
-      </div>
+    <form action="#" class="forget-password" id="passwdForm">
+      <section>
+        <h1 class="title">Crie sua nova senha</h1>
+        <div class="container">
+            <label for="senha">Nova senha</label>
+            <div class="input-field">
+                <input type="password" id="senha" placeholder="Digite a nova senha" required />
+            </div>
+            <label for="senhaRepetida">Repetir senha</label>
+            <div class="input-field">
+                <input type="password" id="senhaRepetida" placeholder="Repetir a nova senha" required />
+            </div>
+            
+            <div class="requirements">
+                <div class="requirement" id="length">Mínimo de 8 caracteres</div>
+                <div class="requirement" id="uppercase">Pelo menos uma letra maiúscula</div>
+                <div class="requirement" id="lowercase">Pelo menos uma letra minúscula</div>
+                <div class="requirement" id="number">Pelo menos um número</div>
+                <div class="requirement" id="special">Pelo menos um caractere especial</div>
+                <div class="requirement" id="match">As senhas devem coincidir</div>
+            </div>
+        </div>
+        <input type="submit" value="Enviar" class="btn solid" id="reset" disabled />
+      </section>
+    </form>
 
-    </div>
-    <input type="submit" value="Enviar" class="btn solid" id="reset" />
-  </form>
+    <script type="module">
+        import { resetSenhaUsuario } from '/api.js';
+
+        const form = document.getElementById('passwdForm');
+        const senhaInput = document.getElementById('senha');
+        const senhaRepetidaInput = document.getElementById('senhaRepetida');
+        const submitButton = document.getElementById('reset');
+
+        const requirements = {
+            length: str => str.length >= 8,
+            uppercase: str => /[A-Z]/.test(str),
+            lowercase: str => /[a-z]/.test(str),
+            number: str => /[0-9]/.test(str),
+            special: str => /[!@#$%^&*(),.?":{}|<>]/.test(str),
+            match: () => senhaInput.value === senhaRepetidaInput.value
+        };
+
+        function validatePassword() {
+            const senha = senhaInput.value;
+            let isValid = true;
+
+            // Verifica cada requisito
+            Object.keys(requirements).forEach(req => {
+                const element = document.getElementById(req);
+                const isReqValid = requirements[req](senha);
+                
+                if (req === 'match') {
+                    element.classList.toggle('valid', isReqValid);
+                    element.classList.toggle('invalid', !isReqValid);
+                } else {
+                    element.classList.toggle('valid', isReqValid);
+                    element.classList.toggle('invalid', senha.length > 0 && !isReqValid);
+                }
+                
+                isValid = isValid && isReqValid;
+            });
+
+            // Habilita/desabilita o botão de envio
+            submitButton.disabled = !isValid;
+        }
+
+        senhaInput.addEventListener('input', validatePassword);
+        senhaRepetidaInput.addEventListener('input', validatePassword);
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const novaSenha = senhaInput.value;
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+
+            if (!token) {
+                alert('Token não encontrado na URL!');
+                return;
+            }
+
+            const result = await resetSenhaUsuario({ token, novaSenha });
+
+            if (result.success) {
+                alert('Senha atualizada com sucesso. Faça seu login.');
+                window.location.href = 'index.html';
+            } else {
+                alert('Erro ao redefinir sua senha. Tente novamente');
+            }
+        });
+    </script>
 </body>
-
 </html>

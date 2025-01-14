@@ -49,7 +49,7 @@ export const buscarCursosConcluidos = async (req, res) => {
     const { email } = decoded; // Desestrutura o email do payload do token
     // 3. Busca o nome do usuário na tabela usuarios
     const [userResult] = await db.query(
-      'SELECT nome_usuario FROM usuarios WHERE email = ?',
+      'SELECT nome_usuario FROM cadastro WHERE email = ?',
       [email]
     );
     if (userResult.length === 0) {
@@ -60,23 +60,23 @@ export const buscarCursosConcluidos = async (req, res) => {
     // 4. Busca os cursos onde professor = nome_usuario
     const [cursosResult] = await db.query(
       `SELECT 
-        c.nome_curso, 
+        c.nome, 
         c.data_inicio, 
         c.data_fim
       FROM 
-        cursos c
+        curso c
       JOIN 
         cursos_concluidos cc 
-        ON c.nome_curso = cc.nome_curso
+        ON c.nome = cc.nome_curso
       JOIN 
-        professor p 
-        ON cc.professor = p.nome
+        docente d
+        ON cc.docente = d.nome
       WHERE 
-        p.nome = ?
+        d.nome = '?'
         AND (
-            (c.data_inicio = ? AND c.data_fim = ?)
-            OR c.nome_curso LIKE '%data_inicio = ?%'
-        )`
+            (c.data_inicio = '?' AND c.data_fim = '?')
+            OR c.nome LIKE c.data_inicio = '%2023%'
+        );`
     [nome_usuario, data_inicio, data_fim]);
   if (cursosResult.length === 0) {
     return res.status(404).json({ message: 'Nenhum curso encontrado para este professor.' });
@@ -89,28 +89,31 @@ res.status(200).json({ cursos: cursosResult });
   }
 };
 
-/*------ Buscar nome docente ----*/
-export const getNome = async (req, res) => {
+/*------ BUSCAR SOLICITAÇÕES --------- */
+
+export const TodasSolicitacoes = async (req, res) => {
   try {
-    // 1. Extrai o token do cabeçalho Authorization
     const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ message: 'Token não fornecido.' });
+    //1.
+    if(!token) {
+      return res.status(401).json({message: 'Token não fornecido'})
     }
-    // 2. Verifica e decodifica o token
+    //2.
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { email } = decoded; // Desestrutura o email do payload do token
-    // 3. Busca o nome do usuário na tabela docente
-    const [userResult] = await db.query(
-      'SELECT nome FROM docente where email = ?'[email]);
-    if(userResult.length === 0) {
-      return res.status(404).json({message:'Usuário não encontrado'});
+    const {email} = decoded;
+    //3.
+    const result = await db.query('SELECT* FROM solicitacao_kit WHERE email = ?', [email]);
+    if(result.length === 0) {
+      res.status(404).json({message : 'usuário não possui solicitações'});
     }
-    res.status(200).json({usur: userResult})
+    res.status(200).json({message : "Deu bom", result});
+
+    console.log({result})
   } catch(error) {
-    console.error("Erro ao buscar nome", error);
-    res.status(500).json({message: "Erro ao buscar nome do docente"})
+    res.status(500).json({error});
+    console.log(error);
   }
 };
+
 
 

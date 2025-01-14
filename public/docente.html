@@ -47,11 +47,12 @@
                 <h2 class="saudacao">Olá, </h2>
                 <div class="tabs">
                     <div class="tab cursos active" data-tab="cursos">Cursos</div>
-                    <div class="tab status" data-tab="status" id="tabStatus">Status</div>
+                    <div class="tab status" data-tab="status" id="tabStatus">Status</div>  
                 </div>
             </div>
             <div><img src="./assets/logo_gestao_s.svg" alt="logo_gestao_s" class="logo"></div>
         </div>
+
         <section class="content active" id="cursos">
             <div class="nome-com-linha">
                 <span class="nome">Cursos Vigentes</span>
@@ -60,30 +61,7 @@
                 <div class="loading">
                     <div class="loader"></div>
                 </div>
-                <!-- <div class="course">
-                    <div class="accordion-header">
-                        <span>Técnico em Informática para Internet</span>
-                        <span class="arrow">&#9650;</span>
-                    </div>
-                    <div class="accordion-content">
-                        <p>Cód: 000001</p>
-                        <p>Turno - Manhã</p>
-                        <p>Período: 01/01/2025 à 01/07/2026</p>
-                        <button class="open-modal-btn" onclick="openModal()">Abrir Solicitação</button>
-                    </div>
-                </div>
-                <div class="course">
-                    <div class="accordion-header">
-                        <span>Execel Avançado</span>
-                        <span class="arrow">&#9650;</span>
-                    </div>
-                    <div class="accordion-content">
-                        <p>Cód: 000001</p>
-                        <p>Turno - Manhã</p>
-                        <p>Período: 01/01/2025 à 01/07/2026</p>
-                        <button>Abrir Solicitação</button>
-                    </div>
-                </div>-->
+                r
             </div>
             <div class="nome-com-linha">
                 <span class="nome title">Cursos Concluídos</span>
@@ -223,7 +201,7 @@
     <!-- MODAL SOLICITAÇÕES -->
     <!-- MODAL SOLICITAÇÕES -->
     <div class="modal-s">
-        <div class="modal" id="kitModal">""
+        <div class="modal" id="kitModal" onclick="openModal()">""
             <div class="modal-header">
                 <img src="./assets/logo-2.svg" class="logo-2" alt="logo">
                 <h2>Solicitação dos Kits</h2>
@@ -416,9 +394,11 @@
         const okBtn = document.getElementById('okBtn');
         const tabs = document.querySelectorAll('.tab');
         const contents = document.querySelectorAll('.content');
-        // Função para abrir o modal principal
+        
+        // Função para abrir o modal principal       
+        
         function openModal() {
-            const kitModal = document.getElementById('kitModal');
+            const kitModal = document.querySelectorAll('#kitModal');
             if (kitModal) {
                 kitModal.style.display = 'block';
             }
