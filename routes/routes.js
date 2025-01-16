@@ -26,6 +26,8 @@ router.get('/cursos-vigentes', authMiddleware,controllerDocente.buscarCursosVige
 // router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosConcluidos);
 router.get('/solicitacao-kit', authMiddleware,controllerDocente.TodasSolicitacoes);
 
-// module.exports = router;
+//=-=-==-=-=-=-==-== GESTÃO -=-=-=--===-=-=-======-=-=-=--=
+
+
 
 export default router; // Exporta o roteador como padrão

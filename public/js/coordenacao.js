@@ -1,15 +1,8 @@
-import { getCursosVigentes, getCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
+import { uploadProfileImage, uploadSignature, getCursosVigentes, getCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
 
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
 };
-
-
-//Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
-document.addEventListener('DOMContentLoaded', () => {
-    carregarCursosVigentes(),
-    carregarCursosConcluidos()
-});
 
 
 async function carregarCursosVigentes() {
@@ -68,7 +61,7 @@ async function carregarCursosConcluidos() {
         divInterna.classList.add('course-item');
         divInterna.innerHTML = `
         <h2 class="course-title">${curso.nome_curso}</h2>
-        <p class="course-date"><b>Concluido em ${curso.data_fim.substring(0,10)}</b></p>
+        <p class="course-date"><b>Concluido em ${curso.data_fim.substring(0, 10)}</b></p>
         `;
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
@@ -88,7 +81,7 @@ if (!nome || !nome.nome) {
     for (let i = 0; i < saudacoes.length; i++) {
         saudacoes[i].innerText = `Favor faça login`; // Modifica o texto de cada elemento
     }; //Exibir uma mensagem informando que nao há transações
-    
+
 }
 // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
 const saudacao1 = document.getElementsByClassName('saudacao')[0];
@@ -106,7 +99,89 @@ document.querySelector('#btnLogout').addEventListener('click', async (event) => 
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Função assíncrona para preview de imagem
+    async function previewImageAsync(input, previewContainer, width, height) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewContainer.innerHTML = `<img src="${e.target.result}" width="${width}" height="${height}" />`;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    // Seletores dos elementos
+    const newProfileImage = document.getElementById('newProfileImage');
+    const saveProfileImage = document.getElementById('saveProfileImage');
+    const profilePreview = document.querySelector('.fot');
+    const signatureImage = document.getElementById('signatureImage');
+    const saveSignatureImage = document.getElementById('saveSignatureImage');
+    const signaturePreview = document.getElementById('signaturePreview');
+    // Função assíncrona para alterar a imagem de perfil
+    // Armazena temporariamente o arquivo selecionado
+    let selectedProfileImage = null;
 
+    newProfileImage.addEventListener('change', async () => {
+        // Exibe a pré-visualização da imagem
+        await previewImageAsync(newProfileImage, profilePreview, 50, 50);
+        selectedProfileImage = newProfileImage.files[0]; // Armazena o arquivo selecionado
+    });
 
+    saveProfileImage.addEventListener('click', async () => {
+        if (selectedProfileImage) {
+            try {
+                const response = await uploadProfileImage(selectedProfileImage);
 
-    
+                // Verificar se a resposta contém o caminho
+                if (response?.path) {
+                    console.log('Imagem de perfil salva com sucesso:', response.path);
+                    const profileImageElement = document.querySelector('.profile-image');
+
+                    if (profileImageElement) {
+                        profileImageElement.src = response.path; // Atualiza a imagem no frontend
+                    } else {
+                        console.error('Elemento de imagem de perfil não encontrado.');
+                    }
+                } else {
+                    console.error('Caminho da imagem não encontrado na resposta.');
+                }
+            } catch (error) {
+                console.error('Erro ao enviar imagem de perfil:', error);
+                alert('Erro ao salvar imagem de perfil.');
+            }
+        } else {
+            alert('Nenhuma imagem foi selecionada.');
+        }
+    });
+
+    // Função assíncrona para envio único da assinatura
+    signatureImage.addEventListener('change', async () => {
+        await previewImageAsync(signatureImage, signaturePreview, 100, 50);
+        saveSignatureImage.disabled = false;
+    });
+    // Função assíncrona para salvar assinatura
+    saveSignatureImage.addEventListener('click', async () => {
+        const file = signatureImage.files[0];
+        if (file) {
+            try {
+                const response = await uploadSignature(file);
+                if (response?.path) {
+                    alert('Assinatura salva com sucesso!');
+                    signatureImage.disabled = true;
+                    saveSignatureImage.disabled = true;
+                } else {
+                    alert('Erro ao salvar assinatura.');
+                }
+            } catch (error) {
+                console.error('Erro ao salvar assinatura:', error);
+                alert('Erro ao salvar assinatura.');
+            }
+        }
+    });
+});
+//Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
+document.addEventListener('DOMContentLoaded', () => {
+    carregarCursosVigentes(),
+        carregarCursosConcluidos(),
+        carregarNome()
+});

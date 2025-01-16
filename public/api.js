@@ -269,14 +269,14 @@ export async function getNome() {
 }
 
 // Função para enviar imagem de perfil
-export async function uploadProfileImage(file) {
+export async function uploadProfileImage(selectedProfileImage) {
     const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
     if (!token) {
         console.error('Token não encontrado.');
         return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
     }
     const formData = new FormData();
-    formData.append('profileImage', file); // O campo 'profileImage' precisa ser o mesmo usado no backend
+    formData.append('profileImage', selectedProfileImage); // O campo 'profileImage' precisa ser o mesmo usado no backend
 
     try {
         const response = await fetch(`${API_URL}/authen/foto-perfil`, {

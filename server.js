@@ -19,6 +19,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Configuração da sessão (já incluída)
 const secret = process.env.SESSION_SECRET;
 app.use(

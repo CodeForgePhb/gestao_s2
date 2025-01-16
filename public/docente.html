@@ -29,7 +29,7 @@
         </div>
         <div class="profile">
             <div class="avatar">
-                <img src="./img/profile.png" alt="Avatar">
+                <img src="./img/profile.png" alt="Avatar" class="profile-image">
             </div>
             <div class="info">
                 <span class="name saudacao">Name</span>
@@ -47,7 +47,7 @@
                 <h2 class="saudacao">Olá, </h2>
                 <div class="tabs">
                     <div class="tab cursos active" data-tab="cursos">Cursos</div>
-                    <div class="tab status" data-tab="status" id="tabStatus">Status</div>  
+                    <div class="tab status" data-tab="status" id="tabStatus">Status</div>
                 </div>
             </div>
             <div><img src="./assets/logo_gestao_s.svg" alt="logo_gestao_s" class="logo"></div>
@@ -61,7 +61,6 @@
                 <div class="loading">
                     <div class="loader"></div>
                 </div>
-                r
             </div>
             <div class="nome-com-linha">
                 <span class="nome title">Cursos Concluídos</span>
@@ -394,9 +393,9 @@
         const okBtn = document.getElementById('okBtn');
         const tabs = document.querySelectorAll('.tab');
         const contents = document.querySelectorAll('.content');
-        
+
         // Função para abrir o modal principal       
-        
+
         function openModal() {
             const kitModal = document.querySelectorAll('#kitModal');
             if (kitModal) {

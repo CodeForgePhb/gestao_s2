@@ -75,7 +75,7 @@ export const buscarCursosConcluidos = async (req, res) => {
         d.nome = '?'
         AND (
             (c.data_inicio = '?' AND c.data_fim = '?')
-            OR c.nome LIKE c.data_inicio = '%2023%'
+            OR c.nome LIKE c.data_inicio = '%?%'
         );`
     [nome_usuario, data_inicio, data_fim]);
   if (cursosResult.length === 0) {

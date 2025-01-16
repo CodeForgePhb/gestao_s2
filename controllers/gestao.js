@@ -1,121 +1,161 @@
+
 // const express = require('express');
 // const db = require('../db'); // Importar a conexão com o banco
 // const router = express.Router();
 
-// //------------------------ROTAS GET
-
-// // Rota para buscar cursos
-// router.get('/cursos', async (req, res) => {
-//     try {
-//         const [rows] = await db.query('SELECT * FROM curso'); // Consulta no banco
-//         res.json(rows);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Erro ao buscar dados dos cursos.' });
-//     }
-// });
-// // Rota para buscar docentes
-// router.get('/docentes', async (req, res) => {
-//     try {
-//         const [rows] = await db.query('SELECT * FROM professor'); // Consulta no banco
-//         res.json(rows);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Erro ao buscar dados dos docentes.' });
-//     }
-// });
-
-// // Rota para buscar kit-didatico
-// router.get('/kit-didatico', async (req, res) => {
-//     try {
-//         const [rows] = await db.query('SELECT * FROM kit_didatico'); // Consulta no banco
-//         res.json(rows);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Erro ao buscar dados dos kit didaticos.' });
-//     }
-// });
-
-// // rota para buscar kit-produtos
-// router.get('/kit-produtos', async (req, res) => {
-//     try {
-//         const [rows] = await db.query(
-//             'SELECT* FROM kit_produtos'
-//         )
-//         res.json(rows);
-//     } catch(error) {
-//         res.status(500).json(
-//             {error: "Erro ao buscar os dados dos produtos"}
-//         );
-//     }
-// })
-
-// //-------------------------------
-
-// router.post('/cadastro_usuarios',
-//     async (req, res) => {
-//         const { setor } = req.body;
-//         db.query(
-//             'SELECT * FROM usuarios WHERE setor = ?', [setor],
-//             (err, results) => {
-//                 if(err) {
-//                     console.log('Erro: ', err);
-//                     res.status(500).send('Erro na rota cadastro');
-//                 }
-//                 res.json(results);
-//             }
-//         )
-//     }
-// )
-
-// //-----------------------------
+// import express from 'express';
+// import db from '../db'; // Importa a conexão com o banco
+// import router from express.Router();
 
 
+import db from '../config/db.js'; // Importa a conexão com o banco
+import jwt from 'jsonwebtoken';
 
-// // ROTAS POST
 
-// // Rota para inserir cursos
-// router.post('/cursos', async (req, res) => {
-//     const { nome_curso, matriculas_previstas, turno, periodo, ch_total, modalidade, financimaento, localidade, turma } = req.body;
-//     try {
-//         VALUES
-//         const [result] = await db.query(`INSERT INTO curso (nome_curso, matriculas_previstas, turno, 
-//         periodo, ch_total, modalidade, financimaento, localidade, turma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [nome_curso,
-//             matriculas_previstas, turno, periodo, ch_total, modalidade, financimaento, localidade, turma]);
-//         res.status(201).json({
-//             id: result.insertId, nome_curso, matriculas_previstas, turno,
-//             periodo, ch_total, modalidade, financimaento, localidade, turma
-//         });
-//     } catch (error) {
-//         res.status(500).json({ error: 'Erro ao inserir dados do curso.' });
-//     }
-// });
+// Função para buscar cursos
+export const getCursos = async () => {
+    try {
+        const [rows] = await db.query('SELECT * FROM curso');  // Consulta no banco
+        return rows;
+    } catch (error) {
+        throw new Error('Erro ao buscar dados dos cursos.');
+    }
+};
 
-// // Rota para inserir docentes
-// router.post('/docentes', async (req, res) => {
-//     const { matricula, nome, email, telefone, curso_matriculado } = req.body;
-//     try {
-//         VALUES
-//         const [result] = await db.query(`INSERT INTO professor (matricula, nome, email, telefone, curso_matriculado) 
-//             VALUES (?, ?, ?, ?, ?)`, [matricula, nome, email, telefone, curso_matriculado]);
-//         res.status(201).json({
-//             id: result.insertId, matricula, nome, email, telefone, curso_matriculado
-//         });
-//     } catch (error) {
-//         res.status(500).json({ error: 'Erro ao inserir dados do docente.' });
-//     }
-// });
+// Função para buscar docentes
+export const getDocentes = async () => {
+    try {
+        const [rows] = await db.query('SELECT * FROM professor');  // Consulta no banco
+        return rows;
+    } catch (error) {
+        throw new Error('Erro ao buscar dados dos docentes.');
+    }
+};
 
-// // rota para adicionar kit-didatico
+// Função para buscar kit-didatico
+export const getKitDidatico = async () => {
+    try {
+        const [rows] = await db.query('SELECT * FROM kit_didatico');  // Consulta no banco
+        return rows;
+    } catch (error) {
+        throw new Error('Erro ao buscar dados dos kit didáticos.');
+    }
+};
 
-// // router.post('/kit-didatico', 
-// //     async (req, res) => {
-// //         const {quantidade, curso_vinculado, data_cadastro, tipo, fornecedor} = req.body;
+// Função para buscar kit-produtos
+export const getKitProdutos = async () => {
+    try {
+        const [rows] = await db.query('SELECT * FROM kit_produtos');
+        return rows;
+    } catch (error) {
+        throw new Error('Erro ao buscar os dados dos produtos.');
+    }
+};
 
-// //         try {
-// //             VALUES
+// Função para cadastro de usuários
+export const cadastroUsuarios = async (setor) => {
+    try {
+        const [results] = await db.query('SELECT * FROM usuarios WHERE setor = ?', [setor]);
+        return results;
+    } catch (error) {
+        throw new Error('Erro na rota cadastro de usuários.');
+    }
+};
 
-// //         }
-// //     }
-// //
+// Função para inserir cursos
+export const insertCurso = async (cursoData) => {
+    const { nome_curso, matriculas_previstas, turno, periodo, ch_total, modalidade, financimaento, localidade, turma } = cursoData;
+    try {
+        const [result] = await db.query(
+            `INSERT INTO curso (nome_curso, matriculas_previstas, turno, periodo, ch_total, modalidade, financimaento, localidade, turma) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [nome_curso, matriculas_previstas, turno, periodo, ch_total, modalidade, financimaento, localidade, turma]
+        );
+        return {
+            id: result.insertId,
+            nome_curso,
+            matriculas_previstas,
+            turno,
+            periodo,
+            ch_total,
+            modalidade,
+            financimaento,
+            localidade,
+            turma
+        };
+    } catch (error) {
+        throw new Error('Erro ao inserir dados do curso.');
+    }
+};
 
-// module.exports = {
-//    router
+// Função para inserir docentes
+export const insertDocente = async (docenteData) => {
+    const { matricula, nome, email, telefone, curso_matriculado } = docenteData;
+    try {
+        const [result] = await db.query(
+            `INSERT INTO professor (matricula, nome, email, telefone, curso_matriculado) 
+             VALUES (?, ?, ?, ?, ?)`,
+            [matricula, nome, email, telefone, curso_matriculado]
+        );
+        return {
+            id: result.insertId,
+            matricula,
+            nome,
+            email,
+            telefone,
+            curso_matriculado
+        };
+    } catch (error) {
+        throw new Error('Erro ao inserir dados do docente.');
+    }
+};
+
+// Função para inserir kit-didatico
+// Adicione aqui a lógica para a inserção de kit-didatico, se necessário
+
+// export const verCursosConcluidos = (req, res)=>{
+//     const { data1, data2 } = req.body;
+//     console.log('Dados recebidos:', { data1, data2 });
+//   // Query SQL com um placeholder para evitar SQL Injection
+// const query = 
+// `SELECT 
+//     d.id,
+//     d.dado,
+//     d.dado2,
+//     da.data_aniversario
+// FROM 
+//     dados d
+// JOIN 
+//     data_aniversario da
+// ON 
+//     d.id = da.id_dado
+// WHERE 
+//     da.data_aniversario BETWEEN ? AND ?;`
+
+//     // Executar a query
+//     db.execute(query, [data1, data2], (err, results) => {
+//       if (err) {
+//         res.status(500).send('Erro ao buscar dados');
+//         console.error(err);
+        
+//       } else {
+//         res.json(results);
+//       }
+//     });
 // }
+
+export const buscarCursosConcluidos = async (req, res) => {
+    try {
+        await db.execute('CALL AtualizarCursosConcluidos()'); // oque é isso elaine?
+        const [resultado] = await db.execute(`SELECT *
+        FROM cursos_concluidos
+        WHERE data_inicio >= '2024-01-31'
+        AND data_fim <= '2025-01-01';`);
+        return res.json(resultado);
+    } catch (error) {
+        console.error('Erro ao processar a requisição.', error);
+        return res.status(500).send('Erro ao processar a requisição.');
+    }
+};
+
+export {buscarCursosConcluidos}
