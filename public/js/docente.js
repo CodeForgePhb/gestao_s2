@@ -4,7 +4,8 @@ window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
 };
 
-document.getElementById('buscar-cursos-concluidos').addEventListener('click', async ()=> {
+document.getElementById('buscar-cursos-concluidos').addEventListener('submit', async (event)=> {
+    event.preventDefault();
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
     const token = localStorage.getItem('token');
     //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
@@ -12,13 +13,13 @@ document.getElementById('buscar-cursos-concluidos').addEventListener('click', as
     const date1 = document.getElementById('date1').value;
     const date2 = document.getElementById('date2').value;
 
-    const cursosConcluidos = await buscarCursosConcluidos(date1, date2);
-    console.log('Cursos concluidos:', cursosConcluidos); //Adiciona um log para verificar os dados carregados.
+    const curso = await buscarCursosConcluidos(date1, date2);
+    console.log('Cursos concluidos:', curso); //Adiciona um log para verificar os dados carregados.
     //Obtém o corpo da tabela onde as transações serão inseridas.
-    const div = document.getElementById('content-wrapper');
+    const div = document.getElementById('cursos-concluidos');
     div.innerHTML = ''; //Limpa o conteúdo da tabela antes de adicionar as novas transações
     //Verificar se a lista de trasações está vazia.
-    if (!cursosConcluidos.nome_curso || cursosConcluidos.nome_cursos.length === 0) {
+    if (!curso.cursos || curso.cursos.length === 0) {
         console.log('Nenhum curso encontrado.') //Loga se não houver transações
         const divInterna = document.createElement('div'); // Cria uma nova div.
         divInterna.innerHTML = `<span>Nenhum curso encontrado.</span>`; //Exibir uma mensagem informando que nao há transações
@@ -27,13 +28,13 @@ document.getElementById('buscar-cursos-concluidos').addEventListener('click', as
         return; //Sai da função, já que nao há transaçoes a serem exibidas.
     }
     // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
-    cursosConcluidos.forEach(curso => {
+    curso.cursos.forEach(curso => {
         const divInterna = document.createElement('div'); // Criar uma nova linha na tabela.
         divInterna.classList.add('course-item');
         divInterna.innerHTML = `
         <h2 class="course-title">${curso.nome_curso}</h2>
-        <span>${curso.docente}</span>
-        <p class="course-date">Concluido em ${curso.data_fim}</p>
+        <span>Professor: ${curso.docente}</span>
+        <p class="course-date">Concluido em ${curso.data_fim.substring(0,10)}</p>
         `;
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
@@ -102,7 +103,10 @@ async function carregarNome() {
     saudacao1.innerText = `${nome.nome}`; // Limpa o conteúdo de um unico elemento (se fosse id)
     const saudacao2 = document.getElementsByClassName('saudacao')[1];
     saudacao2.innerText = `Olá, ${nome.nome}`; // Limpa o conteúdo de um unico elemento (se fosse id)
+    
 }
+
+
 document.querySelector('#btnLogout').addEventListener('click', async (event) => {
     try {
         await logoutUser(); // Chama a função de logout

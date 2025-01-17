@@ -18,7 +18,7 @@ router.get('/docentes', authMiddleware,controllerCoordenacao.buscarDocentes);
 router.get('/cursos', authMiddleware,controllerCoordenacao.buscarCursos);
 router.get('/all-cursos-vigentes', authMiddleware,controllerCoordenacao.buscarCursosVigentes);
 router.delete('/docente/:id', authMiddleware,controllerCoordenacao.delDocente);
-router.get('/cursos-concluidos', authMiddleware,controllerCoordenacao.buscarCursosConcluidos);
+// router.get('/cursos-concluidos', authMiddleware,controllerCoordenacao.buscarCursosConcluidos);
 
 router.delete('/curso-vigente/:id_curso', authMiddleware,controllerCoordenacao.delCursoVigente);
 router.post('/adicionar-kit', authMiddleware,controllerCoordenacao.Adicionar_kit);

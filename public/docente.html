@@ -66,12 +66,12 @@
             <div class="nome-com-linha">
                 <span class="nome title">Cursos Concluídos</span>
             </div>
-            <div class="search-filters">
+            <form class="search-filters"  id="buscar-cursos-concluidos">
                 <input type="date" placeholder="dd/mm/aaaa" id="date1">
                 <input type="date" placeholder="dd/mm/aaaa" id="date2">
                 <input type="text" placeholder="Busque por cursos concluídos...">
-                <button id="buscar-cursos-concluidos">Buscar</button>
-            </div>
+                <button>Buscar</button>
+            </form>
             <div id="cursos-concluidos" class="content-wrapper">
                 <div class="loading">
                     <div class="loader"></div>
@@ -459,7 +459,7 @@
         });
         //FIM DO SCRIPT PARA INTERAÇÕES DA PÁGINA DOCENTE.HTML ----------------------------------------------------
     </script>
-    <script type="modules" src="./js/docente.js"></script>
+    <script type="module" src="./js/docente.js"></script>
     
 </body>
 

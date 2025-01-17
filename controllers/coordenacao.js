@@ -85,21 +85,21 @@ export const buscarCursosVigentes = async (req, res) => {
         const [resultado] = await db.execute('SELECT * FROM cursos_vigentes');
         return res.json(resultado);
     } catch (error) {
-        console.error('Erro ao processar a requisição.', error);
-        return res.status(500).send('Erro ao processar a requisição.');
+        console.error('Erro ao processar a requisição.o', error);
+        return res.status(500).send('Erro ao processar a requisiçãoo.');
     }
 };
 
-export const buscarCursosConcluidos = async (req, res) => {
-    try {
-        await db.execute('CALL AtualizarCursosConcluidos()'); // oque é isso elaine?
-        const [resultado] = await db.execute('SELECT * FROM cursos_concluidos');
-        return res.json(resultado);
-    } catch (error) {
-        console.error('Erro ao processar a requisição.', error);
-        return res.status(500).send('Erro ao processar a requisição.');
-    }
-};
+// export const buscarCursosConcluidos = async (req, res) => {
+//     try {
+//         await db.execute('CALL AtualizarCursosConcluidos()'); // oque é isso elaine?
+//         const [resultado] = await db.execute('SELECT * FROM cursos_concluidos');
+//         return res.json(resultado);
+//     } catch (error) {
+//         console.error('Erro ao processar a requisição.', error);
+//         return res.status(500).send('Erro ao processar a requisição.');
+//     }
+// };
 
 
 

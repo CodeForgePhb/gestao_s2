@@ -144,18 +144,3 @@ export const insertDocente = async (docenteData) => {
 //     });
 // }
 
-export const buscarCursosConcluidos = async (req, res) => {
-    try {
-        await db.execute('CALL AtualizarCursosConcluidos()'); // oque é isso elaine?
-        const [resultado] = await db.execute(`SELECT *
-        FROM cursos_concluidos
-        WHERE data_inicio >= '2024-01-31'
-        AND data_fim <= '2025-01-01';`);
-        return res.json(resultado);
-    } catch (error) {
-        console.error('Erro ao processar a requisição.', error);
-        return res.status(500).send('Erro ao processar a requisição.');
-    }
-};
-
-export {buscarCursosConcluidos}

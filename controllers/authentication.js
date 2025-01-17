@@ -164,6 +164,7 @@ export const buscarNome = async (req, res) => {
       return res.status(404).json({ error: 'Setor não encontrado no token' });
     }
     // Retornar o nome como JSON
+    console.log(nome)
     return res.status(200).json({ nome });
   } catch (err) {
     console.error('Erro ao buscar nome do usuário:', err);

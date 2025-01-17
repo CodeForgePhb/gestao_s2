@@ -226,6 +226,7 @@ export async function getCursosVigentes() {
 
 export async function buscarCursosConcluidos(data1, data2) { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONANDO
     const token = localStorage.getItem('token');
+    console.log('buscando datas', {data1, data2})
     // Verificar se o token existe antes de fazer a requisição
     if (!token) {
         console.error('Token não encontrado.');
@@ -235,9 +236,10 @@ export async function buscarCursosConcluidos(data1, data2) { //FALTA EDITAR, AIN
         const response = await fetch(`${API_URL}/routes/buscar-por-data`, {
         method: 'POST',
         headers: {
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ data1, data2})
+        body: JSON.stringify({ data_inicio:data1, data_fim:data2})
         });
 
         if (!response.ok) {
@@ -246,7 +248,8 @@ export async function buscarCursosConcluidos(data1, data2) { //FALTA EDITAR, AIN
 
         return await response.json();
     } catch (error) {
-        resultDiv.innerHTML = `Erro: ${error.message}`;
+        console.error('Erro ao buscar cursos:', error);
+        return { cursos: [] }; // Retorna um array vazio em caso de erro
     }
 };
 
