@@ -202,6 +202,8 @@ export async function buscarSetor(token) {
         return { success: false, message: 'Erro ao conectar ao servidor.' };
     }
 }
+
+
 export async function getCursosVigentes() {
     const token = localStorage.getItem('token');
     try {
@@ -222,25 +224,31 @@ export async function getCursosVigentes() {
 }
 
 
-export async function getCursosConcluidos() { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONANDO
+export async function buscarCursosConcluidos(data1, data2) { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONANDO
     const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
     try {
-        const response = await fetch(`${API_URL}/routes/cursos-concluidos`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
+        const response = await fetch(`${API_URL}/routes/buscar-por-data`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data1, data2})
         });
+
         if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.statusText} - ${errorDetails}`);
+        throw new Error('Erro na resposta do servidor');
         }
+
         return await response.json();
     } catch (error) {
-        console.error('Erro ao buscar cursos:', error);
-        return { cursos: [] }; // Retorna um array vazio em caso de erroa
+        resultDiv.innerHTML = `Erro: ${error.message}`;
     }
-}
+};
 
 
 
@@ -269,14 +277,48 @@ export async function getNome() {
 }
 
 // Função para enviar imagem de perfil
+// export async function uploadProfileImage(selectedProfileImage) {
+//     const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
+//     if (!token) {
+//         console.error('Token não encontrado.');
+//         return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+//     }
+//     const formData = new FormData();
+//     formData.append('profileImage', selectedProfileImage); // O campo 'profileImage' precisa ser o mesmo usado no backend
+
+//     try {
+//         const response = await fetch(`${API_URL}/authen/foto-perfil`, {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${token}`,
+//             },
+//             body: formData, // Envia o arquivo como FormData
+//         });
+
+//         const data = await response.json();
+        
+//         // Log da resposta para verificar o que está sendo retornado
+//         console.log('Dados da resposta:', data);
+
+//         if (data.path) {
+//             return data; // Retorna os dados contendo o path da imagem
+//         } else {
+//             throw new Error('Caminho da imagem não encontrado');
+//         }
+//     } catch (error) {
+//         console.error('Erro ao enviar imagem de perfil:', error);
+//         throw error; // Re-throw para ser capturado no bloco catch do frontend
+//     }
+// }
+
 export async function uploadProfileImage(selectedProfileImage) {
-    const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
+    const token = localStorage.getItem('token');
     if (!token) {
-        console.error('Token não encontrado.');
-        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+        throw new Error('Token não encontrado');
     }
+
     const formData = new FormData();
-    formData.append('profileImage', selectedProfileImage); // O campo 'profileImage' precisa ser o mesmo usado no backend
+    formData.append('profileImage', selectedProfileImage);
 
     try {
         const response = await fetch(`${API_URL}/authen/foto-perfil`, {
@@ -284,25 +326,27 @@ export async function uploadProfileImage(selectedProfileImage) {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
-            body: formData, // Envia o arquivo como FormData
+            body: formData,
         });
 
-        const data = await response.json();
-        
-        // Log da resposta para verificar o que está sendo retornado
-        console.log('Dados da resposta:', data);
-
-        if (data.path) {
-            return data; // Retorna os dados contendo o path da imagem
-        } else {
-            throw new Error('Caminho da imagem não encontrado');
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao fazer upload da imagem');
         }
+
+        const data = await response.json();
+        console.log('Resposta do servidor:', data);
+
+        if (!data.path) {
+            throw new Error('Caminho da imagem não retornado pelo servidor');
+        }
+
+        return data;
     } catch (error) {
-        console.error('Erro ao enviar imagem de perfil:', error);
-        throw error; // Re-throw para ser capturado no bloco catch do frontend
+        console.error('Erro no upload:', error);
+        throw error;
     }
 }
-
 
 // Função para enviar assinatura
 export async function uploadSignature(file) {
@@ -332,3 +376,27 @@ export async function uploadSignature(file) {
         console.error('Erro ao salvar assinatura:', error.response?.data?.message || error.message);
     }
 }
+
+export async function All_Kits() {
+    //1. 
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`${API_URL}/routes/todos-kits`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Erro ao buscar kits didáticos:', error);
+        return { kit: [] }; // Retorna um array vazio em caso de erro
+    }
+}
+
+
+
+

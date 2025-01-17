@@ -125,9 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Exibe a pré-visualização da imagem
         await previewImageAsync(newProfileImage, profilePreview, 50, 50);
         selectedProfileImage = newProfileImage.files[0]; // Armazena o arquivo selecionado
+    
+
     });
 
     saveProfileImage.addEventListener('click', async () => {
+        
+
         if (selectedProfileImage) {
             try {
                 const response = await uploadProfileImage(selectedProfileImage);

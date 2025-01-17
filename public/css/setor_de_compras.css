@@ -113,7 +113,6 @@ body {
   flex-grow: 1;
   padding: 20px;
   max-height: 100vh;
-  overflow: scroll;
 }
 
 /* VIGENTES  */
@@ -208,7 +207,8 @@ body {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   background-color: #ffffff;
   border-radius: 8px;
-  height: 90%;
+  height: 85%;
+  overflow-y: hidden;
 }
 
 .content.active {
@@ -219,10 +219,9 @@ body {
 
 .courses {
   /* background-color: #ffffff; */
-  padding: 20px;
+  padding: 10px;
   border-radius: 5px;
   overflow-x: hidden;
-  overflow-y: scroll;
 }
 
 .courses h3 {
@@ -233,7 +232,7 @@ body {
   background-color: #f3f3f3;
   padding: 20px;
   border-radius: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -362,7 +361,6 @@ h3 {
   cursor: pointer;
   text-align: left;
   font-size: 16px;
-  border: 1px solid #ccc;
 }
 
 .accordion-header:hover {

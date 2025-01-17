@@ -48,6 +48,7 @@
                 <div class="tabs">
                     <div class="tab cursos active" data-tab="cursos">Cursos</div>
                     <div class="tab status" data-tab="status" id="tabStatus">Status</div>
+                    <button onclick="openModal()">Abrir solicitação</button>
                 </div>
             </div>
             <div><img src="./assets/logo_gestao_s.svg" alt="logo_gestao_s" class="logo"></div>
@@ -66,10 +67,10 @@
                 <span class="nome title">Cursos Concluídos</span>
             </div>
             <div class="search-filters">
-                <input type="date" placeholder="dd/mm/aaaa">
-                <input type="date" placeholder="dd/mm/aaaa">
+                <input type="date" placeholder="dd/mm/aaaa" id="date1">
+                <input type="date" placeholder="dd/mm/aaaa" id="date2">
                 <input type="text" placeholder="Busque por cursos concluídos...">
-                <button type="submit" id="cursos-concluidos">Buscar</button>
+                <button id="buscar-cursos-concluidos">Buscar</button>
             </div>
             <div id="cursos-concluidos" class="content-wrapper">
                 <div class="loading">
@@ -200,14 +201,16 @@
     <!-- MODAL SOLICITAÇÕES -->
     <!-- MODAL SOLICITAÇÕES -->
     <div class="modal-s">
-        <div class="modal" id="kitModal" onclick="openModal()">""
+        <div class="modal" id="kit-Modal">
             <div class="modal-header">
                 <img src="./assets/logo-2.svg" class="logo-2" alt="logo">
                 <h2>Solicitação dos Kits</h2>
             </div>
             <div class="modal-body">
                 <div class="search-bar">
-                    <input type="text" placeholder="Procurar KIT">
+                    <select id="selecao">
+                        <option>Selecione o kit desejado</option>
+                    </select>
                     <button>Buscar</button>
                 </div>
                 <div class="info">
@@ -320,7 +323,7 @@
                 <h2>PERFIL</h2>
             </div>
             <div class="fot">
-                <img src="./img/default_profile.png" alt="Foto de Perfil" id="profileImage" class="profile-image">
+                <img src="./img/default_profile.png" alt="Foto de Perfil" id="profileImage">
             </div>
             <div class="modal-body">
                 <label for="newProfileImage">Alterar Imagem de Perfil:</label>
@@ -349,6 +352,9 @@
         });
     </script>
     <script>
+
+
+
         // dropdown 
         document.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', () => {
@@ -397,17 +403,11 @@
         // Função para abrir o modal principal       
 
         function openModal() {
-            const kitModal = document.querySelectorAll('#kitModal');
-            if (kitModal) {
-                kitModal.style.display = 'block';
-            }
+            const kitModal = document.getElementById('kit-Modal').style.display = 'block';
         }
         // Fecha o modal principal
         function closeModal() {
-            const kitModal = document.getElementById('kitModal');
-            if (kitModal) {
-                kitModal.style.display = 'none';
-            }
+            const kitModal = document.getElementById('kit-Modal').style.display = 'none';
         }
         // Fecha o modal de confirmação
         cancelBtn.addEventListener('click', () => {
@@ -421,6 +421,7 @@
         sendBtn.addEventListener('click', () => {
             confirmModal.style.display = 'none';
             successModal.style.display = 'flex';
+            closeModal();
         });
         // Função para ativar uma aba específica
         function activateTab(tabName) {
@@ -458,7 +459,8 @@
         });
         //FIM DO SCRIPT PARA INTERAÇÕES DA PÁGINA DOCENTE.HTML ----------------------------------------------------
     </script>
-    <script type="module" src="./js/docente.js"></script>
+    <script type="modules" src="./js/docente.js"></script>
+    
 </body>
 
 </html>

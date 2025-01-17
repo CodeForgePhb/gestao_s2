@@ -42,6 +42,32 @@ export const addDocente = async (req, res) => {
     }
 };
 
+//inserir kit didático
+// 3. Inserir kit didatico
+
+export const Adicionar_kit = async (req, res) => {
+   const { cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo } = req.body;
+    try {
+        const [duplicidade] = await db.query(
+            'SELECT* FROM kit WHERE cod_kit = ? AND nome_kit = ? AND cod_produto = ? AND descricao = ? AND quantidade = ? AND unidade_medida = ? AND saldo = ?', [cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo]
+        );
+        if (duplicidade.length > 0) {
+            return res.status(400).send('Kit já existe');
+        }
+
+        const [resultado] = await db.execute(
+            `INSERT INTO kit (cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo]
+        );
+        return res.status(201).json({'kit adicionado': resultado});
+    } catch (error) {
+        console.error('Erro ao processar a requisição.', error);
+        return res.status(500).send('Erro ao processar a requisição.');
+    }
+}
+
+
 // ------------------------ ROTAS GET ------------------------
 export const buscarCursos = async (req, res) => {
     try {
