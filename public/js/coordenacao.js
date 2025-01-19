@@ -1,10 +1,8 @@
-import { uploadProfileImage, uploadSignature, getCursosVigentes, getCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
-
+import { getFotoPerfil, getCursosVigentes, getCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
+    getFotoPerfil();
 };
-
-
 async function carregarCursosVigentes() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
     const token = localStorage.getItem('token');
@@ -36,7 +34,6 @@ async function carregarCursosVigentes() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
-
 async function carregarCursosConcluidos() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
     const token = localStorage.getItem('token');
@@ -66,7 +63,6 @@ async function carregarCursosConcluidos() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
-
 //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
 const nome = await getNome();
 //Obtém o corpo da tabela onde as transações serão inseridas.
@@ -81,14 +77,13 @@ if (!nome || !nome.nome) {
     for (let i = 0; i < saudacoes.length; i++) {
         saudacoes[i].innerText = `Favor faça login`; // Modifica o texto de cada elemento
     }; //Exibir uma mensagem informando que nao há transações
-
 }
 // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
 const saudacao1 = document.getElementsByClassName('saudacao')[0];
 saudacao1.innerText = `${nome.nome}`; // Limpa o conteúdo de um unico elemento (se fosse id)
 const saudacao2 = document.getElementsByClassName('saudacao')[1];
 saudacao2.innerText = `Olá, ${nome.nome}`; // Limpa o conteúdo de um unico elemento (se fosse id)
-
+//LOGOUT
 document.querySelector('#btnLogout').addEventListener('click', async (event) => {
     try {
         await logoutUser(); // Chama a função de logout
@@ -98,7 +93,7 @@ document.querySelector('#btnLogout').addEventListener('click', async (event) => 
         alert('Houve um erro ao tentar deslogar. Tente novamente.');
     }
 });
-
+//FOTO PERFIL
 document.addEventListener('DOMContentLoaded', () => {
     // Função assíncrona para preview de imagem
     async function previewImageAsync(input, previewContainer, width, height) {
@@ -120,44 +115,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função assíncrona para alterar a imagem de perfil
     // Armazena temporariamente o arquivo selecionado
     let selectedProfileImage = null;
-
     newProfileImage.addEventListener('change', async () => {
         // Exibe a pré-visualização da imagem
         await previewImageAsync(newProfileImage, profilePreview, 50, 50);
         selectedProfileImage = newProfileImage.files[0]; // Armazena o arquivo selecionado
-    
-
     });
-
     saveProfileImage.addEventListener('click', async () => {
-        
-
+        console.log('Botão de salvar imagem clicado');
         if (selectedProfileImage) {
             try {
+                // Adicionar feedback visual
+                saveProfileImage.disabled = true;
+                saveProfileImage.textContent = 'Salvando...';
                 const response = await uploadProfileImage(selectedProfileImage);
-
-                // Verificar se a resposta contém o caminho
-                if (response?.path) {
-                    console.log('Imagem de perfil salva com sucesso:', response.path);
-                    const profileImageElement = document.querySelector('.profile-image');
-
-                    if (profileImageElement) {
-                        profileImageElement.src = response.path; // Atualiza a imagem no frontend
-                    } else {
-                        console.error('Elemento de imagem de perfil não encontrado.');
+                console.log('Resposta completa:', response); // Debug
+                if (response && response.path) {
+                    // Atualizar todas as imagens de perfil na página
+                    const profileImages = document.querySelectorAll('.profile-image');
+                    profileImages.forEach(img => {
+                        img.src = response.path;
+                    });
+                    // Atualizar também a prévia no modal
+                    const previewImage = document.querySelector('.fot img');
+                    if (previewImage) {
+                        previewImage.src = response.path;
                     }
+                    alert('Imagem de perfil atualizada com sucesso!');
                 } else {
-                    console.error('Caminho da imagem não encontrado na resposta.');
+                    throw new Error('Caminho da imagem não encontrado na resposta');
                 }
             } catch (error) {
-                console.error('Erro ao enviar imagem de perfil:', error);
-                alert('Erro ao salvar imagem de perfil.');
+                console.error('Erro detalhado:', error);
+                alert('Erro ao salvar imagem de perfil: ' + error.message);
+            } finally {
+                // Restaurar o botão
+                saveProfileImage.disabled = false;
+                saveProfileImage.textContent = 'Salvar Imagem de Perfil';
             }
         } else {
             alert('Nenhuma imagem foi selecionada.');
         }
     });
-
     // Função assíncrona para envio único da assinatura
     signatureImage.addEventListener('change', async () => {
         await previewImageAsync(signatureImage, signaturePreview, 100, 50);

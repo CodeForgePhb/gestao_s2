@@ -29,7 +29,7 @@
         </div>
         <div class="profile">
             <div class="avatar">
-                <img src="./img/profile.png" alt="Avatar" class="profile-image">
+                <img src="" alt="Avatar" class="profile-image" id="img-perfil">
             </div>
             <div class="info">
                 <span class="name saudacao">Name</span>
@@ -37,7 +37,8 @@
             </div>
             <div class="logout">
                 <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
-                <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;" id="perfil"></i></button>
+                <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;"
+                        id="perfil"></i></button>
             </div>
         </div>
     </div>
@@ -66,7 +67,7 @@
             <div class="nome-com-linha">
                 <span class="nome title">Cursos Concluídos</span>
             </div>
-            <form class="search-filters"  id="buscar-cursos-concluidos">
+            <form class="search-filters" id="buscar-cursos-concluidos">
                 <input type="date" placeholder="dd/mm/aaaa" id="date1">
                 <input type="date" placeholder="dd/mm/aaaa" id="date2">
                 <input type="text" placeholder="Busque por cursos concluídos...">
@@ -314,7 +315,6 @@
             </div>
         </div>
     </div>
-    </div>
     <!-- MODAL CONFIG -->
     <div class="custom-modal" id="profileModal">
         <div class="custom-modal-content">
@@ -323,7 +323,7 @@
                 <h2>PERFIL</h2>
             </div>
             <div class="fot">
-                <img src="./img/default_profile.png" alt="Foto de Perfil" id="profileImage">
+                <img src="" alt="Foto de Perfil" id="profileImage">
             </div>
             <div class="modal-body">
                 <label for="newProfileImage">Alterar Imagem de Perfil:</label>
@@ -350,10 +350,6 @@
                 modal.style.display = "none";
             }
         });
-    </script>
-    <script>
-
-
 
         // dropdown 
         document.querySelectorAll('.accordion-header').forEach(header => {
@@ -459,8 +455,9 @@
         });
         //FIM DO SCRIPT PARA INTERAÇÕES DA PÁGINA DOCENTE.HTML ----------------------------------------------------
     </script>
+    <script type="module" src="./api.js"></script>
     <script type="module" src="./js/docente.js"></script>
-    
+
 </body>
 
 </html>

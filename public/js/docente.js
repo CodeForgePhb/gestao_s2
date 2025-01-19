@@ -1,18 +1,16 @@
 // Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
-import { uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
+import { getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
+    getFotoPerfil();
 };
-
 document.getElementById('buscar-cursos-concluidos').addEventListener('submit', async (event)=> {
     event.preventDefault();
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
     const token = localStorage.getItem('token');
     //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
-
     const date1 = document.getElementById('date1').value;
     const date2 = document.getElementById('date2').value;
-
     const curso = await buscarCursosConcluidos(date1, date2);
     console.log('Cursos concluidos:', curso); //Adiciona um log para verificar os dados carregados.
     //Obtém o corpo da tabela onde as transações serão inseridas.
@@ -39,7 +37,6 @@ document.getElementById('buscar-cursos-concluidos').addEventListener('submit', a
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 })
-
 //Função assíncrona para carregar e exibir as transações na tabela.
 async function carregarCursosVigentes() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
@@ -73,7 +70,6 @@ async function carregarCursosVigentes() {
     });
 }
 //------ função de carregamento de cursos 
-
 //Função assíncrona para carregar e exibir as transações na tabela.
 async function carregarNome() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
@@ -103,10 +99,8 @@ async function carregarNome() {
     saudacao1.innerText = `${nome.nome}`; // Limpa o conteúdo de um unico elemento (se fosse id)
     const saudacao2 = document.getElementsByClassName('saudacao')[1];
     saudacao2.innerText = `Olá, ${nome.nome}`; // Limpa o conteúdo de um unico elemento (se fosse id)
-    
 }
-
-
+//LOGOUT
 document.querySelector('#btnLogout').addEventListener('click', async (event) => {
     try {
         await logoutUser(); // Chama a função de logout
@@ -116,6 +110,7 @@ document.querySelector('#btnLogout').addEventListener('click', async (event) => 
         alert('Houve um erro ao tentar deslogar. Tente novamente.');
     }
 });
+//IMAGEM PERFIL
 document.addEventListener('DOMContentLoaded', () => {
     // Função assíncrona para preview de imagem
     async function previewImageAsync(input, previewContainer, width, height) {
@@ -137,40 +132,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função assíncrona para alterar a imagem de perfil
     // Armazena temporariamente o arquivo selecionado
     let selectedProfileImage = null;
-
     newProfileImage.addEventListener('change', async () => {
         // Exibe a pré-visualização da imagem
         await previewImageAsync(newProfileImage, profilePreview, 50, 50);
         selectedProfileImage = newProfileImage.files[0]; // Armazena o arquivo selecionado
     });
-
     saveProfileImage.addEventListener('click', async () => {
+        console.log('Botão de salvar imagem clicado');
         if (selectedProfileImage) {
             try {
+                // Adicionar feedback visual
+                saveProfileImage.disabled = true;
+                saveProfileImage.textContent = 'Salvando...';
                 const response = await uploadProfileImage(selectedProfileImage);
-
-                // Verificar se a resposta contém o caminho
-                if (response?.path) {
-                    console.log('Imagem de perfil salva com sucesso:', response.path);
-                    const profileImageElement = document.querySelector('.profile-image');
-
-                    if (profileImageElement) {
-                        profileImageElement.src = response.path; // Atualiza a imagem no frontend
-                    } else {
-                        console.error('Elemento de imagem de perfil não encontrado.');
+                console.log('Resposta completa:', response); // Debug
+                if (response && response.path) {
+                    // Atualizar todas as imagens de perfil na página
+                    const profileImages = document.querySelectorAll('.profile-image');
+                    profileImages.forEach(img => {
+                        img.src = response.path;
+                    });
+                    // Atualizar também a prévia no modal
+                    const previewImage = document.querySelector('.fot img');
+                    if (previewImage) {
+                        previewImage.src = response.path;
                     }
+                    alert('Imagem de perfil atualizada com sucesso!');
                 } else {
-                    console.error('Caminho da imagem não encontrado na resposta.');
+                    throw new Error('Caminho da imagem não encontrado na resposta');
                 }
             } catch (error) {
-                console.error('Erro ao enviar imagem de perfil:', error);
-                alert('Erro ao salvar imagem de perfil.');
+                console.error('Erro detalhado:', error);
+                alert('Erro ao salvar imagem de perfil: ' + error.message);
+            } finally {
+                // Restaurar o botão
+                saveProfileImage.disabled = false;
+                saveProfileImage.textContent = 'Salvar Imagem de Perfil';
             }
         } else {
             alert('Nenhuma imagem foi selecionada.');
         }
     });
-
     // Função assíncrona para envio único da assinatura
     signatureImage.addEventListener('change', async () => {
         await previewImageAsync(signatureImage, signaturePreview, 100, 50);
@@ -182,6 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (file) {
             try {
                 const response = await uploadSignature(file);
+                console.log('Resposta completa:', response); // Debug
                 if (response?.path) {
                     alert('Assinatura salva com sucesso!');
                     signatureImage.disabled = true;
@@ -196,8 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
- 
 // async function carregarKits() {
 //     const token = localStorage.getItem('token');
 //     //1.   
@@ -213,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
 //         const option = document.createElement('option');
 //         option.value = item.
 //     })
-    
 //     // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
 //     cursos.cursos.forEach(curso => {
 //         const divInterna = document.createElement('div'); // Criar uma nova linha na tabela.
@@ -227,19 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
 //         div.appendChild(divInterna); // Adiciona a linha à tabela
 //     })
 // }
-
-
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarCursosVigentes(),
     carregarNome(),
     carregarKits()
 });
-
-
-
-
-
-
-
-

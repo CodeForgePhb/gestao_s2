@@ -5,15 +5,12 @@ import bcrypt from 'bcrypt';
 import { sendEmail } from '../services/emailService.js'; // Importação ajustada para ES Modules
 import fs from 'fs/promises';
 import path from 'path';
-
-
-
 export const cadastro = async (req, res) => {
   const { nome, email, senha, setor } = req.body;
   try {
       const [existingUser] = await db.query('SELECT * FROM cadastro WHERE email = ?', [email]);
       if (existingUser.length > 0) {
-          return res.status(400).send('Usuário já cadastrado.');
+          return res.status(400).json({ message: 'Usuário já cadastrado.' });
       }
       const hashedSenha = await bcrypt.hash(senha, 10);
       await db.query('INSERT INTO cadastro (nome, email, senha, setor) VALUES (?, ?, ?, ?)', [nome, email, hashedSenha, setor]);
@@ -37,7 +34,7 @@ export const login = async (req, res) => {
       if (!isMatch) {
           if (user[0].senha === '000000') {
               return res.status(401).json({
-                  message: 'Primeiro login. Por favor, atualize sua senha.',
+                  message: 'Primeiro login. Por favor, atualize sua senha. Clique em "Esqueceu a senha?"',
                   requiresPasswordChange: true,
               });
           }
@@ -111,24 +108,20 @@ export const resetSenha = async (req, res) => {
       if (!user) {
           return res.status(400).send('Solicitação de redefinição de senha não encontrada.');
       }
-
       if (!novaSenha) {
         return res.status(400).send('A nova senha não foi fornecida.');
     }
-    
       const hashedPassword = await bcrypt.hash(novaSenha, 10);
       await db.query(
           `UPDATE ${tableName} SET senha = ?, reset_senha = NULL, reset_senha_expires = NULL WHERE id = ?`,
           [hashedPassword, user.id]
       );
-      
       res.status(200).send('Senha redefinida com sucesso.');
   } catch (err) {
       console.error('Erro ao redefinir senha:', err);
       res.status(500).send('Erro ao redefinir senha');
   }
 };
-
 export const buscarSetor = async (req, res) => {
   try {
     // 1. Extrai o token do cabeçalho Authorization
@@ -149,7 +142,6 @@ export const buscarSetor = async (req, res) => {
     res.status(500).json({ message: 'Erro no servidor.' });
   }
 };
-
 export const buscarNome = async (req, res) => {
   try {
     // 1. Extrai o token do cabeçalho Authorization
@@ -164,15 +156,12 @@ export const buscarNome = async (req, res) => {
       return res.status(404).json({ error: 'Setor não encontrado no token' });
     }
     // Retornar o nome como JSON
-    console.log(nome)
     return res.status(200).json({ nome });
   } catch (err) {
     console.error('Erro ao buscar nome do usuário:', err);
     res.status(500).json({ message: 'Erro no servidor.' });
   }
 };
-
-
 export const logout = async (req, res) => {
   try {
     // Verifica se a sessão está ativa (ou se o usuário está autenticado)
@@ -195,7 +184,6 @@ export const logout = async (req, res) => {
     return res.status(500).json({ message: 'Erro no servidor ao tentar fazer logout' });
   }
 };
-
 // Rota para upload de imagem de perfil
 export const uploadPerfil = async (req, res) => {
   const tempPath = req.file?.path;
@@ -243,6 +231,53 @@ export const uploadPerfil = async (req, res) => {
     res.status(500).json({ error: 'Erro ao salvar a imagem de perfil.' });
   }
 };
+export const buscarFotoPerfil = async (req, res) => {
+  try {
+    // 1. Extrai o token do cabeçalho Authorization
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Token não fornecido.' });
+    }
+    // 2. Verifica e decodifica o token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const email = decoded.email; // Desestrutura o email do payload do token
+    if (!email) {
+      return res.status(400).json({ message: 'Token inválido ou email ausente.' });
+    }
+    // 3. Busca o usuário no banco de dados
+    const [cadastro] = await db.execute(
+      'SELECT id, profile_image FROM cadastro WHERE email = ?',
+      [email]
+    );
+    const [docente] = await db.execute(
+      'SELECT id, profile_image FROM docente WHERE email = ?',
+      [email]
+    );
+    let userData = null;
+    if (cadastro.length > 0) {
+      userData = {
+        tabela: 'cadastro',
+        id: cadastro[0].id,
+        profile_image: cadastro[0].profile_image,
+      };
+    } else if (docente.length > 0) {
+      userData = {
+        tabela: 'docente',
+        id: docente[0].id,
+        profile_image: docente[0].profile_image,
+      };
+    }
+    if (!userData) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+    // 4. Retorna a foto de perfil (ou um caminho padrão caso não tenha imagem)
+    const fotoPerfil = userData.profile_image || '/uploads/profile.png';
+    return res.status(200).json({ fotoPerfil });
+  } catch (err) {
+    console.error('Erro ao buscar foto de perfil do usuário:', err);
+    res.status(500).json({ message: 'Erro no servidor.' });
+  }
+};
 // Rota para upload de assinatura
 export const uploadAssinatura = async (req, res) => {
   const tempPath = req.file?.path;
@@ -279,10 +314,8 @@ export const uploadAssinatura = async (req, res) => {
       return res.status(400).json({ error: 'Assinatura já foi enviada anteriormente.' });
     }
     // 5. Move o arquivo para o diretório final
-    const targetPath = path.join('uploads', `signature_${userData.id}_${req.file.originalname}`);
-    await fs.rename(tempPath, targetPath); // Renomeia/move o arquivo
+    const filePath = `/uploads/${req.file.filename}`; // Nome já tratado pelo middleware
     // 6. Atualiza o caminho da assinatura no banco de dados
-    const filePath = `/uploads/${path.basename(targetPath)}`;
     await db.query(`UPDATE ${userData.tabela} SET signature_image = ? WHERE id = ?`, [filePath, userData.id]);
     // 7. Retorna a resposta de sucesso
     res.status(200).json({ message: 'Assinatura salva com sucesso.', path: filePath });

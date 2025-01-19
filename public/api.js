@@ -15,30 +15,27 @@ export async function cadastro(nome, email, senha, setor) {
         });
         // Verifica se o código de resposta HTTP está fora da faixa de 200-299 (indicando uma falha na requisição).
         if (!response.ok) {
-            throw new Error('Falha na requisição. Código de status: ' + response.status); // Lança um erro com o código de status da resposta.
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Falha na requisição.');
         }
-        // Recebe a resposta do servidor como JSON.
+
         const result = await response.json();
-        console.log('Resposta do servidor para registro:', result); // Exibe a resposta do servidor no console.
-        // Retorna um objeto indicando que o registro foi bem-sucedido, juntamente com a resposta do servidor.
-        return { success: true, message: result };
+        console.log('Resposta do servidor para registro:', result);
+
+        return { success: true, message: result.message };
     } catch (error) {
-        // Captura qualquer erro ocorrido durante o processo de requisição e exibe no console.
         console.error('Erro ao registrar:', error.message);
-        // Retorna um objeto indicando que o registro falhou, incluindo a mensagem de erro.
         return { success: false, message: error.message };
     }
 }
 /*----------------Rotas docente--------------*/
 export function monitorarTokenExpiracao() {
     const token = localStorage.getItem('token');
-
     try {
         // Decodifica o token JWT sem verificá-lo (somente client-side decoding)
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const payload = JSON.parse(atob(base64));
-
         // Verifica se o token possui uma propriedade de expiração
         if (!payload.exp) {
             console.error('Token inválido: não contém a data de expiração.');
@@ -46,7 +43,6 @@ export function monitorarTokenExpiracao() {
             logoutUser();
             return;
         }
-
         // Verifica a expiração do token
         const expirationTime = payload.exp * 1000; // Converter para milissegundos
         const currentTime = Date.now();
@@ -78,7 +74,6 @@ export function monitorarTokenExpiracao() {
         setTimeout(monitorarTokenExpiracao, 2 * 60 * 1000);
     }
 }
-
 // Função para fazer o login
 export async function login(email, senha) {
     try {
@@ -94,13 +89,11 @@ export async function login(email, senha) {
         } else {
             alert(result.message || 'Erro ao fazer login.');
         }
-        
     } catch (error) {
         console.error('Erro ao fazer login:', error);
         return { success: false, message: 'Erro ao conectar ao servidor.' };
     }
 }
-
 // Função para deslogar o usuário
 export async function logoutUser() {
     try {
@@ -147,35 +140,30 @@ export async function requestResetSenhaUsuario(email) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email }),
         });
-
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || 'Erro ao solicitar redefinição de senha.');
         }
-
         const result = await response.text();
         console.log('Resposta do servidor:', result);
-        return { success: true};
+        return { success: true };
     } catch (error) {
         console.error('Erro ao solicitar redefinição de senha:', error.message);
         return { success: false, message: error.message };
     }
 }
-
 // Função para solicitar a redefinição de senha
-export async function resetSenhaUsuario({token, novaSenha}) {
+export async function resetSenhaUsuario({ token, novaSenha }) {
     try {
         const response = await fetch(`${API_URL}/authen/reset-senha`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token, novaSenha}),
+            body: JSON.stringify({ token, novaSenha }),
         });
-
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || 'Erro ao solicitar redefinição de senha.');
         }
-
         const result = await response.text();
         console.log('Resposta do servidor:', result);
         return { success: true, message: result.message };
@@ -184,8 +172,6 @@ export async function resetSenhaUsuario({token, novaSenha}) {
         return { success: false, message: error.message };
     }
 }
-
-
 // Função para buscar o setor do usuário com base no token
 export async function buscarSetor(token) {
     try {
@@ -202,8 +188,6 @@ export async function buscarSetor(token) {
         return { success: false, message: 'Erro ao conectar ao servidor.' };
     }
 }
-
-
 export async function getCursosVigentes() {
     const token = localStorage.getItem('token');
     try {
@@ -222,11 +206,9 @@ export async function getCursosVigentes() {
         return { cursos: [] }; // Retorna um array vazio em caso de erro
     }
 }
-
-
 export async function buscarCursosConcluidos(data1, data2) { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONANDO
     const token = localStorage.getItem('token');
-    console.log('buscando datas', {data1, data2})
+    console.log('buscando datas', { data1, data2 })
     // Verificar se o token existe antes de fazer a requisição
     if (!token) {
         console.error('Token não encontrado.');
@@ -234,27 +216,22 @@ export async function buscarCursosConcluidos(data1, data2) { //FALTA EDITAR, AIN
     }
     try {
         const response = await fetch(`${API_URL}/routes/buscar-por-data`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ data_inicio:data1, data_fim:data2})
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ data_inicio: data1, data_fim: data2 })
         });
-
         if (!response.ok) {
-        throw new Error('Erro na resposta do servidor');
+            throw new Error('Erro na resposta do servidor');
         }
-
         return await response.json();
     } catch (error) {
         console.error('Erro ao buscar cursos:', error);
         return { cursos: [] }; // Retorna um array vazio em caso de erro
     }
 };
-
-
-
 export async function getNome() {
     const token = localStorage.getItem('token');
     // Verificar se o token existe antes de fazer a requisição
@@ -278,51 +255,13 @@ export async function getNome() {
         return { nome: 'Erro ao buscar nome' }; // Retorna um array vazio em caso de erro
     }
 }
-
-// Função para enviar imagem de perfil
-// export async function uploadProfileImage(selectedProfileImage) {
-//     const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
-//     if (!token) {
-//         console.error('Token não encontrado.');
-//         return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
-//     }
-//     const formData = new FormData();
-//     formData.append('profileImage', selectedProfileImage); // O campo 'profileImage' precisa ser o mesmo usado no backend
-
-//     try {
-//         const response = await fetch(`${API_URL}/authen/foto-perfil`, {
-//             method: 'POST',
-//             headers: {
-//                 'Authorization': `Bearer ${token}`,
-//             },
-//             body: formData, // Envia o arquivo como FormData
-//         });
-
-//         const data = await response.json();
-        
-//         // Log da resposta para verificar o que está sendo retornado
-//         console.log('Dados da resposta:', data);
-
-//         if (data.path) {
-//             return data; // Retorna os dados contendo o path da imagem
-//         } else {
-//             throw new Error('Caminho da imagem não encontrado');
-//         }
-//     } catch (error) {
-//         console.error('Erro ao enviar imagem de perfil:', error);
-//         throw error; // Re-throw para ser capturado no bloco catch do frontend
-//     }
-// }
-
 export async function uploadProfileImage(selectedProfileImage) {
     const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('Token não encontrado');
     }
-
     const formData = new FormData();
     formData.append('profileImage', selectedProfileImage);
-
     try {
         const response = await fetch(`${API_URL}/authen/foto-perfil`, {
             method: 'POST',
@@ -331,26 +270,57 @@ export async function uploadProfileImage(selectedProfileImage) {
             },
             body: formData,
         });
-
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || 'Erro ao fazer upload da imagem');
         }
-
         const data = await response.json();
         console.log('Resposta do servidor:', data);
-
         if (!data.path) {
             throw new Error('Caminho da imagem não retornado pelo servidor');
         }
-
         return data;
     } catch (error) {
         console.error('Erro no upload:', error);
         throw error;
     }
 }
-
+export async function getFotoPerfil() {
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response = await fetch(`${API_URL}/authen/usuario/foto-perfil`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        const data = await response.json();
+        const fotoPerfil = `..${data.fotoPerfil}`;
+        // Atualiza a imagem de perfil na interface (substitua "profileImgElement" pelo ID ou classe do elemento HTML)
+        // Atualiza as imagens de perfil na interface
+        const ids = ['img-perfil', 'profileImage']; // Lista de IDs dos elementos
+        if (fotoPerfil) {
+            ids.forEach((id) => {
+                const element = document.getElementById(id); // Seleciona o elemento pelo ID
+                if (element) {
+                    element.src = fotoPerfil; // Atualiza a imagem
+                }
+            });
+        }
+        return;
+    } catch (error) {
+        console.error('Erro ao buscar foto do perfil:', error);
+        return;
+    }
+}
 // Função para enviar assinatura
 export async function uploadSignature(file) {
     const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
@@ -369,17 +339,16 @@ export async function uploadSignature(file) {
             body: formData, // Envia o arquivo como FormData
         });
         const data = await response.json();
-        if (data.path) {
-            console.log('Assinatura salva com sucesso:', data.path);
-            // Atualize a imagem no frontend
-            document.getElementById('signaturePreview').src = data.path;
+        console.log('Resposta do servidor:', data);
+        if (!data.path) {
+            throw new Error('Caminho da imagem não retornado pelo servidor');
         }
+        return data;
     } catch (error) {
-        // Erro
-        console.error('Erro ao salvar assinatura:', error.response?.data?.message || error.message);
+        console.error('Erro no upload:', error);
+        throw error;
     }
 }
-
 export async function All_Kits() {
     //1. 
     const token = localStorage.getItem('token');
@@ -399,7 +368,3 @@ export async function All_Kits() {
         return { kit: [] }; // Retorna um array vazio em caso de erro
     }
 }
-
-
-
-

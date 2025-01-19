@@ -27,6 +27,7 @@ router.post('/foto-perfil', authMiddleware, upload.single('profileImage'), auten
 router.post('/assinatura', authMiddleware, upload.single('signatureImage'), autentication.uploadAssinatura);
 router.post('/login', autentication.login); // login
 router.post('/cadastro', autentication.cadastro); // cadastro
+router.get('/usuario/foto-perfil', authMiddleware, autentication.buscarFotoPerfil);
 router.get('/usuario/setor', authMiddleware, autentication.buscarSetor); // buscar setor
 router.get('/usuario/nome', authMiddleware, autentication.buscarNome); // buscar nome para saudação
 router.post('/request-reset-senha', autentication.requestResetSenha); // solicitar redefinição de senha

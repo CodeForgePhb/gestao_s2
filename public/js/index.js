@@ -26,15 +26,15 @@ document.querySelector('#registrationForm').addEventListener('submit', async (ev
     const result = await cadastro(nome_usuario, email, senha, setor);
     // Verifica se o resultado do registro foi bem-sucedido.
     if (result.success) {
-        // Exibe uma mensagem de sucesso e instrui o usuário a fazer login.
         alert('Cadastro bem-sucedido! Faça login para continuar.');
-        // Reseta o formulário de registro, limpando todos os campos.
         document.getElementById('registrationForm').reset();
-        // Redireciona o usuário para a página de login após o registro bem-sucedido.
         window.location.href = 'index.html';
     } else {
-        // Exibe uma mensagem de erro se o registro falhar.
-        alert('Cadastro falhou! Tente novamente.');
+        if (result.message === 'Usuário já cadastrado.') {
+            alert('Email já cadastrado. Faça login ou recupere sua senha.');
+        } else {
+            alert('Cadastro falhou! Tente novamente.');
+        }
     }
 });
 document.querySelector('#loginForm').addEventListener('submit', async (event) => {
