@@ -16,7 +16,10 @@ import authenRoutes from './routes/authen.js';
 import routes from './routes/routes.js';
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3001', // URL do seu frontend
+  credentials: true,
+}));
 app.use(bodyParser.json());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

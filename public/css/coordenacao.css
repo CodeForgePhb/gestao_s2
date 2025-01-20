@@ -48,10 +48,11 @@ body {
     border: solid 2px #ffffff;
     background-color: rgb(30, 58, 138);
 }
+
 .no-active {
     border: solid 2px #2222226d;
     pointer-events: none;
-  
+
 }
 
 .sidebar a {
@@ -79,11 +80,12 @@ body {
 }
 
 .span-name {
-    /*div para teste*/ /*fran editando*/
+    /*div para teste*/
+    /*fran editando*/
     display: flex;
     flex-direction: column;
     margin: 0px;
-  }
+}
 
 .sidebar .profile img {
     width: 50px;
@@ -95,7 +97,8 @@ body {
 .sidebar .profile .info {
     font-size: 0.9em;
 }
-.name{
+
+.name {
     border-bottom: 1px solid #fff;
     padding-bottom: 3px;
     margin-bottom: 3px;
@@ -104,8 +107,6 @@ body {
 .logout {
     display: flex;
     flex-direction: column;
-  
-    margin-left: 5px;
 }
 
 .logout button {
@@ -192,8 +193,8 @@ body {
 .tab.cursos {
     background-color: #d3d3d3;
     color: black;
-    margin-right: -13px;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    margin-right: -18px;
+    clip-path: polygon(0 2%, 95% 0, 85% 100%, 0% 100%);
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
@@ -238,6 +239,7 @@ body {
 
 .content.active {
     display: block;
+    padding: 25px;
 }
 
 /* FIM  */
@@ -473,16 +475,17 @@ span strong {
 /* MODAL  */
 .modal-s {
     font-family: Arial, sans-serif;
-    
+
     color: #000;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
- 
+
     width: 100%;
     position: absolute;
 }
+
 .modal {
     display: none;
     background-color: white;
@@ -492,8 +495,9 @@ span strong {
     border-radius: 34px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-   
+
 }
+
 .modal-header {
     background: linear-gradient(180deg, #163193 0%, #0f246d 100%);
     color: white;
@@ -514,26 +518,29 @@ span strong {
 
 .modal-body {
     padding: 16px;
-  
-   
+
+
 }
+
 .search-bar {
     margin-bottom: 16px;
     display: flex;
     gap: 8px;
     justify-content: center;
-   
+
 }
+
 .search-bar input {
     width: calc(100% - 100px);
     padding: 8px;
     height: 35px;
     font-size: 14px;
-     width: 50%;
-     border: none;
-     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-     border-radius: 5px;
+    width: 50%;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 5px;
 }
+
 .search-bar button {
     padding: 8px 16px;
     font-size: 14px;
@@ -543,32 +550,40 @@ span strong {
     border-radius: 4px;
     cursor: pointer;
 }
+
 .info {
-  
+
     font-size: 14px;
-   gap: 10px;
+    gap: 10px;
     width: 100%;
     justify-content: space-between;
 }
+
 .info b {
     display: inline-block;
+    gap:5px;
     width: 100px;
 }
+
 .table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 16px;
 }
-.table th, .table td {
+
+.table th,
+.table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
     font-size: 14px;
 }
+
 .table th {
     background-color: #002d91;
     color: white;
 }
+
 .table td button {
 
     border: none;
@@ -576,20 +591,25 @@ span strong {
     border-radius: 4px;
     cursor: pointer;
 }
-.btn-cont{
-   background-color: #E84910;
+
+.btn-cont {
+    background-color: #E84910;
     color: white;
-} 
-.add{
-   background-color: #E84910;
+}
+
+.add {
+    background-color: #E84910;
     color: white;
-} 
+}
+
 .table td button.add {
     background-color: #0554F1;
 }
+
 .additional-materials {
     margin-bottom: 16px;
 }
+
 .additional-materials textarea {
     width: 100%;
     height: 60px;
@@ -598,6 +618,7 @@ span strong {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
+
 .modal-2 {
     position: fixed;
     top: 0;
@@ -614,7 +635,7 @@ span strong {
     background-color: white;
     border-radius: 10px;
     width: 300px;
-  height: 100%;
+    height: 100%;
 
     display: flex;
     flex-direction: column;
@@ -622,6 +643,7 @@ span strong {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
 }
+
 .modal-content-2 {
     background-color: white;
     border-radius: 10px;
@@ -635,71 +657,76 @@ span strong {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
 }
+
 .modal-content-2 {
 
     text-align: center;
     width: 400px;
-    
-    }
-    .modal-box{
-        padding: 20px;
-    }
-.modal-content p{
-padding-top: 20%;
 
-position: absolute;
-align-items: center;
-width: 100%;
+}
+
+.modal-box {
+    padding: 20px;
+}
+
+.modal-content p {
+    padding-top: 20%;
+
+    position: absolute;
+    align-items: center;
+    width: 100%;
 }
 
 
 
 
 .modal-footer {
-  
-        display: flex;
-        justify-content: space-between; 
-        padding: 16px; 
-       
-       
-        position: absolute;
-        bottom: 0; 
-        width: 100%;
-        box-sizing: border-box; 
+
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+
+
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
     max-width: 800px;
-    
+
 }
+
 .modal-footer-2 {
-  
-        display: flex;
-        justify-content: space-between; 
-        padding: 16px; 
-       
-       
-        position: absolute;
-        bottom: 0; 
-        width: 100%;
-        box-sizing: border-box; 
+
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+
+
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
     max-width: 800px;
-    
+
 }
 
 .modal-footer button {
-  
-        background-color: #002a80; 
-        color: white; 
-        border: none;
-        height: 40px;
-        padding: 10px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-    
+
+    background-color: #002a80;
+    color: white;
+    border: none;
+    height: 40px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+
 }
 
 .modal-footer button.cancel {
     background-color: #002d91;
 }
-#okBtn{
+
+#okBtn {
     background-color: #002a80;
     color: white;
     border: none;
@@ -707,9 +734,9 @@ width: 100%;
     padding: 10px 30px;
     border-radius: 10px;
     cursor: pointer;
-margin-top: 10px;
+    margin-top: 10px;
     width: 100px;
-   justify-content: center;
+    justify-content: center;
 }
 
 
@@ -723,49 +750,59 @@ margin-top: 10px;
     border-radius: 4px;
     cursor: pointer;
 }
-.func{
-   
+
+.func {
+
     margin-top: 10px;
 }
+
 button.delete {
-    background-color: transparent; /* Fundo transparente */
-    border: none; /* Sem borda */
-    color: #000000; /* Ícone preto */
-    cursor: pointer; /* Cursor interativo */
-    margin-left: 8px; /* Espaço entre os botões */
-    font-size: 16px; /* Tamanho do ícone */
-    transition: color 0.3s; /* Transição suave para hover */
+    background-color: transparent;
+    /* Fundo transparente */
+    border: none;
+    /* Sem borda */
+    color: #000000;
+    /* Ícone preto */
+    cursor: pointer;
+    /* Cursor interativo */
+    margin-left: 8px;
+    /* Espaço entre os botões */
+    font-size: 16px;
+    /* Tamanho do ícone */
+    transition: color 0.3s;
+    /* Transição suave para hover */
 }
 
 button.delete:hover {
-    color: #444444; /* Preto mais claro ao passar o mouse */
+    color: #444444;
+    /* Preto mais claro ao passar o mouse */
 }
 
 
 /* FINAL MODAL  */
 /* MODAL CONFIRMAÇÃO  */
-   /* Estilo do Modal */
+/* Estilo do Modal */
 .modal-2 {
-display: none;
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.5);
-justify-content: center;
-align-items: center;
-z-index: 1000;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .modal-content {
-background: white;
+    background: white;
 
-border-radius: 10px;
-text-align: center;
-width: 400px;
-height: 210px;
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    width: 400px;
+    height: 210px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 
 }
 
@@ -783,74 +820,76 @@ cursor: pointer;
 } */
 
 button:hover {
-background-color: #0e44b9;
+    background-color: #0e44b9;
 }
 
 /* Checkmark Animado */
 .checkmark-container {
-position: relative;
-width: 60px;
-height: 80px;
-margin: 0 auto 20px;
+    position: relative;
+    width: 60px;
+    height: 80px;
+    margin: 0 auto 20px;
 }
 
 .checkmark-circle {
-width: 60px;
-height: 60px;
-border-radius: 50%;
-border: 4px solid #002d91;
-position: absolute;
-top: 0;
-left: 0;
-animation: circle-scale 0.5s ease-out forwards;
-background: #002d91;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 4px solid #002d91;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: circle-scale 0.5s ease-out forwards;
+    background: #002d91;
 }
 
 .checkmark {
-position: absolute;
-width: 40px;
-height: 20px;
-top: 28px;
-left: 22px;
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    top: 28px;
+    left: 22px;
 }
 
 .checkmark-stem {
-position: absolute;
-width: 4px;
-height: 20px;
-background-color: #002d91;
-left: 18px;
-top: 0;
-transform: rotate(45deg);
-animation: draw-stem 0.5s ease-out forwards 0.5s;
+    position: absolute;
+    width: 4px;
+    height: 20px;
+    background-color: #002d91;
+    left: 18px;
+    top: 0;
+    transform: rotate(45deg);
+    animation: draw-stem 0.5s ease-out forwards 0.5s;
 }
 
 .checkmark-kick {
-fill: none;
-stroke: #ffffff;
-/* Check branco */
-stroke-width: 5;
-stroke-linecap: round;
-stroke-dasharray: 50;
-stroke-dashoffset: 50;
-animation: check-draw 0.6s ease-in-out 0.6s forwards;
-/* Atraso após o círculo */
-}
-/* circlo  */
-@keyframes circle-scale {
-0% {
-    transform: scale(0);
+    fill: none;
+    stroke: #ffffff;
+    /* Check branco */
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: check-draw 0.6s ease-in-out 0.6s forwards;
+    /* Atraso após o círculo */
 }
 
-100% {
-    transform: scale(1);
-}
+/* circlo  */
+@keyframes circle-scale {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes check-draw {
     from {
         stroke-dashoffset: 50;
     }
+
     to {
         stroke-dashoffset: 0;
     }
@@ -860,53 +899,57 @@ animation: check-draw 0.6s ease-in-out 0.6s forwards;
 
 /* Tabs */
 .tabs {
-display: flex;
-margin: 20px 0;
+    display: flex;
+    margin: 20px 0;
 }
 
 .tab {
-padding: 10px 20px;
-cursor: pointer;
-border: 1px solid #ddd;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ddd;
 }
 
 .tab.active {
-background-color: #002d91;
-color: white;
+    background-color: #002d91;
+    color: white;
 }
 
 .tab-content {
-display: none;
+    display: none;
 }
 
 .tab-content.active {
-display: block;
+    display: block;
 }
 
 .check {
     fill: none;
-    stroke: #ffffff; /* Check branco */
+    stroke: #ffffff;
+    /* Check branco */
     stroke-width: 5;
     stroke-linecap: round;
     stroke-dasharray: 50;
     stroke-dashoffset: 50;
-    animation: check-draw 0.6s ease-in-out 0.6s forwards; /* Atraso após o círculo */
+    animation: check-draw 0.6s ease-in-out 0.6s forwards;
+    /* Atraso após o círculo */
 }
-#cancelBtn{
+
+#cancelBtn {
     background-color: #002d91;
-color: white;
-border: none;
-padding: 10px 35px;
-border-radius: 6px;
-cursor: pointer;
+    color: white;
+    border: none;
+    padding: 10px 35px;
+    border-radius: 6px;
+    cursor: pointer;
 }
-#sendBtn{
+
+#sendBtn {
     background-color: #002d91;
-color: white;
-border: none;
-padding: 10px 35px;
-border-radius: 6px;
-cursor: pointer;
+    color: white;
+    border: none;
+    padding: 10px 35px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 .loading {
@@ -942,10 +985,12 @@ cursor: pointer;
     from {
         stroke-dashoffset: 50;
     }
+
     to {
         stroke-dashoffset: 0;
     }
 }
+
 /* FINAL  */
 
 button {
@@ -977,7 +1022,7 @@ button:hover {
 .custom-modal-content {
     background-color: white;
     margin: 10% auto;
-   
+
     border: 1px solid #ccc;
     border-radius: 10px;
     width: 50%;
@@ -1011,22 +1056,24 @@ button:hover {
 }
 
 
-.fot img{
+.fot img {
     width: 50px;
     height: 50px;
     border-radius: 100%;
     border: 2px solid #007BFF;
     object-fit: cover;
 }
+
 .fot {
     width: 50px;
-     height: 50px; 
-   
-       border-radius: 50%;
-       display: flex;
-       justify-content: center;
-       width: 100%;
+    height: 50px;
+
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
+
 label {
     display: block;
     margin: 15px 0 5px;
@@ -1044,7 +1091,9 @@ input[type="file"] {
     justify-content: space-around;
 }
 
-#primeiro, #segundo, #terceiro {
+#primeiro,
+#segundo,
+#terceiro {
     display: flex;
     background-color: #f0f0f0;
     padding: 20px;
@@ -1052,13 +1101,19 @@ input[type="file"] {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    cursor: pointer; /* Mudando o cursor para parecer um botão */
-    transition: background-color 0.3s, transform 0.3s; /* Efeito de transição */
+    cursor: pointer;
+    /* Mudando o cursor para parecer um botão */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Efeito de transição */
 }
 
-#primeiro:hover, #segundo:hover, #terceiro:hover {
-    background-color: #163193; /* Mudança de cor ao passar o mouse */
-    transform: scale(1.05); /* Efeito de aumentar levemente */
+#primeiro:hover,
+#segundo:hover,
+#terceiro:hover {
+    background-color: #163193;
+    /* Mudança de cor ao passar o mouse */
+    transform: scale(1.05);
+    /* Efeito de aumentar levemente */
 }
 
 .icone-mais {
@@ -1067,13 +1122,15 @@ input[type="file"] {
     padding-right: 15px;
 }
 
-        .tab.active {
+.tab.active {
     font-weight: bold;
     color: rgb(255, 255, 255);
 }
+
 .content {
     display: none;
 }
+
 .content.active {
     display: block;
 }
@@ -1088,9 +1145,9 @@ input[type="file"] {
     display: none;
     padding: 20px;
     margin-top: 10px;
-    
+
     border-radius: 5px;
-  
+
 }
 
 .accordion-container {
@@ -1101,13 +1158,13 @@ input[type="file"] {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-  }
+}
 
-  .accordion-item {
+.accordion-item {
     border-bottom: 1px solid #ddd;
-  }
+}
 
-  .accordion-header {
+.accordion-header {
     padding: 1rem;
     display: flex;
     justify-content: space-between;
@@ -1115,24 +1172,24 @@ input[type="file"] {
     cursor: pointer;
     background-color: #f4f4f4;
     font-weight: bold;
-  }
+}
 
-  .accordion-header:hover {
+.accordion-header:hover {
     background-color: #e6e6e6;
-  }
+}
 
-  .accordion-header span {
+.accordion-header span {
     color: #666;
     font-size: 0.9rem;
-  }
+}
 
-  .accordion-content {
+.accordion-content {
     padding: 1rem;
     display: none;
     background-color: #fff;
-  }
+}
 
-  .accordion-content button {
+.accordion-content button {
     padding: 0.5rem 1rem;
     background-color: #008cff;
     color: #fff;
@@ -1140,17 +1197,125 @@ input[type="file"] {
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9rem;
-  }
+}
 
-  .accordion-content button:hover {
+.accordion-content button:hover {
     background-color: #005bb5;
-  }
+}
 
-  .accordion-header .arrow {
+.accordion-header .arrow {
     font-size: 1.2rem;
     transition: transform 0.3s;
+}
+
+.accordion-header.active .arrow {
+    transform: rotate(180deg);
+}
+
+
+  /* dropdown input  */
+  #professor input, #curso input, #material input{
+    width: 400px;
+    height: 30px;
+    margin: 8px;
+    border-radius: 5px;
+    border: solid 1px #969696;
+ 
   }
 
-  .accordion-header.active .arrow {
-    transform: rotate(180deg);
-  }
+  /* dropdown input  */
+  .content {
+    display: none;
+
+    font-size: 16px;
+    margin-top: -20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    height: 90%;
+}
+ 
+#professor form {
+    flex-grow: 1; /* O formulário ocupa o espaço disponível */
+}
+
+#professor .bnt-save {
+    display: flex;
+    justify-content: space-between; /* Alinha os botões à esquerda e direita */
+    margin-top: 16px;
+}
+
+#professor .bnt-save button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+#professor .bnt-save button[type="button"] {
+    background-color: #f44336; /* Cor para Cancelar */
+    color: white;
+}
+
+#professor .bnt-save button[type="submit"] {
+    background-color: #002d91; /* Cor para Salvar */
+    color: white;
+}
+
+
+
+
+
+#curso form {
+    flex-grow: 1; /* O formulário ocupa o espaço disponível */
+}
+
+#curso  .bnt-save {
+    display: flex;
+    justify-content: space-between; /* Alinha os botões à esquerda e direita */
+    margin-top: 16px;
+}
+
+#curso  .bnt-save button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+#curso  .bnt-save button[type="button"] {
+    background-color: #f44336; /* Cor para Cancelar */
+    color: white;
+}
+
+#curso  .bnt-save button[type="submit"] {
+    background-color: #002d91; /* Cor para Salvar */
+    color: white;
+}
+
+
+#material  .bnt-save {
+    display: flex;
+    justify-content: space-between; /* Alinha os botões à esquerda e direita */
+    margin-top: 16px;
+}
+
+#material  .bnt-save button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+#material  .bnt-save button[type="button"] {
+    background-color: #f44336; /* Cor para Cancelar */
+    color: white;
+}
+
+#material  .bnt-save button[type="submit"] {
+    background-color: #002d91; /* Cor para Salvar */
+    color: white;
+}

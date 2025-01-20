@@ -1,7 +1,7 @@
 import db from '../config/db.js'; // Importa a conexão com o banco
 import jwt from 'jsonwebtoken';
 // //------------------------ROTAS GET
-//---------BUSCA CURSOS VIGENTES----------
+//---------CARREGAR CURSOS VIGENTES----------
 export const buscarCursosVigentes = async (req, res) => {
   try {
     // 1. Extrai o token do cabeçalho Authorization
@@ -37,39 +37,75 @@ export const buscarCursosVigentes = async (req, res) => {
     console.error('Erro ao buscar cursos:', err);
     res.status(500).json({ message: 'Erro ao buscar cursos.' });
   }
-};
+}; 
+
+// ====== CARREGAR CURSOS CONCLUÍDOS ========
+
+ export const carregarCursosConcluídos = async (req, res)=>{
+   try {
+     const token = req.headers.authorization?.split(' ')[1];
+     if(!token) {
+       return res.status(401).json({message: 'Token não fornecido'})
+     }
+
+     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+     const {email} = decoded;
+     
+     const [userResult] = await db.query('SELECT nome FROM docente WHERE email=?', [email])
+
+     if (userResult.length === 0) {
+          return res.status(404).json({ message: 'Curso não encontrado.' });
+        }
+        const { nome } = userResult[0];
+        // 4. Busca os cursos onde professor = nome_usuario
+        const [cursosResult] = await db.query(
+          `SELECT *
+          FROM cursos_concluidos
+          WHERE docente=?`,
+        [nome]);
+      if (cursosResult.length === 0) {
+        return res.status(404).json({ message: 'Nenhum curso encontrado para este professor.' });
+      }
+    // 5. Retorna a lista de cursos
+      console.log(cursosResult)
+      return res.status(200).json({ cursos:cursosResult });
+      } catch (err) {
+      console.error('Erro ao buscar cursos Concluidos:', err);
+      
+      res.status(500).json({ message: 'Erro ao buscar cursos Concluidos.', err });
+      }
+    };
+   
+
 // ----- BUSCAR CURSOS CONCLUIDOS --------
 export const buscarCursosConcluidos = async (req, res) => {
   try {
+    
+    const {data_inicio, data_fim} = req.body;
+    // 1. Extrai o token do cabeçalho Authorization
     const token = req.headers.authorization?.split(' ')[1];
-      if (!token) {
-        return res.status(401).json({ message: 'Token não fornecido.' });
-      }
-    const {data_inicio, data_fim} = req.body
-    //  // 1. Extrai o token do cabeçalho Authorization
-    //  const token = req.headers.authorization?.split(' ')[1];
-    //  if (!token) {
-    //    return res.status(401).json({ message: 'Token não fornecido.' });
-    //  }
-    //  // 2. Verifica e decodifica o token
-    // const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // const { email } = decoded; // Desestrutura o email do payload do token
-    // // 3. Busca o nome do usuário na tabela usuarios
-    // const [userResult] = await db.query(
-    //   'SELECT nome_usuario FROM cadastro WHERE email = ?',
-    //   [email]
-    // );
-    // if (userResult.length === 0) {
-    //   return res.status(404).json({ message: 'Curso não encontrado.' });
-    // }
-    // const { nome_usuario } = userResult[0];
+    if (!token) {
+      return res.status(401).json({ message: 'Token não fornecido.' });
+    }
+    // 2. Verifica e decodifica o token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { email } = decoded; // Desestrutura o email do payload do token
+    // 3. Busca o nome do usuário na tabela usuarios
+    const [userResult] = await db.query(
+      'SELECT nome FROM docente WHERE email = ?',
+      [email]
+    );
+    if (userResult.length === 0) {
+      return res.status(404).json({ message: 'Curso não encontrado.' });
+    }
+    const { nome } = userResult[0];
     // 4. Busca os cursos onde professor = nome_usuario
     const [cursosResult] = await db.query(
       `SELECT *
       FROM cursos_concluidos
-      WHERE data_inicio >= ?
-        AND data_fim <= ?;`,
-    [data_inicio, data_fim]);
+      WHERE docente=? AND data_inicio >= ?
+      AND data_fim <= ?;`,
+    [nome, data_inicio, data_fim]);
   if (cursosResult.length === 0) {
     return res.status(404).json({ message: 'Nenhum curso encontrado para este professor.' });
   }
@@ -94,13 +130,36 @@ export const TodasSolicitacoes = async (req, res) => {
     }
     //2.
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const {email} = decoded;
-    //3.
-    const [result] = await db.query('SELECT* FROM kit');
-    if(result.length === 0) {
-      res.status(404).json({message : 'usuário não possui solicitações'});
+    const {nome_usuario} = decoded;
+    // //3.
+    // const [ userResult ] = await db.query('SELECT nome FROM docente WHERE email = ?', [email]);
+    // if(userResult.length === 0) {
+    //   res.status(404).json({message : 'usuário não encontrado'});
+    // }
+
+    // const { nome_usuario } = userResult[0];
+    //4.
+    const nome_curso = await db.query(
+      'SELECT nome FROM curso WHERE docente = ?',
+      [nome_usuario])
+
+    if(!nome_curso) {
+      console.log('curso não encontrado')
+      res.status(404).send('Nenhum curso encontrado')
     }
-    res.status(200).json({resultado : result});
+    //5.
+    const soliciticao = await db.query(
+      'SELECT * FROM materiais WHERE nome_curso', [nome_curso],
+      (err, result) => {
+        if(err) {
+          console.log('Erro no controlador: ', err)
+          res.status(500).json({err})
+        } else {
+          console.log('Deu bom')
+          res.status(200).json({soliciticao})
+        }
+      }
+    )
 
   } catch(error) {
     res.status(500).json({error});
@@ -110,7 +169,7 @@ export const TodasSolicitacoes = async (req, res) => {
 
 //2. visualizar todos os kits de um curso especifico
 
-export const Todos_kits = async (req, res) => {
+export const TodosKits = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     //1.
@@ -119,20 +178,45 @@ export const Todos_kits = async (req, res) => {
     }
     //2.
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const {email} = decoded;
+    const { email } = decoded;
     //3. 
-    const [ nome_curso ] = await db.query('SELECT curso_matriculado FROM docente WHERE email = ?', [email]);
+    const nome_usuario = await db.query('SELECT nome FROM docente WHERE email = ?', [email]);
+
+
+
+    console.log(nome_usuario)
+
+    if (nome_usuario.length === 0) {
+      return res.status(404).json({ message: 'Docente não encontrado' });
+    }
     
-    if(nome_curso.length === 0) {
+    const nome = nome_usuario[0].nome; // Acesse o campo "nome"
+    console.log(nome)
+
+    //3.1
+    const nome_curso = await db.query('SELECT nome FROM curso WHERE docente = ?', [nome_usuario]);
+    
+    console.log(nome_curso);
+    const curso = nome_curso[0].nome;
+    console.log(curso);
+
+    
+    if(curso.length === 0) {
       return res.status(404).json({message: 'Nenhum curso encontrado'});
     }
-    const { curso_matriculado } = nome_curso[0];
+    const curso_matriculado = curso;
+    
+    console.log(curso_matriculado)
     //4.
-    const result = await db.query('SELECT * FROM materiais WHERE nome_curso = ?', [curso_matriculado]);
+    const result = await db.query('SELECT nome_kit FROM kit WHERE curso = ?',
+      [curso_matriculado]
+    );
+
+    console.log(result)
     if(result.length === 0) {
-      res.status(404).json({message : 'usuário não possui solicitações'});
+      res.status(404).json({message : 'curso não possui kits'});
     }
-    res.status(200).json({message : "Deu bom", result});
+    res.status(200).json({result});
   } catch(error) {
     res.status(500).send(error);
     console.log(error);

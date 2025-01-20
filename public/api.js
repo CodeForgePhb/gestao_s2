@@ -188,6 +188,7 @@ export async function buscarSetor(token) {
         return { success: false, message: 'Erro ao conectar ao servidor.' };
     }
 }
+
 export async function getCursosVigentes() {
     const token = localStorage.getItem('token');
     try {
@@ -232,6 +233,31 @@ export async function buscarCursosConcluidos(data1, data2) { //FALTA EDITAR, AIN
         return { cursos: [] }; // Retorna um array vazio em caso de erro
     }
 };
+
+export async function getCursosConcluidos() { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONANDO
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response = await fetch(`${API_URL}/routes/carregar-cursos-concluidos`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Erro ao buscar cursos:', error);
+        return { cursos: [] }; // Retorna um array vazio em caso de erro
+    }
+};
+
 export async function getNome() {
     const token = localStorage.getItem('token');
     // Verificar se o token existe antes de fazer a requisição
@@ -349,22 +375,39 @@ export async function uploadSignature(file) {
         throw error;
     }
 }
-export async function All_Kits() {
-    //1. 
+
+/*------------------------------------------------*/
+export async function get_kits() {
     const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { success: false, message: 'Usuário não autenticado.' };
+    }
+    //2.
     try {
-        const response = await fetch(`${API_URL}/routes/todos-kits`, {
+        const response = await fetch(`${API_URL}/routes/kit-didatico-curso`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             }
         });
         if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.statusText}`);
+            const erro_message = await response.text();
+            
+            throw new Error(`Erro na requisição (${`response.status`}: ${erro_message}`)
         }
         return await response.json();
     } catch (error) {
-        console.error('Erro ao buscar kits didáticos:', error);
-        return { kit: [] }; // Retorna um array vazio em caso de erro
+        
+        if (error instanceof TypeError) {
+            // TypeError ocorre para problemas de rede ou conexão.
+            console.error('Erro de conexão:', error);
+            return { success: false, message: 'Erro de conexão. Verifique sua internet.' };
+        } else {
+            // Outros erros (ex.: erro lançado acima).
+            console.error('Erro do servidor:', error.message);
+            return { success: false, message: error.message };
+        }
     }
 }

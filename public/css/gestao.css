@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins';
 }
 
 body {
@@ -225,6 +225,7 @@ body {
 
 .content.active {
   display: block;
+  padding: 25px;
 }
 
 /* FIM  */

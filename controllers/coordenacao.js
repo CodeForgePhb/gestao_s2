@@ -46,19 +46,19 @@ export const addDocente = async (req, res) => {
 // 3. Inserir kit didatico
 
 export const Adicionar_kit = async (req, res) => {
-   const { cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo } = req.body;
+   const { cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo, curso } = req.body;
     try {
         const [duplicidade] = await db.query(
-            'SELECT* FROM kit WHERE cod_kit = ? AND nome_kit = ? AND cod_produto = ? AND descricao = ? AND quantidade = ? AND unidade_medida = ? AND saldo = ?', [cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo]
+            'SELECT* FROM kit WHERE cod_kit = ? AND nome_kit = ? AND cod_produto = ? AND descricao = ? AND quantidade = ? AND unidade_medida = ? AND saldo = ? AND curso = ?', [cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo, curso]
         );
         if (duplicidade.length > 0) {
             return res.status(400).send('Kit já existe');
         }
 
         const [resultado] = await db.execute(
-            `INSERT INTO kit (cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo]
+            `INSERT INTO kit (cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo, curso) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo, curso]
         );
         return res.status(201).json({'kit adicionado': resultado});
     } catch (error) {
