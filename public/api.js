@@ -234,6 +234,34 @@ export async function buscarCursosConcluidos(data1, data2) { //FALTA EDITAR, AIN
     }
 };
 
+export async function buscarCursosConcluidosPorPesquisa(texto) {
+    const token = localStorage.getItem('token');
+    console.log('buscando o curso', {texto})
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response = await fetch(`${API_URL}/routes/buscar-por-pesquisa?q=${texto}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ query:texto })
+        });
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Erro ao buscar cursos:', error);
+        return { cursos: [] }; // Retorna um array vazio em caso de erro
+    }
+};
+
+
 export async function getCursosConcluidos() { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONANDO
     const token = localStorage.getItem('token');
     // Verificar se o token existe antes de fazer a requisição

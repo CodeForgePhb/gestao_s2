@@ -27,6 +27,7 @@ router.post('/adicionar-kit', authMiddleware,controllerCoordenacao.Adicionar_kit
 //----------------Docente----------------------------------------------------------------------------------------------
 router.post('/buscar-por-data', authMiddleware,controllerDocente.buscarCursosConcluidos);
 router.get('/carregar-cursos-concluidos', authMiddleware,controllerDocente.carregarCursosConcluídos);
+router.post('/buscar-por-pesquisa', authMiddleware,controllerDocente.buscarCursosConcluidosPorPesquisa);
 router.get('/cursos-vigentes', authMiddleware,controllerDocente.buscarCursosVigentes);
 // router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosConcluidos);
 

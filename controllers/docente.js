@@ -119,6 +119,47 @@ export const buscarCursosConcluidos = async (req, res) => {
   }
 };
 
+//========== buscar cursos concluidos em pesquisa
+
+export const buscarCursosConcluidosPorPesquisa = async (req, res) => {
+  try {
+    
+    const {query} = req.body;
+    // 1. Extrai o token do cabeçalho Authorization
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Token não fornecido.' });
+    }
+    // 2. Verifica e decodifica o token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { email } = decoded; // Desestrutura o email do payload do token
+    // 3. Busca o nome do usuário na tabela usuarios
+    const [userResult] = await db.query(
+      'SELECT nome FROM docente WHERE email = ?',
+      [email]
+    );
+    if (userResult.length === 0) {
+      return res.status(404).json({ message: 'Curso não encontrado.' });
+    }
+    const { nome } = userResult[0];
+    // 4. Busca os cursos onde professor = nome_usuario
+    const [cursosResult] = await db.query(
+      `SELECT * FROM cursos_concluidos WHERE docente= ? AND nome_curso LIKE ? OR data_inicio LIKE ? OR data_fim LIKE ?`,
+    [nome,`%${query}%`, `%${query}%`, `%${query}%`]);
+  if (cursosResult.length === 0) {
+    return res.status(404).json({ message: 'Nenhum curso encontrado para este professor.' });
+  }
+// 5. Retorna a lista de cursos
+  console.log(cursosResult)
+  return res.status(200).json({ cursos:cursosResult });
+  } catch (err) {
+  console.error('Erro ao buscar cursos Concluidos:', err);
+  
+  res.status(500).json({ message: 'Erro ao buscar cursos Concluidos.', err });
+  }
+};
+
+
 /*------ BUSCAR SOLICITAÇÕES --------- */
 //1. Visualizar todas as solicitações
 export const TodasSolicitacoes = async (req, res) => {
