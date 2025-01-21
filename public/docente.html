@@ -48,7 +48,7 @@
     </div>
     <div class="main">
         <div class="main-header">
-            <div>
+            <div class="general">
                 <h2 class="saudacao">Olá, </h2>
                 <div class="tabs">
                     <div class="tab cursos active" data-tab="cursos">Cursos</div>
@@ -117,7 +117,7 @@
                     <div class="accordion-header">
                         <span>Administração</span>
                         <span>Nível B - Em Análise</span>
-                        <span class="arrow">&#9650;</span>
+                        <span class="arrow"><i class="fa-solid fa-chevron-up" style="color: #808080;"></i></span>
                     </div>
                     <div class="accordion-content">
                         <div class="inf">
@@ -136,7 +136,7 @@
                     <div class="accordion-header">
                         <span>Técnico em Informática para Internet</span>
                         <span>Nível A - Em Análise</span>
-                        <span class="arrow">&#9650;</span>
+                        <span class="arrow"><i class="fa-solid fa-chevron-up" style="color: #808080;"></i></span>
                     </div>
                     <div class="accordion-content">
                         <div class="inf">
@@ -321,9 +321,13 @@
     <!-- MODAL CONFIG -->
     <div class="custom-modal" id="profileModal">
         <div class="custom-modal-content">
-            <span class="custom-close" id="closeProfileModal">&times;</span>
             <div class="modal-header">
                 <h2>PERFIL</h2>
+                <div class="close-button">
+                    <span class="custom-close" id="closeProfileModal">
+                        <i class="fa-solid fa-x" style="color: #808080;"></i>
+                    </span>
+                </div>
             </div>
             <div class="fot">
                 <img src="" alt="Foto de Perfil" id="profileImage">
