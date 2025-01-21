@@ -375,37 +375,78 @@ export async function getFotoPerfil() {
         return;
     }
 }
+// // Função para enviar assinatura
+// export async function uploadSignature(file) {
+//     const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
+//     if (!token) {
+//         console.error('Token não encontrado.');
+//         return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+//     }
+//     const formData = new FormData();
+//     formData.append('signatureImage', file); // O campo 'signatureImage' precisa ser o mesmo usado no backend
+//     try {
+//         const response = await fetch(`${API_URL}/authen/assinatura`, {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${token}`
+//             },
+//             body: formData, // Envia o arquivo como FormData
+//         });
+//         const data = await response.json();
+//         console.log('Resposta do servidor:', data);
+//         if (!data.path) {
+//             throw new Error('Caminho da imagem não retornado pelo servidor');
+//         }
+//         return data;
+//     } catch (error) {
+//         console.error('Erro no upload:', error);
+//         throw error;
+//     }
+// }
+
+
 // Função para enviar assinatura
-export async function uploadSignature(file) {
+export async function uploadSignature(blob) {
     const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
     if (!token) {
         console.error('Token não encontrado.');
-        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+        throw new Error('Token não encontrado. Faça login novamente.'); // Lança um erro em vez de apenas retornar
     }
+
     const formData = new FormData();
-    formData.append('signatureImage', file); // O campo 'signatureImage' precisa ser o mesmo usado no backend
+    formData.append('assinatura', blob, 'assinatura.png'); // Nome do campo ajustado para 'assinatura' e arquivo com nome adequado
+
     try {
         const response = await fetch(`${API_URL}/authen/assinatura`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`
+                Authorization: `Bearer ${token}`, // Autorização via token
             },
             body: formData, // Envia o arquivo como FormData
         });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Erro na resposta do servidor:', errorData);
+            throw new Error(errorData.message || 'Erro ao processar a solicitação no servidor.');
+        }
+
         const data = await response.json();
         console.log('Resposta do servidor:', data);
+
         if (!data.path) {
-            throw new Error('Caminho da imagem não retornado pelo servidor');
+            throw new Error('Caminho da assinatura não retornado pelo servidor.');
         }
-        return data;
+
+        return data; // Retorna os dados da resposta, incluindo o caminho da assinatura
     } catch (error) {
         console.error('Erro no upload:', error);
-        throw error;
+        throw error; // Propaga o erro para o chamador lidar com ele
     }
 }
 
 /*------------------------------------------------*/
-export async function get_kits() {
+export async function getKits() {
     const token = localStorage.getItem('token');
     if (!token) {
         console.error('Token não encontrado.');
@@ -425,7 +466,12 @@ export async function get_kits() {
             
             throw new Error(`Erro na requisição (${`response.status`}: ${erro_message}`)
         }
-        return await response.json();
+
+        const data = await response.json();
+        const kits = data.nome_kit || data;
+
+        return await kits;
+        
     } catch (error) {
         
         if (error instanceof TypeError) {
@@ -439,3 +485,35 @@ export async function get_kits() {
         }
     }
 }
+
+/*----- Visualizar os materiais inseridos nos kit didáticos-----*/
+
+export async function getMateriaisKit() {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/routes/materiais-kit-didatico`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        const erro_message = await response.text();
+        
+        throw new Error(`Erro na requisição - ${`response.status`}: ${erro_message}`)
+    }
+        const data = await response.json();
+        const materiais_kit = data.nome_kit || data;
+
+      return await materiais_kit;
+
+    } catch (error) {
+      console.error('Erro ao buscar materiais:', error);
+      return {sucess : false, message: 'ERRO'}
+    }
+  }
+
+
+

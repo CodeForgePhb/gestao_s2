@@ -33,5 +33,6 @@ router.get('/usuario/nome', authMiddleware, autentication.buscarNome); // buscar
 router.post('/request-reset-senha', autentication.requestResetSenha); // solicitar redefinição de senha
 router.post('/reset-senha', autentication.resetSenha); // redefinir senha
 router.post('/logout', authMiddleware, autentication.logout); // logout
+router.post('/assinatura', authMiddleware, upload.single('assinatura'), autentication.uploadAssinatura);
 
 export default router; // Exporta o roteador como padrão

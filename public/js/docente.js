@@ -1,5 +1,5 @@
 // Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
-import { getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getCursosConcluidos, buscarCursosConcluidosPorPesquisa ,getNome, logoutUser, monitorarTokenExpiracao, get_kits } from '../api.js'; // Ajuste o caminho conforme necessário
+import { getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getCursosConcluidos, buscarCursosConcluidosPorPesquisa ,getNome, logoutUser, monitorarTokenExpiracao, getKits, getMateriaisKit } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
@@ -40,7 +40,7 @@ document.getElementById('buscar-cursos-concluidos').addEventListener('submit', a
 
 // função para pesquisar cursos concluidos;
 
-document.getElementById('buscar-cursos-concluidos').addEventListener('keyup', async ()=> {
+document.getElementById('busca-por-cursos-concluidos').addEventListener('keyup', async ()=> {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
     const token = localStorage.getItem('token');
     //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
@@ -196,9 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const newProfileImage = document.getElementById('newProfileImage');
     const saveProfileImage = document.getElementById('saveProfileImage');
     const profilePreview = document.querySelector('.fot');
-    const signatureImage = document.getElementById('signatureImage');
-    const saveSignatureImage = document.getElementById('saveSignatureImage');
-    const signaturePreview = document.getElementById('signaturePreview');
     // Função assíncrona para alterar a imagem de perfil
     // Armazena temporariamente o arquivo selecionado
     let selectedProfileImage = null;
@@ -243,60 +240,168 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Nenhuma imagem foi selecionada.');
         }
     });
-    // Função assíncrona para envio único da assinatura
-    signatureImage.addEventListener('change', async () => {
-        await previewImageAsync(signatureImage, signaturePreview, 100, 50);
-        saveSignatureImage.disabled = false;
+    // // Função assíncrona para envio único da assinatura
+    // signatureImage.addEventListener('change', async () => {
+    //     await previewImageAsync(signatureImage, signaturePreview, 100, 50);
+    //     saveSignatureImage.disabled = false;
+    // });
+    // // Função assíncrona para salvar assinatura
+    // saveSignatureImage.addEventListener('click', async () => {
+    //     const file = signatureImage.files[0];
+    //     if (file) {
+    //         try {
+    //             const response = await uploadSignature(file);
+    //             console.log('Resposta completa:', response); // Debug
+    //             if (response?.path) {
+    //                 alert('Assinatura salva com sucesso!');
+    //                 signatureImage.disabled = true;
+    //                 saveSignatureImage.disabled = true;
+    //             } else {
+    //                 alert('Erro ao salvar assinatura.');
+    //             }
+    //         } catch (error) {
+    //             console.error('Erro ao salvar assinatura:', error);
+    //             alert('Erro ao salvar assinatura.');
+    //         }
+    //     }
+    // });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Configuração do canvas de assinatura
+    const signatureCanvas = new fabric.Canvas('signatureCanvas', {
+        width: 500,
+        height: 200,
+        isDrawingMode: true
     });
-    // Função assíncrona para salvar assinatura
+
+    // Personalizar brush da assinatura
+    signatureCanvas.freeDrawingBrush.width = 3;
+    signatureCanvas.freeDrawingBrush.color = 'black';
+
+    // Função para limpar o canvas de assinatura
+    function limparAssinatura() {
+        signatureCanvas.clear();
+    }
+
+    const saveSignatureImage = document.getElementById('saveSignatureImage');
+    const signatureContainer = document.getElementById('signatureContainer'); // Container do canvas e da prévia da assinatura
+
+    // Função assíncrona para salvar a assinatura
     saveSignatureImage.addEventListener('click', async () => {
-        const file = signatureImage.files[0];
-        if (file) {
-            try {
-                const response = await uploadSignature(file);
+        try {
+            // Captura a assinatura em formato Blob
+            signatureCanvas.toBlob(async (blob) => {
+                if (!blob) {
+                    alert('Erro ao capturar a assinatura.');
+                    return;
+                }
+
+                // Adicionar feedback visual
+                saveSignatureImage.disabled = true;
+                saveSignatureImage.textContent = 'Salvando...';
+
+                const response = await uploadSignature(blob);
+
                 console.log('Resposta completa:', response); // Debug
                 if (response?.path) {
                     alert('Assinatura salva com sucesso!');
-                    signatureImage.disabled = true;
-                    saveSignatureImage.disabled = true;
+                    limparAssinatura(); // Limpa o canvas após salvar
+                    signatureCanvas.isDrawingMode = false; // Desabilita o modo de desenho
+
+                    // Substituir o canvas pela imagem da assinatura
+                    signatureContainer.innerHTML = `<img src="${response.path}" alt="Prévia da Assinatura" style="width: 500px; height: 200px;" />`;
                 } else {
-                    alert('Erro ao salvar assinatura.');
+                    throw new Error('Erro ao salvar assinatura: Caminho da assinatura não retornado.');
                 }
-            } catch (error) {
-                console.error('Erro ao salvar assinatura:', error);
-                alert('Erro ao salvar assinatura.');
-            }
+            }, 'image/png'); // Converte o canvas para PNG
+        } catch (error) {
+            console.error('Erro ao salvar assinatura:', error);
+            alert(error.message || 'Erro ao salvar assinatura.');
+            saveSignatureImage.disabled = false; // Reativa o botão apenas em caso de erro
+            saveSignatureImage.textContent = 'Salvar Assinatura';
         }
     });
 });
 
+
 async function carregarKits() {
-    const token = localStorage.getItem('token'); 
-    //1.
-    const kits = await get_kits();
-    console.log('Kits disponíveis: ', kits);
-    //2.
-    const selecao = document.getElementById('selecao');
-    //4.
-    if(kits.lenght === 0) {
-        console.log('Nenhum kit encontrado');
+    try {
+      const kitsResponse = await getKits();
+  
+      if (!kitsResponse || !Array.isArray(kitsResponse)) {
+        console.error('Resposta inválida da API ou dados não são um array:', kitsResponse);
+        return;
+      }
+  
+      const select = document.getElementById('selecao');
+      select.innerHTML = '';
+  
+      // Adiciona uma opção padrão
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = 'Selecione um kit';
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      select.appendChild(defaultOption);
+  
+      // Adiciona opções de kits
+      kitsResponse.forEach(kit => {
         const option = document.createElement('option');
-
-        //5.
-        option.innerText = 'Nenhum kit encontrado'
-        selecao.appendChild(option);
-    return
+        option.value = kit.id; // Define o ID do kit como valor
+        option.textContent = kit.nome_kit; // Nome do kit como texto da opção
+        select.appendChild(option);
+      });
+  
+      console.log('Kits renderizados com sucesso!');
+    } catch (error) {
+      console.error('Erro ao renderizar os kits:', error);
     }
-    //6.
-    kits.forEach(kit => {
-        const option = document.createElement('option');
-        option.value = kit.cod_kit;
-        option.textContent = kit.nom_kit;
+  }
 
-        selecao.appendChild('option')
-    })        
-    
-}
+async function VisualizarMateriais() {
+    try {
+      const materiais = await getMateriaisKit();
+  
+      const tbody = document.getElementById('body-table');
+      tbody.innerHTML = ''; // Limpa a tabela antes de adicionar os novos dados
+  
+      if (!materiais || materiais.length === 0) {
+        // Caso não haja materiais, exibe uma linha informativa
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        cell.colSpan = 3;
+        cell.textContent = 'Nenhum material encontrado para este kit.';
+        row.appendChild(cell);
+        tbody.appendChild(row);
+        return;
+      }
+  
+      // Preenche a tabela com os materiais
+      materiais.forEach(material => {
+        const row = document.createElement('tr');
+  
+        const cellId = document.createElement('td');
+        cellId.textContent = material.id;
+  
+        const cellNome = document.createElement('td');
+        cellNome.textContent = material.nome;
+  
+        const cellDescricao = document.createElement('td');
+        cellDescricao.textContent = material.descricao;
+  
+        row.appendChild(cellId);
+        row.appendChild(cellNome);
+        row.appendChild(cellDescricao);
+  
+        tbody.appendChild(row);
+      });
+  
+      console.log('Materiais renderizados com sucesso!');
+    } catch (error) {
+      console.error('Erro ao renderizar os materiais:', error);
+    }
+  }
 
 
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
@@ -304,5 +409,6 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarCursosVigentes(),
     carregarCursosConcluidos(),
     carregarNome(),
-    carregarKits()
+    carregarKits(),
+    VisualizarMateriais()
 });

@@ -26,14 +26,14 @@ export const addCurso = async (req, res) => {
 };
 
 export const addDocente = async (req, res) => {
-    const { matricula, nome, email, telefone, id_curso, curso_matriculado } = req.body;
+    const { matricula, nome, email, telefone } = req.body;
     const senha = "000000";
     const setor = "docente";
     try {
         const [resultado] = await db.execute(
-            `INSERT INTO docente (matricula, nome, email, senha, setor, telefone, id_curso, curso_matriculado) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [matricula, nome, email, senha, setor, telefone, id_curso, curso_matriculado]
+            `INSERT INTO docente (matricula, nome, email, senha, setor, telefone) 
+            VALUES (?, ?, ?, ?, ?, ?)`,
+            [matricula, nome, email, senha, setor, telefone]
         );
         return res.status(201).send('Docente adicionado com sucesso!');
     } catch (error) {
@@ -90,16 +90,17 @@ export const buscarCursosVigentes = async (req, res) => {
     }
 };
 
-// export const buscarCursosConcluidos = async (req, res) => {
-//     try {
-//         await db.execute('CALL AtualizarCursosConcluidos()'); // oque é isso elaine?
-//         const [resultado] = await db.execute('SELECT * FROM cursos_concluidos');
-//         return res.json(resultado);
-//     } catch (error) {
-//         console.error('Erro ao processar a requisição.', error);
-//         return res.status(500).send('Erro ao processar a requisição.');
-//     }
-// };
+ export const buscarCursosConcluidos = async (req, res) => {
+     try {
+         await db.execute('CALL AtualizarCursosConcluidos()'); // oque é isso elaine?
+         const [resultado] = await db.execute('SELECT * FROM cursos_concluidos');
+         console.log(resultado);
+         return res.json(resultado);
+     } catch (error) {
+         console.error('Erro ao processar a requisição.', error);
+         return res.status(500).send('Erro ao processar a requisição.');
+     }
+ };
 
 
 
@@ -107,7 +108,7 @@ export const buscarCursosVigentes = async (req, res) => {
 export const buscarDocentes = async (req, res) => {
     try {
         const [resultado] = await db.execute(
-            `SELECT id, matricula, nome, email, telefone, id_curso, curso_matriculado FROM docente`
+            `SELECT id, matricula, nome, email, telefone FROM docente`
         );
         return res.json(resultado);
     } catch (error) {

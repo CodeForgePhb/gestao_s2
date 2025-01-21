@@ -74,7 +74,7 @@
             <form class="search-filters" id="buscar-cursos-concluidos">
                 <input type="date" placeholder="dd/mm/aaaa" id="date1">
                 <input type="date" placeholder="dd/mm/aaaa" id="date2">
-                <input type="text" id="busca-por-cursos-concluidos"  placeholder="Busque por cursos concluídos...">
+                <input type="text" id="busca-por-cursos-concluidos" placeholder="Busque por cursos concluídos...">
                 <button>Buscar</button>
             </form>
             <div id="cursos-concluidos" class="content-wrapper">
@@ -214,7 +214,6 @@
             <div class="modal-body">
                 <div class="search-bar">
                     <select id="selecao">
-                        <option>Selecione o kit desejado</option>
                     </select>
                     <button>Buscar</button>
                 </div>
@@ -242,13 +241,13 @@
                             <th>QUANTIDADE REQUERIDA</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="body-table">
                         <tr>
                             <td>29322</td>
-                            <td>Marcador Quad Bco Azul Ponta 4,0mm</td>
-                            <td>2</td>
-                            <td>CX</td>
-                            <td>0</td>
+                            <td>Marcado</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <button onclick="decreaseValue(this)" class="btn-cont">-</button>
                                 <input type="number" value="0" min="0" style="width: 40px; text-align: center;"
@@ -341,13 +340,12 @@
                 <button for="SaveProfileImage" class="custom-file-label">Salvar</button>
 
 
-                <label for="signatureImage">Assinatura:</label>
                 <div class="container">
                     <div class="logo-container">
 
                     </div>
 
-                    <h1>Assinatura Digital</h1>
+                    <h1 id="SignatureTittle">Assinatura Digital</h1>
                     <p>Registre a sua assinatura digital abaixo.</p>
 
                     <div class="institutional-text">
@@ -357,12 +355,15 @@
                     <div class="signature-container">
                         <canvas id="signatureCanvas" width="500" height="200"></canvas>
                         <div>
-                            <button class="btn" onclick="limparAssinatura()">Limpar</button>
-                            <button class="btn" onclick="salvarAssinatura()">Salvar Assinatura</button>
+                            <button class="btn1" onclick="limparAssinatura()">Limpar</button>
+                            <button class="btn2" onclick="salvarAssinatura()">Gerar img</button>
+                            <button id="saveSignatureImage">Salvar Assinatura</button>
+                            <abbr title="Para armazenar sua assinatura, clique em 'Gerar img' e depois em 'Salvar Assinatura'.">
+                                <i class="fa-solid fa-info" style="color: #808080;" id="signatureInfo"></i>
+                            </abbr>
                         </div>
                     </div>
                 </div>
-                <button id="saveSignatureImage">Salvar Assinatura</button>
             </div>
         </div>
     </div>

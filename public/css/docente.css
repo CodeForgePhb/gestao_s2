@@ -212,6 +212,41 @@ body {
     color: black;
 }
 
+.btn1 {
+    background-color: rgb(247, 71, 71);
+}
+
+.btn2 {
+    background-color: rgb(90, 90, 232);
+}
+
+#SignatureTittle {
+    border-top: 2px solid gray;
+    padding-top: 15px;
+}
+
+#signatureCanvas {
+    margin: 10px;
+    background-color: rgb(227, 225, 225);
+}
+
+#saveSignatureImage {
+    background-color: rgb(23, 37, 228);
+}
+
+#signatureInfo {
+    padding: 10px;
+    color: #808080;
+    border: 2px solid gray;
+    border-radius: 30px;
+    
+}
+
+#signatureInfo:hover {
+    padding: 10px;
+    background-color: rgb(188, 187, 187);
+}
+
 .content {
     display: none;
 
@@ -400,7 +435,13 @@ h3 {
 
 span strong {
     font-weight: bold;
+    
 }
+
+span {
+    width: 180px
+}
+
 
 /* .accordion-content-course {
     display: none;
