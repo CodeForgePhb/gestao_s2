@@ -192,7 +192,7 @@ export async function buscarSetor(token) {
 export async function getCursosVigentes() {
     const token = localStorage.getItem('token');
     try {
-        const response = await fetch(`${API_URL}/routes/all-cursos-vigentes`, {
+        const response = await fetch(`${API_URL}/routes/cursos-vigentes`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -463,7 +463,7 @@ export async function getAssinatura() {
     }
 }
 
-/*------------------------------------------------*/
+/*-------- visualizar kits didáticos ---------------*/
 export async function getKits() {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -488,6 +488,7 @@ export async function getKits() {
         const data = await response.json();
         const kits = data.nome_kit || data;
 
+        console.log('Kits didáticos: ', kits);
         return await kits;
 
     } catch (error) {
@@ -506,10 +507,47 @@ export async function getKits() {
 
 /*----- Visualizar os materiais inseridos nos kit didáticos-----*/
 
-export async function getMateriaisKit() {
+// export async function getMateriaisKit() {
+//     try {
+//         const token = localStorage.getItem('token');
+//         const response = await fetch(`${API_URL}/routes/materiais-kit-didatico`, {
+//             method: 'GET',
+//             headers: {
+//                 'Authorization': `Bearer ${token}`,
+//                 'Content-Type': 'application/json',
+//             },
+//         });
+
+//         if (!response.ok) {
+//             const erro_message = await response.text();
+
+//             throw new Error(`Erro na requisição - ${`response.status`}: ${erro_message}`)
+//         }
+//         const data = await response.json();
+//         const materiais_kit = data
+
+//         return await materiais_kit;
+
+//     } catch (error) {
+//         console.error('Erro ao buscar materiais:', error);
+//         return { sucess: false, message: 'ERRO' }
+//     }
+// }
+
+export async function getMateriaisKit(nomeKit) {
     try {
+        // Verifica se o nome do kit foi fornecido
+        if (!nomeKit) {
+            throw new Error('Nome do kit não fornecido');
+        }
+
         const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/routes/materiais-kit-didatico`, {
+        
+        // Codifica o nome do kit para uso na URL
+        const nomeKitCodificado = encodeURIComponent(nomeKit);
+        
+        // Adiciona o nome do kit como query parameter
+        const response = await fetch(`${API_URL}/routes/materiais-kit-didatico?nome_kit=${nomeKitCodificado}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -519,17 +557,20 @@ export async function getMateriaisKit() {
 
         if (!response.ok) {
             const erro_message = await response.text();
-
-            throw new Error(`Erro na requisição - ${`response.status`}: ${erro_message}`)
+            throw new Error(`Erro na requisição - ${response.status}: ${erro_message}`);
         }
+
         const data = await response.json();
-        const materiais_kit = data.nome_kit || data;
-
-        return await materiais_kit;
-
+        return data;
+        console.log(data)
+        
+        
     } catch (error) {
         console.error('Erro ao buscar materiais:', error);
-        return { sucess: false, message: 'ERRO' }
+        return { 
+            success: false, 
+            message: error.message || 'Erro ao buscar materiais do kit'
+        };
     }
 }
 

@@ -885,6 +885,65 @@ button:hover {
     stroke-dashoffset: 0;
   }
 }
+
+
+.custom-file-input {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+}
+
+.img-troca {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.Profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  padding: 10px;
+  gap: 10px;
+  color: white;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  background-color: rgb(23, 37, 228);
+}
+
+.Profile:hover {
+  background-color: rgb(119, 127, 235);
+  transition: background-color 0.3s;
+}
+
+/* Estilo do label que funcionará como nosso botão personalizado */
+.custom-file-label {
+  display: inline-block;
+  padding: 12px 24px;
+  color: rgb(23, 37, 228);
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+/* Hover effect */
+.custom-file-label:hover {
+  background-color: rgba(209, 209, 209, 0.344);
+}
+
+/* Estilo para mostrar o nome do arquivo selecionado */
+.file-name {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
 /* FINAL  */
 
 button {
@@ -950,15 +1009,15 @@ button:hover {
 }
 
 .fot img {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   border-radius: 100%;
   border: 2px solid #007bff;
   object-fit: cover;
 }
 .fot {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -971,4 +1030,12 @@ label {
 
 input[type="file"] {
   margin-bottom: 10px;
+}
+
+.canvas-container {
+  margin: 15px auto 15px auto;
+  background-color: rgb(227, 225, 225);
+}
+.assinatura {
+  margin: 15px auto 15px auto;
 }

@@ -1,11 +1,11 @@
-// Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
-import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getCursosConcluidos, buscarCursosConcluidosPorPesquisa ,getNome, logoutUser, monitorarTokenExpiracao, getKits, getMateriaisKit } from '../api.js'; // Ajuste o caminho conforme necessário
+2// Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
+import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getCursosConcluidos, buscarCursosConcluidosPorPesquisa, getNome, logoutUser, monitorarTokenExpiracao, getKits, getMateriaisKit } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
     getAssinatura();
 };
-document.getElementById('buscar-cursos-concluidos').addEventListener('submit', async (event)=> {
+document.getElementById('buscar-cursos-concluidos').addEventListener('submit', async (event) => {
     event.preventDefault();
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
     const token = localStorage.getItem('token');
@@ -33,13 +33,13 @@ document.getElementById('buscar-cursos-concluidos').addEventListener('submit', a
         divInterna.innerHTML = `
         <h2 class="course-title">${curso.nome_curso}</h2>
         <span>Professor: ${curso.docente}</span>
-        <p class="course-date">Concluido em ${curso.data_fim.substring(0,10)}</p>
+        <p class="course-date">Concluido em ${curso.data_fim.substring(0, 10)}</p>
         `;
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 })
 // função para pesquisar cursos concluidos;
-document.getElementById('busca-por-cursos-concluidos').addEventListener('keyup', async ()=> {
+document.getElementById('busca-por-cursos-concluidos').addEventListener('keyup', async () => {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
     const token = localStorage.getItem('token');
     //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
@@ -65,7 +65,7 @@ document.getElementById('busca-por-cursos-concluidos').addEventListener('keyup',
         divInterna.innerHTML = `
         <h2 class="course-title">${curso.nome_curso}</h2>
         <span>Professor: ${curso.docente}</span>
-        <p class="course-date">Concluido em ${curso.data_fim.substring(0,10)}</p>
+        <p class="course-date">Concluido em ${curso.data_fim.substring(0, 10)}</p>
         `;
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
@@ -92,20 +92,47 @@ async function carregarCursosVigentes() {
     // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
     cursos.cursos.forEach(curso => {
         const divInterna = document.createElement('div'); // Criar uma nova linha na tabela.
-        divInterna.classList.add('course')
+        divInterna.classList.add('course');
         divInterna.innerHTML = `
             <div class="accordion-header">
-                <span>${curso.nome_curso}</span><!--Exibe o nome do curso-->
-                <span class="arrow">&#9650;</span>
+                <span id="nome-curso">${curso.nome}</span><!--Exibe o nome do curso-->
+                <span class="arrow"><i class="fa-solid fa-chevron-down" style="color: #808080;"></i></span>
+            </div>
+            <div class="accordion-content">
+                <div class="inf">
+                    <span><strong>Data Inicio:</strong> ${curso.data_inicio.substring(0, 10)}</span>
+                    <span><strong>Data Fim:</strong> ${curso.data_fim.substring(0, 10)}</span>
+                    <span><strong>Carga Horária:</strong>${curso.ch_total}</span>
+                </div>
+                <div class="inf">
+                    <span><strong>Cód:</strong>${curso.cod}</span>
+                    <span><strong>Turno:</strong>${curso.turno}</span>
+                    <span><strong>Turma:</strong>${curso.turma}</span>
+                </div>
             </div>
         `;
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
+
+    document.querySelectorAll('.course').forEach(course => {
+        course.addEventListener('click', () => {
+            const content = course.querySelector('.accordion-content');
+            const arrowIcon = course.querySelector('.arrow i'); // Selecione o <i>
+
+            if (content.classList.contains('show')) {
+                content.classList.remove('show'); // Fecha
+                arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
+            } else {
+                content.classList.add('show'); // Abre
+                arrowIcon.style.transform = 'rotate(180deg)'; // Rotaciona
+            }
+        });
+    });
 }
 //=-=-=-=-=-=-=-= Funcção para carregar CURSOS CONLUÍDOS -=-=--=-=-=-=-=--=-=-=
-async function carregarCursosConcluidos(){
+async function carregarCursosConcluidos() {
     const token = localStorage.getItem('token');
-    if(!token){
+    if (!token) {
         console.error("Token JWT não encontrado no localStorage")
     }
     const cursos = await getCursosConcluidos();
@@ -129,7 +156,7 @@ async function carregarCursosConcluidos(){
         divInterna.innerHTML = `
         <h2 class="course-title">${curso.nome_curso}</h2>
         <span>Professor: ${curso.docente}</span>
-        <p class="course-date">Concluido em ${curso.data_fim.substring(0,10)}</p>
+        <p class="course-date">Concluido em ${curso.data_fim.substring(0, 10)}</p>
         `;
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
@@ -254,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
         limparAssinatura();
     })
     const saveSignatureImage = document.getElementById('saveSignatureImage');
-   // const signatureContainer = document.getElementById('signatureContainer'); // Container do canvas e da prévia da assinatura
+    // const signatureContainer = document.getElementById('signatureContainer'); // Container do canvas e da prévia da assinatura
     // Função assíncrona para salvar a assinatura
     saveSignatureImage.addEventListener('click', async () => {
         try {
@@ -286,73 +313,112 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+/*---- CARREGAR KITS DIDÁTICOS ---- */
 async function carregarKits() {
     try {
-      const kitsResponse = await getKits();
-      if (!kitsResponse || !Array.isArray(kitsResponse)) {
-        console.error('Resposta inválida da API ou dados não são um array:', kitsResponse);
-        return;
-      }
-      const select = document.getElementById('selecao');
-      select.innerHTML = '';
-      // Adiciona uma opção padrão
-      const defaultOption = document.createElement('option');
-      defaultOption.value = '';
-      defaultOption.textContent = 'Selecione um kit';
-      defaultOption.disabled = true;
-      defaultOption.selected = true;
-      select.appendChild(defaultOption);
-      // Adiciona opções de kits
-      kitsResponse.forEach(kit => {
-        const option = document.createElement('option');
-        option.value = kit.id; // Define o ID do kit como valor
-        option.textContent = kit.nome_kit; // Nome do kit como texto da opção
-        select.appendChild(option);
-      });
-      console.log('Kits renderizados com sucesso!');
+        const kitsResponse = await getKits();
+        if (!kitsResponse || !Array.isArray(kitsResponse)) {
+            console.error('Resposta inválida da API ou dados não são um array:', kitsResponse);
+            return;
+        }
+        const select = document.getElementById('selecao');
+        select.innerHTML = '';
+        // Adiciona uma opção padrão
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Selecione um kit';
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        select.appendChild(defaultOption);
+        // Adiciona opções de kits
+        kitsResponse.forEach(kit => {
+            const option = document.createElement('option');
+            option.textContent = kit.nome_kit; // Nome do kit como texto da opção
+            select.appendChild(option);
+        });
+        console.log('Kits renderizados com sucesso!');
     } catch (error) {
-      console.error('Erro ao renderizar os kits:', error);
+        console.error('Erro ao renderizar os kits:', error);
     }
-  }
-async function VisualizarMateriais() {
+}
+
+/*----- renderizar materiais do kit didático ----- */
+async function renderizarMateriais(nomeKit) {
     try {
-      const materiais = await getMateriaisKit();
-      const tbody = document.getElementById('body-table');
-      tbody.innerHTML = ''; // Limpa a tabela antes de adicionar os novos dados
-      if (!materiais || materiais.length === 0) {
-        // Caso não haja materiais, exibe uma linha informativa
-        const row = document.createElement('tr');
-        const cell = document.createElement('td');
-        cell.colSpan = 3;
-        cell.textContent = 'Nenhum material encontrado para este kit.';
-        row.appendChild(cell);
-        tbody.appendChild(row);
-        return;
-      }
-      // Preenche a tabela com os materiais
-      materiais.forEach(material => {
-        const row = document.createElement('tr');
-        const cellId = document.createElement('td');
-        cellId.textContent = material.id;
-        const cellNome = document.createElement('td');
-        cellNome.textContent = material.nome;
-        const cellDescricao = document.createElement('td');
-        cellDescricao.textContent = material.descricao;
-        row.appendChild(cellId);
-        row.appendChild(cellNome);
-        row.appendChild(cellDescricao);
-        tbody.appendChild(row);
-      });
-      console.log('Materiais renderizados com sucesso!');
-    } catch (error) {
-      console.error('Erro ao renderizar os materiais:', error);
+        // Obtém os materiais do kit
+        const MateriaisKit = await getMateriaisKit(nomeKit);
+
+        // Seleciona o elemento tbody
+        const tbody = document.querySelector('#body-table');
+
+        // Limpa o conteúdo anterior da tabela
+        tbody.innerHTML = '';
+
+        // Verifica se a resposta foi bem-sucedida e possui dados
+        if (!MateriaisKit || MateriaisKit.success === false || MateriaisKit.length === 0) {
+            console.log('Nenhum material encontrado ou erro na busca');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td colspan="4">Nenhum material encontrado</td>`;
+            tbody.appendChild(tr);
+            return;
+        }
+
+        // Itera pelos materiais e adiciona uma linha para cada um
+        MateriaisKit.forEach(material => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${material.cod_kit || 'N/A'}</td>
+                <td>${material.descricao || 'N/A'}</td>
+                <td>${material.quantidade || 'N/A'}</td>
+                <td>${material.unidade_medida || 'N/A'}</td>
+                <td>0</td>
+                <td>
+                    <button onclick="decreaseValue(this)" class="btn-cont">-</button>
+                    <input type="number" value="0" min="0" style="width: 40px; text-align: center;"
+                                    onchange="validateValue(this)">
+                    <button class="add" onclick="increaseValue(this)">+</button>
+                    <button class="delete" onclick="deleteRow(this)">
+                        <i class="fa fa-trash"></i>
+                    </button></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (erro) {
+        console.error('Erro ao renderizar materiais:', erro);
+
+        // Seleciona o elemento tbody
+        const tbody = document.querySelector('#body-table');
+
+        // Exibe uma mensagem de erro na tabela
+        tbody.innerHTML = '';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="4">Erro ao buscar os materiais: ${erro.message}</td>`;
+        tbody.appendChild(tr);
     }
-  }
+}
+
+document.getElementById('buscar-materiais').addEventListener('click', () => {
+    const resultado = document.getElementById('result');
+    const nomeKit = document.getElementById('selecao').value;
+    if(nomeKit) {
+        renderizarMateriais(nomeKit)
+        resultado.innerHTML = '';
+
+    } else {
+        console.log('Nome do kit não fornecido');
+        let select = document.getElementById('selecao');
+        select.focus();
+        resultado.innerHTML =
+            `<p style="color: red; text-align: center;" >Selecione um kit!</p>`
+    }
+});
+
+
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarCursosVigentes(),
-    carregarCursosConcluidos(),
-    carregarNome(),
-    carregarKits(),
-    VisualizarMateriais()
+        carregarCursosConcluidos(),
+        carregarNome(),
+        carregarKits()
 });

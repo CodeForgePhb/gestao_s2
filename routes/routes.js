@@ -33,8 +33,8 @@ router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosCo
 
 
 router.get('/solicitacao-kit', authMiddleware,controllerDocente.TodasSolicitacoes);
-//router.get('/kit-didatico-curso', authMiddleware, controllerDocente.TodosKits);
-//router.get('/materiais-kit-didatico', authMiddleware, controllerDocente.TodosMateriais)
+router.get('/kit-didatico-curso', authMiddleware, controllerDocente.TodosKits);
+router.get('/materiais-kit-didatico', authMiddleware, controllerDocente.TodosMateriais)
 
 
 

@@ -14,6 +14,8 @@ body {
     overflow: hidden;
 }
 
+/* Menu Lateral */
+
 .sidebar {
     width: 250px;
     background-color: #002366;
@@ -23,7 +25,6 @@ body {
     flex-direction: column;
     justify-content: space-between;
     padding-top: 40px;
-
 }
 
 .sidebar h1 {
@@ -47,10 +48,12 @@ body {
     border: solid 2px #ffffff;
     background-color: rgb(30, 58, 138);
 }
+
 .no-active {
     border: solid 2px #5756566d;
+    width: 100%;
     pointer-events: none;
-  
+
 }
 
 .sidebar a {
@@ -78,11 +81,10 @@ body {
 }
 
 .span-name {
-    /*div para teste*/ /*fran editando*/
     display: flex;
     flex-direction: column;
     margin: 0px;
-  }
+}
 
 .sidebar .profile img {
     width: 50px;
@@ -94,10 +96,35 @@ body {
 .sidebar .profile .info {
     font-size: 0.9em;
 }
-.name{
-    border-bottom: 1px solid #fff;
-    padding-bottom: 3px;
-    margin-bottom: 3px;
+
+
+/* Área de perfil */
+
+.avatar {
+    border: 2px solid white;
+    border-radius: 50%;
+    padding: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.info {
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.info .name.saudacao {
+    font-weight: bold;
+    font-size: 16px;
+    padding-bottom: 20px;
+}
+
+.func {
+    border-top: 2px solid #fff;
+    margin-top: 10px;
 }
 
 .logout {
@@ -112,6 +139,63 @@ body {
     border: none;
     cursor: pointer;
 }
+
+
+
+
+/* Modal de Configurações */
+
+.Profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    padding: 10px;
+    gap: 10px;
+    color: white;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    background-color: rgb(23, 37, 228);
+}
+
+.Profile:hover {
+    background-color: rgb(119, 127, 235);
+    transition: background-color 0.3s;
+}
+
+.custom-file-label {
+    display: inline-block;
+    padding: 12px 24px;
+    color: rgb(23, 37, 228);
+    background-color: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* Hover effect */
+.custom-file-label:hover {
+    background-color: rgba(209, 209, 209, 0.344);
+}
+
+/* Estilo para mostrar o nome do arquivo selecionado */
+.file-name {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+
+
+
+.name {
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+}
+
+
 
 .main {
     flex-grow: 1;
@@ -229,13 +313,16 @@ body {
     border-top: 2px solid gray;
     padding-top: 15px;
 }
+
 .canvas-container {
     margin: 15px auto 15px auto;
     background-color: rgb(227, 225, 225);
 }
+
 .assinatura {
     margin: 15px auto 15px auto;
 }
+
 #saveSignatureImage {
     background-color: rgb(23, 37, 228);
 }
@@ -245,7 +332,7 @@ body {
     color: #808080;
     border: 2px solid gray;
     border-radius: 30px;
-    
+
 }
 
 #signatureInfo:hover {
@@ -421,17 +508,40 @@ h3 {
     align-items: center;
     width: 100%;
     height: 100%;
+    margin-bottom: 5px;
 }
 
 .accordion-header:hover {
     background-color: #eaeaea;
 }
 
+#nome-curso {
+    width: 100%;
+}
+
 .accordion-content {
-    padding: 15px;
+    /* padding: 15px;
     display: none;
     width: 100%;
-    height: 130px;
+    height: 130px; */
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    width: 100%;
+}
+.accordion-content .inf {
+    margin: 15px;
+    height: 40%;
+}
+.accordion-content .inf span {
+    width: 100%;
+}
+
+.accordion-content.show {
+    max-height: 500px;
+    /* Valor grande o suficiente para acomodar o conteúdo */
+    opacity: 1;
 }
 
 .course-c {
@@ -440,7 +550,7 @@ h3 {
 
 span strong {
     font-weight: bold;
-    
+
 }
 
 span {
@@ -459,8 +569,8 @@ span {
 
 .inf {
     display: flex;
-    flex-direction: column;
-    height: 400px;
+    justify-content: space-between;
+    height: 50px;
 }
 
 .fa-solid {
@@ -488,20 +598,24 @@ span {
     background-color: #1558b3;
 }
 
-.arrow {
+.arrow i {
     font-size: 12px;
-    transition: transform 0.3s;
-    rotate: -180deg;
+    transition: transform 0.3s ease;
+    /* rotate: -180deg; */
+}
+
+.arrow i.rotate {
+    transform: rotate(180deg);
 }
 
 .course .arrow {
     font-size: 10pt;
 }
 
-.arrow.down {
+/* .arrow.down {
     margin-left: 70px;
     transform: rotate(180deg);
-}
+} */
 
 span.arrow.down {
     display: flex;
@@ -512,16 +626,17 @@ span.arrow.down {
 /* MODAL  */
 .modal-s {
     font-family: Arial, sans-serif;
-    
+
     color: #000;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
- 
+
     width: 100%;
     position: absolute;
 }
+
 .modal {
     display: none;
     background-color: white;
@@ -531,8 +646,9 @@ span.arrow.down {
     border-radius: 34px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-   
+
 }
+
 .modal-header {
     background: linear-gradient(180deg, #163193 0%, #0f246d 100%);
     color: white;
@@ -553,26 +669,29 @@ span.arrow.down {
 
 .modal-body {
     padding: 16px;
-  
-   
+
+
 }
+
 .search-bar {
     margin-bottom: 16px;
     display: flex;
     gap: 8px;
     justify-content: center;
-   
+
 }
+
 .search-bar input {
     width: calc(100% - 100px);
     padding: 8px;
     height: 35px;
     font-size: 14px;
-     width: 50%;
-     border: none;
-     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-     border-radius: 5px;
+    width: 50%;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 5px;
 }
+
 .search-bar button {
     padding: 8px 16px;
     font-size: 14px;
@@ -582,32 +701,26 @@ span.arrow.down {
     border-radius: 4px;
     cursor: pointer;
 }
-.info {
-  
-    font-size: 14px;
-   gap: 10px;
-    width: 100%;
-    justify-content: space-between;
-}
-.info b {
-    display: inline-block;
-    width: 100px;
-}
+
 .table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 16px;
 }
-.table th, .table td {
+
+.table th,
+.table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
     font-size: 14px;
 }
+
 .table th {
     background-color: #002d91;
     color: white;
 }
+
 .table td button {
 
     border: none;
@@ -615,20 +728,25 @@ span.arrow.down {
     border-radius: 4px;
     cursor: pointer;
 }
-.btn-cont{
-   background-color: #E84910;
+
+.btn-cont {
+    background-color: #E84910;
     color: white;
-} 
-.add{
-   background-color: #E84910;
+}
+
+.add {
+    background-color: #E84910;
     color: white;
-} 
+}
+
 .table td button.add {
     background-color: #0554F1;
 }
+
 .additional-materials {
     margin-bottom: 16px;
 }
+
 .additional-materials textarea {
     width: 100%;
     height: 60px;
@@ -637,6 +755,7 @@ span.arrow.down {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
+
 .modal-2 {
     position: fixed;
     top: 0;
@@ -653,7 +772,7 @@ span.arrow.down {
     background-color: white;
     border-radius: 10px;
     width: 300px;
-  height: 100%;
+    height: 100%;
 
     display: flex;
     flex-direction: column;
@@ -661,6 +780,7 @@ span.arrow.down {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
 }
+
 .modal-content-2 {
     background-color: white;
     border-radius: 10px;
@@ -674,71 +794,76 @@ span.arrow.down {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
 }
+
 .modal-content-2 {
 
     text-align: center;
     width: 400px;
-    
-    }
-    .modal-box{
-        padding: 20px;
-    }
-.modal-content p{
-padding-top: 20%;
 
-position: absolute;
-align-items: center;
-width: 100%;
+}
+
+.modal-box {
+    padding: 20px;
+}
+
+.modal-content p {
+    padding-top: 20%;
+
+    position: absolute;
+    align-items: center;
+    width: 100%;
 }
 
 
 
 
 .modal-footer {
-  
-        display: flex;
-        justify-content: space-between; 
-        padding: 16px; 
-       
-       
-        position: absolute;
-        bottom: 0; 
-        width: 100%;
-        box-sizing: border-box; 
+
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+
+
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
     max-width: 800px;
-    
+
 }
+
 .modal-footer-2 {
-  
-        display: flex;
-        justify-content: space-between; 
-        padding: 16px; 
-       
-       
-        position: absolute;
-        bottom: 0; 
-        width: 100%;
-        box-sizing: border-box; 
+
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+
+
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
     max-width: 800px;
-    
+
 }
 
 .modal-footer button {
-  
-        background-color: #002a80; 
-        color: white; 
-        border: none;
-        height: 40px;
-        padding: 10px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-    
+
+    background-color: #002a80;
+    color: white;
+    border: none;
+    height: 40px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+
 }
 
 .modal-footer button.cancel {
     background-color: #002d91;
 }
-#okBtn{
+
+#okBtn {
     background-color: #002a80;
     color: white;
     border: none;
@@ -746,9 +871,9 @@ width: 100%;
     padding: 10px 30px;
     border-radius: 10px;
     cursor: pointer;
-margin-top: 10px;
+    margin-top: 10px;
     width: 100px;
-   justify-content: center;
+    justify-content: center;
 }
 
 
@@ -762,49 +887,54 @@ margin-top: 10px;
     border-radius: 4px;
     cursor: pointer;
 }
-.func{
-   
-    margin-top: 10px;
-}
+
 button.delete {
-    background-color: transparent; /* Fundo transparente */
-    border: none; /* Sem borda */
-    color: #000000; /* Ícone preto */
-    cursor: pointer; /* Cursor interativo */
-    margin-left: 8px; /* Espaço entre os botões */
-    font-size: 16px; /* Tamanho do ícone */
-    transition: color 0.3s; /* Transição suave para hover */
+    background-color: transparent;
+    /* Fundo transparente */
+    border: none;
+    /* Sem borda */
+    color: #000000;
+    /* Ícone preto */
+    cursor: pointer;
+    /* Cursor interativo */
+    margin-left: 8px;
+    /* Espaço entre os botões */
+    font-size: 16px;
+    /* Tamanho do ícone */
+    transition: color 0.3s;
+    /* Transição suave para hover */
 }
 
 button.delete:hover {
-    color: #444444; /* Preto mais claro ao passar o mouse */
+    color: #444444;
+    /* Preto mais claro ao passar o mouse */
 }
 
 
 /* FINAL MODAL  */
 /* MODAL CONFIRMAÇÃO  */
-   /* Estilo do Modal */
+/* Estilo do Modal */
 .modal-2 {
-display: none;
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.5);
-justify-content: center;
-align-items: center;
-z-index: 1000;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .modal-content {
-background: white;
+    background: white;
 
-border-radius: 10px;
-text-align: center;
-width: 400px;
-height: 210px;
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    width: 400px;
+    height: 210px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 
 }
 
@@ -822,74 +952,76 @@ cursor: pointer;
 } */
 
 button:hover {
-background-color: #0e44b9;
+    background-color: #0e44b9;
 }
 
 /* Checkmark Animado */
 .checkmark-container {
-position: relative;
-width: 60px;
-height: 80px;
-margin: 0 auto 20px;
+    position: relative;
+    width: 60px;
+    height: 80px;
+    margin: 0 auto 20px;
 }
 
 .checkmark-circle {
-width: 60px;
-height: 60px;
-border-radius: 50%;
-border: 4px solid #002d91;
-position: absolute;
-top: 0;
-left: 0;
-animation: circle-scale 0.5s ease-out forwards;
-background: #002d91;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 4px solid #002d91;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: circle-scale 0.5s ease-out forwards;
+    background: #002d91;
 }
 
 .checkmark {
-position: absolute;
-width: 40px;
-height: 20px;
-top: 28px;
-left: 22px;
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    top: 28px;
+    left: 22px;
 }
 
 .checkmark-stem {
-position: absolute;
-width: 4px;
-height: 20px;
-background-color: #002d91;
-left: 18px;
-top: 0;
-transform: rotate(45deg);
-animation: draw-stem 0.5s ease-out forwards 0.5s;
+    position: absolute;
+    width: 4px;
+    height: 20px;
+    background-color: #002d91;
+    left: 18px;
+    top: 0;
+    transform: rotate(45deg);
+    animation: draw-stem 0.5s ease-out forwards 0.5s;
 }
 
 .checkmark-kick {
-fill: none;
-stroke: #ffffff;
-/* Check branco */
-stroke-width: 5;
-stroke-linecap: round;
-stroke-dasharray: 50;
-stroke-dashoffset: 50;
-animation: check-draw 0.6s ease-in-out 0.6s forwards;
-/* Atraso após o círculo */
-}
-/* circlo  */
-@keyframes circle-scale {
-0% {
-    transform: scale(0);
+    fill: none;
+    stroke: #ffffff;
+    /* Check branco */
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: check-draw 0.6s ease-in-out 0.6s forwards;
+    /* Atraso após o círculo */
 }
 
-100% {
-    transform: scale(1);
-}
+/* circlo  */
+@keyframes circle-scale {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes check-draw {
     from {
         stroke-dashoffset: 50;
     }
+
     to {
         stroke-dashoffset: 0;
     }
@@ -899,53 +1031,57 @@ animation: check-draw 0.6s ease-in-out 0.6s forwards;
 
 /* Tabs */
 .tabs {
-display: flex;
-margin: 20px 0;
+    display: flex;
+    margin: 20px 0;
 }
 
 .tab {
-padding: 10px 20px;
-cursor: pointer;
-border: 1px solid #ddd;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ddd;
 }
 
 .tab.active {
-background-color: #002d91;
-color: white;
+    background-color: #002d91;
+    color: white;
 }
 
 .tab-content {
-display: none;
+    display: none;
 }
 
 .tab-content.active {
-display: block;
+    display: block;
 }
 
 .check {
     fill: none;
-    stroke: #ffffff; /* Check branco */
+    stroke: #ffffff;
+    /* Check branco */
     stroke-width: 5;
     stroke-linecap: round;
     stroke-dasharray: 50;
     stroke-dashoffset: 50;
-    animation: check-draw 0.6s ease-in-out 0.6s forwards; /* Atraso após o círculo */
+    animation: check-draw 0.6s ease-in-out 0.6s forwards;
+    /* Atraso após o círculo */
 }
-#cancelBtn{
+
+#cancelBtn {
     background-color: #002d91;
-color: white;
-border: none;
-padding: 10px 35px;
-border-radius: 6px;
-cursor: pointer;
+    color: white;
+    border: none;
+    padding: 10px 35px;
+    border-radius: 6px;
+    cursor: pointer;
 }
-#sendBtn{
+
+#sendBtn {
     background-color: #002d91;
-color: white;
-border: none;
-padding: 10px 35px;
-border-radius: 6px;
-cursor: pointer;
+    color: white;
+    border: none;
+    padding: 10px 35px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 .loading {
@@ -980,48 +1116,7 @@ cursor: pointer;
     justify-content: center;
 }
 
-.Profile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    padding: 10px;
-    gap: 10px;
-    color: white;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    background-color: rgb(23, 37, 228);
-}
 
-.Profile:hover {
-    background-color: rgb(119, 127, 235);
-    transition: background-color 0.3s;
-}
-
-/* Estilo do label que funcionará como nosso botão personalizado */
-.custom-file-label {
-    display: inline-block;
-    padding: 12px 24px;
-    color: rgb(23, 37, 228);
-    background-color: transparent;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-/* Hover effect */
-.custom-file-label:hover {
-    background-color: rgba(209, 209, 209, 0.344);
-}
-
-/* Estilo para mostrar o nome do arquivo selecionado */
-.file-name {
-    margin-left: 10px;
-    font-size: 14px;
-    color: #666;
-}
 
 
 /* Animação keyframe */
@@ -1039,10 +1134,12 @@ cursor: pointer;
     from {
         stroke-dashoffset: 50;
     }
+
     to {
         stroke-dashoffset: 0;
     }
 }
+
 /* FINAL  */
 
 button {
@@ -1074,13 +1171,14 @@ button:hover {
 .custom-modal-content {
     background-color: white;
     margin: 10% auto;
-   
+
     border: 1px solid #ccc;
     border-radius: 10px;
     width: 50%;
     position: relative;
     text-align: center;
 }
+
 .modal-header {
     display: flex;
     align-items: center;
@@ -1122,21 +1220,23 @@ button:hover {
 }
 
 
-.fot img{
+.fot img {
     width: 70px;
     height: 70px;
     border-radius: 100%;
     border: 2px solid #007BFF;
     object-fit: cover;
 }
+
 .fot {
     width: 70px;
-     height: 70px; 
-       border-radius: 50%;
-       display: flex;
-       justify-content: center;
-       width: 100%;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
+
 label {
     display: block;
     margin: 15px 0 5px;
