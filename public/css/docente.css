@@ -229,12 +229,13 @@ body {
     border-top: 2px solid gray;
     padding-top: 15px;
 }
-
-#signatureCanvas {
-    margin: 10px;
+.canvas-container {
+    margin: 15px auto 15px auto;
     background-color: rgb(227, 225, 225);
 }
-
+.assinatura {
+    margin: 15px auto 15px auto;
+}
 #saveSignatureImage {
     background-color: rgb(23, 37, 228);
 }

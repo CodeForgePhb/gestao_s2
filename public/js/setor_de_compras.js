@@ -1,7 +1,8 @@
-import { uploadProfileImage, uploadSignature, getFotoPerfil, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
+import { uploadProfileImage, uploadSignature, getFotoPerfil,getAssinatura, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
+    getAssinatura();
 };
 document.addEventListener('DOMContentLoaded', () => {
     //FOTO PERFIL
@@ -19,9 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const newProfileImage = document.getElementById('newProfileImage');
     const saveProfileImage = document.getElementById('saveProfileImage');
     const profilePreview = document.querySelector('.fot');
-    const signatureImage = document.getElementById('signatureImage');
-    const saveSignatureImage = document.getElementById('saveSignatureImage');
-    const signaturePreview = document.getElementById('signaturePreview');
     // Função assíncrona para alterar a imagem de perfil
     // Armazena temporariamente o arquivo selecionado
     let selectedProfileImage = null;
@@ -66,30 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Nenhuma imagem foi selecionada.');
         }
     });
-    // Função assíncrona para envio único da assinatura
-    signatureImage.addEventListener('change', async () => {
-        await previewImageAsync(signatureImage, signaturePreview, 100, 50);
-        saveSignatureImage.disabled = false;
-    });
-    // Função assíncrona para salvar assinatura
-    saveSignatureImage.addEventListener('click', async () => {
-        const file = signatureImage.files[0];
-        if (file) {
-            try {
-                const response = await uploadSignature(file);
-                if (response?.path) {
-                    alert('Assinatura salva com sucesso!');
-                    signatureImage.disabled = true;
-                    saveSignatureImage.disabled = true;
-                } else {
-                    alert('Erro ao salvar assinatura.');
-                }
-            } catch (error) {
-                console.error('Erro ao salvar assinatura:', error);
-                alert('Erro ao salvar assinatura.');
-            }
-        }
-    });
     //LOGOUT
     document.querySelector('#btnLogout').addEventListener('click', async (event) => {
         try {
@@ -101,7 +75,57 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
+document.addEventListener('DOMContentLoaded', () => {
+    // Configuração do canvas de assinatura
+    const signatureCanvas = new fabric.Canvas('signatureCanvas', {
+        width: 500,
+        height: 200,
+        isDrawingMode: true
+    });
+    // Personalizar brush da assinatura
+    signatureCanvas.freeDrawingBrush.width = 3;
+    signatureCanvas.freeDrawingBrush.color = 'black';
+    // Função para limpar o canvas de assinatura
+    function limparAssinatura() {
+        signatureCanvas.clear();
+    }
+    const limpar = document.getElementById('limpar');
+    limpar.addEventListener('click', () => {
+        limparAssinatura();
+    })
+    const saveSignatureImage = document.getElementById('saveSignatureImage');
+   // const signatureContainer = document.getElementById('signatureContainer'); // Container do canvas e da prévia da assinatura
+    // Função assíncrona para salvar a assinatura
+    saveSignatureImage.addEventListener('click', async () => {
+        try {
+            // Captura a assinatura em formato Blob
+            signatureCanvas.getElement().toBlob(async (blob) => {
+                if (!blob) {
+                    alert('Erro ao capturar a assinatura.');
+                    return;
+                }
+                // Adicionar feedback visual
+                saveSignatureImage.disabled = true;
+                saveSignatureImage.textContent = 'Salvo';
+                const response = await uploadSignature(blob);
+                console.log('Resposta completa:', response); // Debug
+                if (response?.path) {
+                    alert('Assinatura salva com sucesso!');
+                    //limparAssinatura(); // Limpa o canvas após salvar
+                    signatureCanvas.isDrawingMode = false; // Desabilita o modo de desenho
+                    location.reload();
+                } else {
+                    throw new Error('Erro ao salvar assinatura: Caminho da assinatura não retornado.');
+                }
+            }, 'image/png'); // Converte o canvas para PNG
+        } catch (error) {
+            console.error('Erro ao salvar assinatura:', error);
+            alert(error.message || 'Erro ao salvar assinatura.');
+            saveSignatureImage.disabled = false; // Reativa o botão apenas em caso de erro
+            saveSignatureImage.textContent = 'Salvar Assinatura';
+        }
+    });
+});
 //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
 const nome = await getNome();
 //Obtém o corpo da tabela onde as transações serão inseridas.

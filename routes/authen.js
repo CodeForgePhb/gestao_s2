@@ -24,15 +24,15 @@ const router = express.Router();
 // Rota para upload de imagem de perfil
 router.post('/foto-perfil', authMiddleware, upload.single('profileImage'), autentication.uploadPerfil);
 // Rota para upload de assinatura
-router.post('/assinatura', authMiddleware, upload.single('signatureImage'), autentication.uploadAssinatura);
+router.post('/assinatura', authMiddleware, upload.single('assinatura'), autentication.uploadAssinatura);
 router.post('/login', autentication.login); // login
 router.post('/cadastro', autentication.cadastro); // cadastro
 router.get('/usuario/foto-perfil', authMiddleware, autentication.buscarFotoPerfil);
+router.get('/usuario/assinatura', authMiddleware, autentication.buscarAssinatura);
 router.get('/usuario/setor', authMiddleware, autentication.buscarSetor); // buscar setor
 router.get('/usuario/nome', authMiddleware, autentication.buscarNome); // buscar nome para saudação
 router.post('/request-reset-senha', autentication.requestResetSenha); // solicitar redefinição de senha
 router.post('/reset-senha', autentication.resetSenha); // redefinir senha
 router.post('/logout', authMiddleware, autentication.logout); // logout
-router.post('/assinatura', authMiddleware, upload.single('assinatura'), autentication.uploadAssinatura);
 
 export default router; // Exporta o roteador como padrão

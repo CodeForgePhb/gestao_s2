@@ -330,3 +330,51 @@ export const uploadAssinatura = async (req, res) => {
     res.status(500).json({ error: 'Erro ao salvar a assinatura.' });
   }
 };
+
+export const buscarAssinatura = async (req, res) => {
+  try {
+    // 1. Extrai o token do cabeçalho Authorization
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Token não fornecido.' });
+    }
+    // 2. Verifica e decodifica o token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const email = decoded.email; // Desestrutura o email do payload do token
+    if (!email) {
+      return res.status(400).json({ message: 'Token inválido ou email ausente.' });
+    }
+    // 3. Busca o usuário no banco de dados
+    const [cadastro] = await db.execute(
+      'SELECT id, signature_image FROM cadastro WHERE email = ?',
+      [email]
+    );
+    const [docente] = await db.execute(
+      'SELECT id, signature_image FROM docente WHERE email = ?',
+      [email]
+    );
+    let userData = null;
+    if (cadastro.length > 0) {
+      userData = {
+        tabela: 'cadastro',
+        id: cadastro[0].id,
+        signature_image: cadastro[0].signature_image,
+      };
+    } else if (docente.length > 0) {
+      userData = {
+        tabela: 'docente',
+        id: docente[0].id,
+        signature_image: docente[0].signature_image,
+      };
+    }
+    if (!userData) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+    // 4. Retorna a foto de perfil (ou um caminho padrão caso não tenha imagem)
+    const imgAssinatura = userData.signature_image || 'useCanvas';
+    return res.status(200).json({ imgAssinatura: imgAssinatura === 'useCanvas' ? 'useCanvas' : `${imgAssinatura}` });
+  } catch (err) {
+    console.error('Erro ao buscar assinatura do usuário:', err);
+    res.status(500).json({ message: 'Erro no servidor.' });
+  }
+};

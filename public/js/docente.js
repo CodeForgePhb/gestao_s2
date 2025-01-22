@@ -1,8 +1,9 @@
 // Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
-import { getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getCursosConcluidos, buscarCursosConcluidosPorPesquisa ,getNome, logoutUser, monitorarTokenExpiracao, getKits, getMateriaisKit } from '../api.js'; // Ajuste o caminho conforme necessário
+import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getCursosConcluidos, buscarCursosConcluidosPorPesquisa ,getNome, logoutUser, monitorarTokenExpiracao, getKits, getMateriaisKit } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
+    getAssinatura();
 };
 document.getElementById('buscar-cursos-concluidos').addEventListener('submit', async (event)=> {
     event.preventDefault();
@@ -37,9 +38,7 @@ document.getElementById('buscar-cursos-concluidos').addEventListener('submit', a
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 })
-
 // função para pesquisar cursos concluidos;
-
 document.getElementById('busca-por-cursos-concluidos').addEventListener('keyup', async ()=> {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
     const token = localStorage.getItem('token');
@@ -71,7 +70,6 @@ document.getElementById('busca-por-cursos-concluidos').addEventListener('keyup',
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 })
-
 //Função assíncrona para carregar e exibir as transações na tabela.
 async function carregarCursosVigentes() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
@@ -105,7 +103,6 @@ async function carregarCursosVigentes() {
     });
 }
 //=-=-=-=-=-=-=-= Funcção para carregar CURSOS CONLUÍDOS -=-=--=-=-=-=-=--=-=-=
-
 async function carregarCursosConcluidos(){
     const token = localStorage.getItem('token');
     if(!token){
@@ -137,9 +134,6 @@ async function carregarCursosConcluidos(){
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
-
-
-
 //Função assíncrona para carregar e exibir as transações na tabela.
 async function carregarNome() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
@@ -234,39 +228,13 @@ document.addEventListener('DOMContentLoaded', () => {
             } finally {
                 // Restaurar o botão
                 saveProfileImage.disabled = false;
-                saveProfileImage.textContent = 'Salvar Imagem de Perfil';
+                saveProfileImage.textContent = 'Salvar';
             }
         } else {
             alert('Nenhuma imagem foi selecionada.');
         }
     });
-    // // Função assíncrona para envio único da assinatura
-    // signatureImage.addEventListener('change', async () => {
-    //     await previewImageAsync(signatureImage, signaturePreview, 100, 50);
-    //     saveSignatureImage.disabled = false;
-    // });
-    // // Função assíncrona para salvar assinatura
-    // saveSignatureImage.addEventListener('click', async () => {
-    //     const file = signatureImage.files[0];
-    //     if (file) {
-    //         try {
-    //             const response = await uploadSignature(file);
-    //             console.log('Resposta completa:', response); // Debug
-    //             if (response?.path) {
-    //                 alert('Assinatura salva com sucesso!');
-    //                 signatureImage.disabled = true;
-    //                 saveSignatureImage.disabled = true;
-    //             } else {
-    //                 alert('Erro ao salvar assinatura.');
-    //             }
-    //         } catch (error) {
-    //             console.error('Erro ao salvar assinatura:', error);
-    //             alert('Erro ao salvar assinatura.');
-    //         }
-    //     }
-    // });
 });
-
 document.addEventListener('DOMContentLoaded', () => {
     // Configuração do canvas de assinatura
     const signatureCanvas = new fabric.Canvas('signatureCanvas', {
@@ -274,43 +242,38 @@ document.addEventListener('DOMContentLoaded', () => {
         height: 200,
         isDrawingMode: true
     });
-
     // Personalizar brush da assinatura
     signatureCanvas.freeDrawingBrush.width = 3;
     signatureCanvas.freeDrawingBrush.color = 'black';
-
     // Função para limpar o canvas de assinatura
     function limparAssinatura() {
         signatureCanvas.clear();
     }
-
+    const limpar = document.getElementById('limpar');
+    limpar.addEventListener('click', () => {
+        limparAssinatura();
+    })
     const saveSignatureImage = document.getElementById('saveSignatureImage');
-    const signatureContainer = document.getElementById('signatureContainer'); // Container do canvas e da prévia da assinatura
-
+   // const signatureContainer = document.getElementById('signatureContainer'); // Container do canvas e da prévia da assinatura
     // Função assíncrona para salvar a assinatura
     saveSignatureImage.addEventListener('click', async () => {
         try {
             // Captura a assinatura em formato Blob
-            signatureCanvas.toBlob(async (blob) => {
+            signatureCanvas.getElement().toBlob(async (blob) => {
                 if (!blob) {
                     alert('Erro ao capturar a assinatura.');
                     return;
                 }
-
                 // Adicionar feedback visual
                 saveSignatureImage.disabled = true;
-                saveSignatureImage.textContent = 'Salvando...';
-
+                saveSignatureImage.textContent = 'Salvo';
                 const response = await uploadSignature(blob);
-
                 console.log('Resposta completa:', response); // Debug
                 if (response?.path) {
                     alert('Assinatura salva com sucesso!');
-                    limparAssinatura(); // Limpa o canvas após salvar
+                    //limparAssinatura(); // Limpa o canvas após salvar
                     signatureCanvas.isDrawingMode = false; // Desabilita o modo de desenho
-
-                    // Substituir o canvas pela imagem da assinatura
-                    signatureContainer.innerHTML = `<img src="${response.path}" alt="Prévia da Assinatura" style="width: 500px; height: 200px;" />`;
+                    location.reload();
                 } else {
                     throw new Error('Erro ao salvar assinatura: Caminho da assinatura não retornado.');
                 }
@@ -323,20 +286,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-
 async function carregarKits() {
     try {
       const kitsResponse = await getKits();
-  
       if (!kitsResponse || !Array.isArray(kitsResponse)) {
         console.error('Resposta inválida da API ou dados não são um array:', kitsResponse);
         return;
       }
-  
       const select = document.getElementById('selecao');
       select.innerHTML = '';
-  
       // Adiciona uma opção padrão
       const defaultOption = document.createElement('option');
       defaultOption.value = '';
@@ -344,7 +302,6 @@ async function carregarKits() {
       defaultOption.disabled = true;
       defaultOption.selected = true;
       select.appendChild(defaultOption);
-  
       // Adiciona opções de kits
       kitsResponse.forEach(kit => {
         const option = document.createElement('option');
@@ -352,20 +309,16 @@ async function carregarKits() {
         option.textContent = kit.nome_kit; // Nome do kit como texto da opção
         select.appendChild(option);
       });
-  
       console.log('Kits renderizados com sucesso!');
     } catch (error) {
       console.error('Erro ao renderizar os kits:', error);
     }
   }
-
 async function VisualizarMateriais() {
     try {
       const materiais = await getMateriaisKit();
-  
       const tbody = document.getElementById('body-table');
       tbody.innerHTML = ''; // Limpa a tabela antes de adicionar os novos dados
-  
       if (!materiais || materiais.length === 0) {
         // Caso não haja materiais, exibe uma linha informativa
         const row = document.createElement('tr');
@@ -376,34 +329,25 @@ async function VisualizarMateriais() {
         tbody.appendChild(row);
         return;
       }
-  
       // Preenche a tabela com os materiais
       materiais.forEach(material => {
         const row = document.createElement('tr');
-  
         const cellId = document.createElement('td');
         cellId.textContent = material.id;
-  
         const cellNome = document.createElement('td');
         cellNome.textContent = material.nome;
-  
         const cellDescricao = document.createElement('td');
         cellDescricao.textContent = material.descricao;
-  
         row.appendChild(cellId);
         row.appendChild(cellNome);
         row.appendChild(cellDescricao);
-  
         tbody.appendChild(row);
       });
-  
       console.log('Materiais renderizados com sucesso!');
     } catch (error) {
       console.error('Erro ao renderizar os materiais:', error);
     }
   }
-
-
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarCursosVigentes(),
