@@ -185,11 +185,29 @@ async function carregarNome() {
         }; //Exibir uma mensagem informando que nao há transações
         return; //Sai da função, já que nao há transaçoes a serem exibidas.
     }
+
+    // função para ajustar nome de usuário
+    function transformarNome(nome){
+        return nome.split(" ")
+    }
+    function ajustandoNome(nomes){
+        let nomeAjustado = ""
+    
+        nomes.forEach(nome => {
+            if(nome.length > 3){
+                nomeAjustado += `${nome[0].toUpperCase()}${nome.substring(1)} `
+            }else{
+                nomeAjustado+=nome+" "
+            }
+        });
+        return nomeAjustado.substring(0, nomeAjustado.length - 1)
+    }
+    
     // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
     const saudacao1 = document.getElementsByClassName('saudacao')[0];
-    saudacao1.innerText = `${nome.nome}`; // Limpa o conteúdo de um unico elemento (se fosse id)
+    saudacao1.innerText = `${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
     const saudacao2 = document.getElementsByClassName('saudacao')[1];
-    saudacao2.innerText = `Olá, ${nome.nome}`; // Limpa o conteúdo de um unico elemento (se fosse id)
+    saudacao2.innerText = `Olá, ${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
 }
 //LOGOUT
 document.querySelector('#btnLogout').addEventListener('click', async (event) => {

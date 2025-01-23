@@ -141,8 +141,26 @@ if (!nome || !nome.nome) {
         saudacoes[i].innerText = `Favor faça login`; // Modifica o texto de cada elemento
     }; //Exibir uma mensagem informando que nao há transações
 }
+
+// função para ajustar nome de usuário
+function transformarNome(nome){
+    return nome.split(" ")
+}
+function ajustandoNome(nomes){
+    let nomeAjustado = ""
+
+    nomes.forEach(nome => {
+        if(nome.length > 3){
+            nomeAjustado += `${nome[0].toUpperCase()}${nome.substring(1)} `
+        }else{
+            nomeAjustado+=nome+" "
+        }
+    });
+    return nomeAjustado.substring(0, nomeAjustado.length - 1)
+}
+
 // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
 const saudacao1 = document.getElementsByClassName('saudacao')[0];
-saudacao1.innerText = `${nome.nome}`; // Limpa o conteúdo de um unico elemento (se fosse id)
+saudacao1.innerText = `${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
 const saudacao2 = document.getElementsByClassName('saudacao')[1];
-saudacao2.innerText = `Olá, ${nome.nome}`; // Limpa o conteúdo de um unico elemento (se fosse id)
+saudacao2.innerText = `Olá, ${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
