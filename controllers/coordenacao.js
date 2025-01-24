@@ -45,8 +45,8 @@ export const addDocente = async (req, res) => {
 //inserir kit didático
 // 3. Inserir kit didatico
 
-export const Adicionar_kit = async (req, res) => {
-   const { cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo, curso } = req.body;
+export const adicionar_kit = async (req, res) => {
+    const { cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo, curso } = req.body;
     try {
         const [duplicidade] = await db.query(
             'SELECT* FROM kit WHERE cod_kit = ? AND nome_kit = ? AND cod_produto = ? AND descricao = ? AND quantidade = ? AND unidade_medida = ? AND saldo = ? AND curso = ?', [cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo, curso]
@@ -60,13 +60,36 @@ export const Adicionar_kit = async (req, res) => {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
             [cod_kit, nome_kit, cod_produto, descricao, quantidade, unidade_medida, saldo, curso]
         );
-        return res.status(201).json({'kit adicionado': resultado});
+        return res.status(201).send('Kit adicionado com sucesso!');
     } catch (error) {
         console.error('Erro ao processar a requisição.', error);
         return res.status(500).send('Erro ao processar a requisição.');
     }
-}
+};
 
+export const addMateriais = async (req, res) => {
+    const { cod_produto, descricao, quantidade, unidade_medida, cod_kit, nome_kit, id_curso, nome_curso } = req.body;
+
+    try {
+        const [duplicidade] = await db.query(
+            `SELECT * FROM materiais WHERE cod_produto = ? AND descricao = ? AND quantidade = ? AND unidade_medida = ? AND 
+            cod_kit = ? AND nome_kit = ? AND id_curso = ? AND nome_curso = ?`, 
+            [cod_produto, descricao, quantidade, unidade_medida, cod_kit, nome_kit, id_curso, nome_curso]
+        );
+        if (duplicidade.length > 0) {
+            return res.status(400).send('Material já existe');
+        }
+        const [resultado] = await db.query(
+            `INSERT INTO materiais (cod_produto, descricao, quantidade, unidade_medida, cod_kit, nome_kit, id_curso, nome_curso) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [cod_produto, descricao, quantidade, unidade_medida, cod_kit, nome_kit, id_curso, nome_curso]
+        );
+        return res.status(200).send('Material adicionado com sucesso.');                 
+    } catch (error) {
+        console.error('Erro ao processar a requisição.', error);
+        return res.status(500).send('Erro ao processar a requisição.');
+    }
+};
 
 // ------------------------ ROTAS GET ------------------------
 export const buscarCursos = async (req, res) => {
@@ -90,17 +113,17 @@ export const buscarCursosVigentes = async (req, res) => {
     }
 };
 
- export const buscarCursosConcluidos = async (req, res) => {
-     try {
-         await db.execute('CALL AtualizarCursosConcluidos()'); // oque é isso elaine?
-         const [resultado] = await db.execute('SELECT * FROM cursos_concluidos');
-         console.log(resultado);
-         return res.json(resultado);
-     } catch (error) {
-         console.error('Erro ao processar a requisição.', error);
-         return res.status(500).send('Erro ao processar a requisição.');
-     }
- };
+export const buscarCursosConcluidos = async (req, res) => {
+    try {
+        await db.execute('CALL AtualizarCursosConcluidos()'); // oque é isso elaine?
+        const [resultado] = await db.execute('SELECT * FROM cursos_concluidos');
+        console.log(resultado);
+        return res.json(resultado);
+    } catch (error) {
+        console.error('Erro ao processar a requisição.', error);
+        return res.status(500).send('Erro ao processar a requisição.');
+    }
+};
 
 
 

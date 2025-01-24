@@ -184,8 +184,10 @@ export const todosKits = async (req, res) => {
     return res.status(500).json({ message: 'Erro ao buscar kits.', error });
   }
 };
+
 //3. Visualizar materiais dentro dos kit didáticos
 export const todosMateriais = async (req, res) => {
+  const { nome_curso } = req.body;
   try {
     //1.
     const token = req.headers.authorization?.split(' ')[1];
@@ -193,40 +195,37 @@ export const todosMateriais = async (req, res) => {
       return res.status(401).json({ message: 'Token não fornecido' })
     }
     //2.
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { email } = decoded;
-    console.clear()
-    const nome_usuario = await db.query('SELECT nome FROM docente WHERE email = ?', [email]);
-    const nome = nome_usuario[0][0].nome
-    console.log("nome usuário: ", nome)
-    const nome_curso = await db.query('SELECT nome FROM curso WHERE docente = ?', [nome]);
-    if (!nome_curso || nome_curso.length === 0 || nome_curso[0].length === 0) {
-      return res.status(404).json({ message: 'Nenhum curso encontrado' });
+    const [ kit_didatico ] = await db.query(
+      'SELECT nome_kit from kit WHERE curso = ?', [nome_curso]);
+      
+    const kitMaterial = kit_didatico.map((kit) => kit.nome_kit);
+    console.log([kitMaterial])
+
+    if(kitMaterial.length === 0) {
+      res.status(404).json({message: 'Nenhum kit encontrado'});
+      console.log('nenhum kit encontrado')
     }
-    const curso = nome_curso[0][0].nome;
-    console.log("Curso matriculado: ", curso)
-    const kitDidatico = await db.query('SELECT nome_kit FROM kit WHERE curso = ?', [curso]
-    );
-    const nome_kit = kitDidatico[0][0].nome_kit;
-    console.log("Nome do kit didático: ", nome_kit);
-    //3. 
-    const kitMateriais = await db.query(
-      'SELECT* FROM materiais WHERE nome_kit = ?', [nome_kit]);
-    const materiais_kit = kitMateriais;
-    console.log('-----------------------------------')
-    //4.
-    if (materiais_kit.length === 0) {
-      console.log('Nenhum material encontrado')
-      res.status(404).json({ message: 'Sem material' })
+
+    const materialKit = await db.query('SELECT* from materiais WHERE nome_kit IN (?)', [kitMaterial]);
+
+    if(materialKit.length === 0) {
+      console.log('Material didático não existente')
+      res.status(404).send('Material não encontrado')
     }
-    res.status(200).json(materiais_kit[0])
+
+    const materiaisKits = materialKit[0]
+
+    return await res.status(200).json({materiaisKits})
+
   } catch (error) {
     console.error('Erro encontrado: ', error);
     res.status(500).json({ message: 'Erro no controlador' })
   }
 }
+
 //4. adicionar solicitacao de material didático
 export const addSolicitacao = async (req, res) => {
+  
   try {
     //1.
     const token = req.headers.authorization?.split(' ')[1];
@@ -238,8 +237,10 @@ export const addSolicitacao = async (req, res) => {
     console.clear()
     //2.
   } catch (error) {
+
   }
 }
+
 //1. Visualizar todas as solicitações
 export const todasSolicitacoes = async (req, res) => {
   try {
@@ -251,12 +252,11 @@ export const todasSolicitacoes = async (req, res) => {
     //2.
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { nome_usuario } = decoded;
-    // //3.
-    // const [ userResult ] = await db.query('SELECT nome FROM docente WHERE email = ?', [email]);
-    // if(userResult.length === 0) {
-    //   res.status(404).json({message : 'usuário não encontrado'});
-    // }
-    // const { nome_usuario } = userResult[0];
+    //3.
+    const [ userResult ] = await db.query('SELECT nome FROM docente WHERE email = ?', [email]);
+    if(userResult.length === 0) {
+      res.status(404).json({message : 'usuário não encontrado'});
+    }
     //4.
     const nome_curso = await db.query(
       'SELECT nome FROM curso WHERE docente = ?',

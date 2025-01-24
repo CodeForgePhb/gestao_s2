@@ -45,6 +45,7 @@ CREATE TABLE `cursos_concluidos` (
 
 LOCK TABLES `cursos_concluidos` WRITE;
 /*!40000 ALTER TABLE `cursos_concluidos` DISABLE KEYS */;
+INSERT INTO `cursos_concluidos` VALUES (1,'Excel Avançado','miguel sousinha','2024-07-02','2024-12-02'),(4,'Administração','Elaine','2023-12-02','2024-12-02'),(5,'Técnico de Informática para Internet',NULL,'2023-09-04','2024-12-04'),(6,'Técnico de Informática para Internet',NULL,'2023-01-01','2025-01-01');
 /*!40000 ALTER TABLE `cursos_concluidos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-20 11:02:07
+-- Dump completed on 2025-01-24 10:57:59

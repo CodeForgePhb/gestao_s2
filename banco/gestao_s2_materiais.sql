@@ -32,14 +32,10 @@ CREATE TABLE `materiais` (
   `unidade_medida` varchar(10) DEFAULT NULL,
   `cod_kit` int DEFAULT NULL,
   `nome_kit` varchar(255) DEFAULT NULL,
-  `id_curso` int DEFAULT NULL,
-  `nome_curso` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `id_curso` (`id_curso`),
-  KEY `nome_curso` (`nome_curso`),
-  CONSTRAINT `materiais_ibfk_1` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `materiais_ibfk_2` FOREIGN KEY (`nome_curso`) REFERENCES `curso` (`nome`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `cod_kit` (`cod_kit`) /*!80000 INVISIBLE */,
+  KEY `nome_kit` (`nome_kit`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,38 +44,9 @@ CREATE TABLE `materiais` (
 
 LOCK TABLES `materiais` WRITE;
 /*!40000 ALTER TABLE `materiais` DISABLE KEYS */;
+INSERT INTO `materiais` VALUES (1,444,'martelo',2,'un',101,'Kit de Ferramentas'),(2,445,'chave estrela',5,'un',101,'Kit de Ferramentas'),(3,345,'mouse',3,'un',4,'Kit de Periféricos'),(4,344,'teclado',3,'un',4,'Kit de Periféricos'),(5,343,'teclado',3,'un',4,'Kit de Periféricos'),(6,NULL,NULL,NULL,NULL,NULL,NULL),(7,341,'teclado',3,'un',4,'Kit de Periféricos'),(8,NULL,NULL,NULL,NULL,NULL,NULL),(9,340,'teclado',3,'un',4,'Kit de Periféricos'),(10,150,'Folha A4',25,'cx',120,'kit_consumo_administracao');
 /*!40000 ALTER TABLE `materiais` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `depois_materiais_inseridos` AFTER INSERT ON `materiais` FOR EACH ROW BEGIN
-    -- Verificar se o kit já existe na tabela kit
-    IF NOT EXISTS (
-        SELECT 1 
-        FROM kit 
-        WHERE cod_kit = NEW.cod_kit
-    ) THEN
-        -- Inserir novo registro no kit com um novo ID e saldo inicial
-        INSERT INTO kit (cod_produto, descricao, quantidade, unidade_medida, cod_kit, nome_kit, saldo)
-        VALUES (NEW.cod_produto, NEW.descricao, NEW.quantidade, NEW.unidade_medida, NEW.cod_kit, NEW.nome_kit, 0);
-    ELSE
-        -- Inserir informações adicionais no kit existente
-        INSERT INTO kit (cod_produto, descricao, quantidade, unidade_medida, cod_kit, nome_kit, saldo)
-        VALUES (NEW.cod_produto, NEW.descricao, NEW.quantidade, NEW.unidade_medida, NEW.cod_kit, NEW.nome_kit, 0);
-    END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -90,4 +57,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-20 11:02:08
+-- Dump completed on 2025-01-24 10:57:59

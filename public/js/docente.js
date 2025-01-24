@@ -1,5 +1,6 @@
 2// Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
-import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getCursosConcluidos, buscarCursosConcluidosPorPesquisa, getNome, logoutUser, monitorarTokenExpiracao, buscarKits, getMateriaisKit } from '../api.js'; // Ajuste o caminho conforme necessário
+import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos,
+    getCursosConcluidos, buscarCursosConcluidosPorPesquisa, getNome, logoutUser, monitorarTokenExpiracao, buscarKits, getMateriaisKit } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
@@ -354,82 +355,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-/*---- CARREGAR KITS DIDÁTICOS ---- */
-// async function carregarKits() {
-//     try {
-//         const kitsResponse = await buscarKits();
-//         if (!kitsResponse || !Array.isArray(kitsResponse)) {
-//             console.error('Resposta inválida da API ou dados não são um array:', kitsResponse);
-//             return;
-//         }
-//         const select = document.getElementById('selecao');
-//         select.innerHTML = '';
-//         // Adiciona uma opção padrão
-//         const defaultOption = document.createElement('option');
-//         defaultOption.value = '';
-//         defaultOption.textContent = 'Selecione um kit';
-//         defaultOption.disabled = true;
-//         defaultOption.selected = true;
-//         select.appendChild(defaultOption);
-//         // Adiciona opções de kits
-//         kitsResponse.forEach(kit => {
-//             const option = document.createElement('option');
-//             option.textContent = kit.nome_kit; // Nome do kit como texto da opção
-//             select.appendChild(option);
-//         });
-//         console.log('Kits renderizados com sucesso!');
-//     } catch (error) {
-//         console.error('Erro ao renderizar os kits:', error);
-//     }
-// }
-/*----- renderizar materiais do kit didático ----- */
-async function renderizarMateriais(nomeKit) {
-    try {
-        // Obtém os materiais do kit
-        const MateriaisKit = await getMateriaisKit(nomeKit);
-        // Seleciona o elemento tbody
-        const tbody = document.querySelector('#body-table');
-        // Limpa o conteúdo anterior da tabela
-        tbody.innerHTML = '';
-        // Verifica se a resposta foi bem-sucedida e possui dados
-        if (!MateriaisKit || MateriaisKit.success === false || MateriaisKit.length === 0) {
-            console.log('Nenhum material encontrado ou erro na busca');
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td colspan="4">Nenhum material encontrado</td>`;
-            tbody.appendChild(tr);
-            return;
+
+async function loadMateriais() {
+    const result = await getMateriaisKit();
+
+    if (result.success) {
+        const materiais = result.data?.materiais;
+
+        // Verifica se `materiais` é um array
+        if (Array.isArray(materiais)) {
+            renderizarMateriais(materiais);
+        } else {
+            console.error('Os materiais retornados não são um array:', materiais);
+            alert('Erro: Os materiais não estão no formato correto.');
         }
-        // Itera pelos materiais e adiciona uma linha para cada um
-        MateriaisKit.forEach(material => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${material.cod_kit || 'N/A'}</td>
-                <td>${material.descricao || 'N/A'}</td>
-                <td>${material.quantidade || 'N/A'}</td>
-                <td>${material.unidade_medida || 'N/A'}</td>
-                <td>0</td>
-                <td>
-                    <button onclick="decreaseValue(this)" class="btn-cont">-</button>
-                    <input type="number" value="0" min="0" style="width: 40px; text-align: center;"
-                                    onchange="validateValue(this)">
-                    <button class="add" onclick="increaseValue(this)">+</button>
-                    <button class="delete" onclick="deleteRow(this)">
-                        <i class="fa fa-trash"></i>
-                    </button></td>
-            `;
-            tbody.appendChild(tr);
-        });
-    } catch (erro) {
-        console.error('Erro ao renderizar materiais:', erro);
-        // Seleciona o elemento tbody
-        const tbody = document.querySelector('#body-table');
-        // Exibe uma mensagem de erro na tabela
-        tbody.innerHTML = '';
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="4">Erro ao buscar os materiais: ${erro.message}</td>`;
-        tbody.appendChild(tr);
+    } else {
+        console.error(result.message);
+        alert('Erro ao carregar materiais: ' + result.message);
     }
 }
+
+// Função para renderizar os materiais em uma tabela HTML
+function renderizarMateriais(materiais) {
+    // Seleciona o elemento da tabela no HTML
+    const tableBody = document.querySelector('#body-table');
+    
+    // Limpa o conteúdo anterior da tabela
+    tableBody.innerHTML = '';
+
+    // Preenche a tabela com os dados
+    materiais.forEach((material) => {
+        const row = document.createElement('tr');
+
+        // Cria as células com os dados do material
+        row.innerHTML = `
+            <td>${material.id}</td>
+            <td>${material.nome_kit}</td>
+            <td>${material.descricao}</td>
+            <td>${material.quantidade}</td>
+            <td>${material.unidade_medida}</td>
+        `;
+
+        // Adiciona a linha à tabela
+        tableBody.appendChild(row);
+    });
+}
+
+
+
 document.getElementById('buscar-materiais').addEventListener('click', () => {
     const resultado = document.getElementById('result');
     const nomeKit = document.getElementById('selecao').value;

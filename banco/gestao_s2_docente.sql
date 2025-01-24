@@ -39,7 +39,7 @@ CREATE TABLE `docente` (
   `token` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cursos_vigentes` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,7 @@ CREATE TABLE `docente` (
 
 LOCK TABLES `docente` WRITE;
 /*!40000 ALTER TABLE `docente` DISABLE KEYS */;
-INSERT INTO `docente` VALUES (4,'2020002','Elaine','ereinlima@gmail.com','000000',NULL,NULL,'docente','86988007789',NULL,NULL,NULL),(5,'2020002','turiano','turianosantos@email.com','$2b$10$Uoz79rsKVsJN6QVpbEaHHu0hvr894PiJF7gBwnKg5fUSBEZ7ddFhO',NULL,NULL,'docente','86988007789',NULL,NULL,NULL),(6,'2030003','flavia','flavia@email.com','000000',NULL,NULL,'docente','86988000000',NULL,NULL,NULL),(7,'2030003','flavia','flavia@email.com','000000',NULL,NULL,'docente','86988000000',NULL,NULL,NULL),(8,'2030003','Hilton Elias','tomaszeswisc@email.com','$2b$10$j/8.Xv73QqVbK8shuuGI8uR1QVO97xlKIFIy.GOYVqp9EJ2mWZHKK',NULL,NULL,'docente','86988002222','/uploads/profile_8_1737031794975-979775990.png',NULL,NULL),(9,'2040004','miguel sousinha','miguel@docente.com','000000',NULL,NULL,'docente','86988007777',NULL,NULL,NULL);
+INSERT INTO `docente` VALUES (4,'2020002','Elaine','ereinlima@gmail.com','000000',NULL,NULL,'docente','86988007789',NULL,NULL,NULL),(5,'2020002','turiano','turianosantos@email.com','$2b$10$Uoz79rsKVsJN6QVpbEaHHu0hvr894PiJF7gBwnKg5fUSBEZ7ddFhO',NULL,NULL,'docente','86988007789',NULL,NULL,NULL),(6,'2030003','flavia','flavia@email.com','000000',NULL,NULL,'docente','86988000000',NULL,NULL,NULL),(7,'2030003','flavia','flavia@email.com','000000',NULL,NULL,'docente','86988000000',NULL,NULL,NULL),(8,'2030003','Hilton Elias','tomaszeswisc@email.com','$2b$10$j/8.Xv73QqVbK8shuuGI8uR1QVO97xlKIFIy.GOYVqp9EJ2mWZHKK',NULL,NULL,'docente','86988002222','/uploads/profile_8_1737031794975-979775990.png',NULL,NULL),(9,'2040004','miguel sousinha','miguel@docente.com','000000',NULL,NULL,'docente','86988007777',NULL,NULL,NULL),(11,'2020030','Docente','docente@gmail.com','$2b$10$u7wncFrpiewa4Kvey9qXmuMiqqmZi6XV1c7hXrYJ7X7NggHjDMSCW',NULL,NULL,'docente','86988008899',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `docente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -61,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-20 11:02:07
+-- Dump completed on 2025-01-24 10:57:59

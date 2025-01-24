@@ -28,16 +28,15 @@ CREATE TABLE `kit` (
   `id` int NOT NULL AUTO_INCREMENT,
   `cod_kit` int DEFAULT NULL,
   `nome_kit` varchar(255) DEFAULT NULL,
-  `cod_produto` int DEFAULT NULL,
-  `descricao` varchar(255) DEFAULT NULL,
-  `quantidade` int DEFAULT NULL,
-  `unidade_medida` varchar(10) DEFAULT NULL,
   `saldo` int DEFAULT '0',
+  `tipo` varchar(45) DEFAULT NULL,
   `curso` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `curso` (`curso`),
+  KEY `cod_kit` (`cod_kit`) /*!80000 INVISIBLE */,
+  KEY `nome_kit` (`nome_kit`),
   CONSTRAINT `kit_ibfk_1` FOREIGN KEY (`curso`) REFERENCES `curso` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +45,7 @@ CREATE TABLE `kit` (
 
 LOCK TABLES `kit` WRITE;
 /*!40000 ALTER TABLE `kit` DISABLE KEYS */;
-INSERT INTO `kit` VALUES (1,101,'Kit de Ferramentas',202,'Conjunto de ferramentas básicas',5,'pcs',10,'Excel Avançado'),(2,100,'Kit de Periféricos',205,'Conjunto de acessórios básicos',5,'pcs',10,NULL),(3,100,'Kit de Periféricos',205,'Conjunto de acessórios básicos',5,'pcs',15,NULL),(4,100,'Kit de Periféricos',205,'Conjunto de acessórios básicos',10,'pcs',15,'Excel Avançado');
+INSERT INTO `kit` VALUES (1,101,'Kit de Ferramentas',10,NULL,'Excel Avançado'),(2,100,'Kit de Periféricos',10,NULL,NULL),(3,100,'Kit de Periféricos',15,NULL,'Administração'),(4,100,'Kit de Periféricos',15,NULL,'Excel Avançado'),(5,101,'Kit de Ferramentas',0,NULL,NULL),(6,101,'Kit de Ferramentas',0,NULL,NULL),(7,150,'kit_consumo_administracao',15,NULL,'Administração'),(8,4,'Kit de Periféricos',0,NULL,NULL),(9,4,'Kit de Periféricos',0,NULL,NULL),(10,4,'Kit de Periféricos',5,NULL,'Administração'),(11,4,'Kit de Periféricos',0,NULL,NULL),(12,NULL,NULL,0,NULL,NULL),(13,4,'Kit de Periféricos',0,NULL,NULL),(14,NULL,NULL,0,NULL,NULL),(15,4,'Kit de Periféricos',0,NULL,NULL),(16,120,'kit_consumo_administracao',0,NULL,NULL);
 /*!40000 ALTER TABLE `kit` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-20 11:02:07
+-- Dump completed on 2025-01-24 10:57:59

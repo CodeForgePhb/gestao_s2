@@ -21,7 +21,8 @@ router.delete('/docente/:id', authMiddleware,controllerCoordenacao.delDocente);
 router.get('/cursos-concluidos', authMiddleware,controllerCoordenacao.buscarCursosConcluidos); 
 
 router.delete('/curso-vigente/:id_curso', authMiddleware,controllerCoordenacao.delCursoVigente);
-router.post('/adicionar-kit', authMiddleware,controllerCoordenacao.Adicionar_kit);
+router.post('/adicionar-kit', authMiddleware,controllerCoordenacao.adicionar_kit);
+router.post('/adicionar-materiais', authMiddleware,controllerCoordenacao.addMateriais);
 
 
 //----------------Docente----------------------------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
     <link rel="stylesheet" href="css/coordenacao.css">
     <title>Gestão S</title>
 </head>
+
 <body>
     <div class="sidebar">
         <div>
@@ -32,17 +34,18 @@
         </div>
         <div class="profile">
             <div class="avatar">
-              <img src="" alt="Avatar" class="profile-image" id="img-perfil">
+                <img src="" alt="Avatar" class="profile-image" id="img-perfil">
             </div>
             <div class="info">
-              <span class="name saudacao">Name</span>
-              <span class="func">Coordenador</span>
+                <span class="name saudacao">Name</span>
+                <span class="func">Coordenador</span>
             </div>
             <div class="logout">
-              <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
-              <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;" id="perfil"></i></button>
+                <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
+                <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;"
+                        id="perfil"></i></button>
             </div>
-          </div>
+        </div>
     </div>
     <div class="main">
         <div class="main-header">
@@ -123,20 +126,17 @@
                 </div>
                 <div id="material" class="toggle-content">
                     <h3>Cadastrar Materiais</h3>
-                    <form>
-                        <input type="text" placeholder="Código do Produto" />
-                        <input type="text" placeholder="Descrição" />
-                        <input type="number" placeholder="Quantidade" />
-                        <input type="text" placeholder="Unidade de Medida" />
-                        <div class="bnt-save">
-                            <select>
-                                <option>Curso</option>
-                            </select>
-                            <input type="number" placeholder="id_curso" />
-                            <button type="button">Cancelar</button>
-                            <button type="submit">Salvar</button>
-                        </div>
+                    <form id="form-material">
+                        <input type="text" placeholder="Código do kit" id="codigo-kit" />
+                        <input type="number" placeholder="Saldo" id="saldo" />
+                        <select>
+                            <option>Curso</option>
+                        </select>
+                        <input type="text" placeholder="Nome do kit" id="nome-kit" />
+                        <button type="button" id="cancelar-btn">Cancelar</button>
+                        <button type="button" id="salvar-btn">Salvar</button>
                     </form>
+                    <div id="extra-inputs" style="margin-top: 20px;"></div>
                 </div>
             </div>
             <section id="status" class="content">
@@ -312,7 +312,8 @@
                         <div>
                             <button class="btn1" id="limpar">Limpar</button>
                             <button id="saveSignatureImage">Salvar Assinatura</button>
-                            <abbr title="Para armazenar sua assinatura, clique em 'Gerar img' e depois em 'Salvar Assinatura'.">
+                            <abbr
+                                title="Para armazenar sua assinatura, clique em 'Gerar img' e depois em 'Salvar Assinatura'.">
                                 <i class="fa-solid fa-info" style="color: #808080;" id="signatureInfo"></i>
                             </abbr>
                         </div>
@@ -322,6 +323,55 @@
         </div>
     </div>
     <script>
+        // drop materiais
+        document.getElementById('salvar-btn').addEventListener('click', function () {
+            const extraInputsContainer = document.getElementById('extra-inputs');
+
+            // Verifica se os campos adicionais já foram adicionados
+            if (!document.getElementById('codigo-produto')) {
+                // Cria os novos campos de entrada
+                extraInputsContainer.innerHTML = `
+            <input type="text" id="codigo-produto" placeholder="Código do produto" />
+            <input type="text" id="descricao-produto" placeholder="Descrição do produto" />
+            <input type="number" id="quantidade" placeholder="Quantidade" />
+            <input type="text" id="unidade-medida" placeholder="Unidade de medida" />
+            <select id="codigo-kit-select">
+                <option value="">Selecione o código do kit</option>
+                <option value="kit1">Kit 1</option>
+                <option value="kit2">Kit 2</option>
+                <!-- Adicione outras opções aqui -->
+            </select>
+           <select id="codigo-kit-select">
+                <option value="">Selecione o kit</option>
+                <option value="kit1">Kit 1</option>
+                <option value="kit2">Kit 2</option>
+                <!-- Adicione outras opções aqui -->
+            </select>
+            <div style="margin-top: 20px;">
+                <button type="button" id="extra-cancelar-btn">Cancelar</button>
+                <button type="button" id="extra-salvar-btn">Salvar</button>
+            </div>
+        `;
+
+                // Adiciona funcionalidade aos novos botões "Salvar" e "Cancelar"
+                document.getElementById('extra-cancelar-btn').addEventListener('click', function () {
+                    // Remove os campos adicionais
+                    extraInputsContainer.innerHTML = '';
+                });
+
+                document.getElementById('extra-salvar-btn').addEventListener('click', function () {
+                    // Aqui você pode implementar a lógica de salvar os dados adicionais
+                    alert('Dados adicionais salvos com sucesso!');
+                });
+            }
+        });
+
+        document.getElementById('cancelar-btn').addEventListener('click', function () {
+            // Limpa os campos do formulário e os campos adicionais
+            document.getElementById('form-material').reset();
+            document.getElementById('extra-inputs').innerHTML = '';
+        });
+        //
         // Abrir e fechar o modal
         document.getElementById("openProfileModal").addEventListener("click", function () {
             document.getElementById("profileModal").style.display = "block";
@@ -390,6 +440,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
     <script type="module" src="./js/coordenacao.js"></script>
-    <script type="module" src="./api.js" ></script>
+    <script type="module" src="./api.js"></script>
 </body>
+
 </html>

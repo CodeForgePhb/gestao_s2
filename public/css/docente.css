@@ -475,6 +475,15 @@ h3 {
     max-width: 150px;
 }
 
+/* Estilização de input de busca para cursos concluídos */
+
+.search-courses {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
 .course-item {
     padding: 15px;
     border: 1px solid #ddd;

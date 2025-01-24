@@ -43,6 +43,7 @@ CREATE TABLE `cursos_vigentes` (
 
 LOCK TABLES `cursos_vigentes` WRITE;
 /*!40000 ALTER TABLE `cursos_vigentes` DISABLE KEYS */;
+INSERT INTO `cursos_vigentes` VALUES (2,'Tecnico de Informática para Internet','miguel sousinha'),(3,'Administração','miguel sousinha');
 /*!40000 ALTER TABLE `cursos_vigentes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-20 11:02:07
+-- Dump completed on 2025-01-24 10:57:59
