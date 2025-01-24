@@ -11,7 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="css/docente.css">
+  <link rel="stylesheet" href="css/gestao.css">
   <title>Gestão S</title>
 </head>
 
@@ -36,17 +36,18 @@
 
     <div class="profile">
       <div class="avatar">
-        <img src="" alt="Imagem do Usuário" class="profile-image" id="img-perfil">
+          <img src="" alt="Avatar" class="profile-image" id="img-perfil">
       </div>
       <div class="info">
-        <span class="name saudacao">Name</span>
-        <span class="func">Docente</span>
+          <span class="name saudacao">Name</span>
+          <span class="func">Gestor</span>
       </div>
       <div class="logout">
-        <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
-        <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;" id="perfil"></i></button>
+          <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
+          <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;"
+                  id="perfil"></i></button>
       </div>
-    </div>
+  </div>
 
   </div>
   <div class="main">
@@ -303,44 +304,45 @@
   <!-- MODAL CONFIG -->
   <div class="custom-modal" id="profileModal">
     <div class="custom-modal-content">
-      <div class="modal-header">
-        <h2>PERFIL</h2>
-        <div class="close-button">
-          <span class="custom-close" id="closeProfileModal">
-            <i class="fa-solid fa-x" style="color: #808080;"></i>
-          </span>
-        </div>
-      </div>
-      <div class="fot">
-        <img src="" alt="Foto de Perfil" id="profileImage">
-      </div>
-      <div class="modal-body">
-        <p>Imagem do Perfil:</p>
-        <div class="img-troca">
-          <label for="newProfileImage" class="Profile">
-            <i class="fa-solid fa-upload" style="color: #ffffff;"></i></button>
-            Alterar Imagem
-          </label>
-          <input type="file" id="newProfileImage" class="custom-file-input">
-        </div>
-        <button for="SaveProfileImage" class="custom-file-label" id="saveProfileImage">Salvar</button>
-        <div class="container" id="container">
-          <h1 id="SignatureTittle">Assinatura Digital</h1>
-          <p>Registre a sua assinatura digital abaixo.</p>
-          <div class="signature-container" id="signature-container">
-            <canvas id="signatureCanvas"></canvas>
-            <div>
-              <button class="btn1" id="limpar">Limpar</button>
-              <button id="saveSignatureImage">Salvar Assinatura</button>
-              <abbr title="Para armazenar sua assinatura, clique em 'Gerar img' e depois em 'Salvar Assinatura'.">
-                <i class="fa-solid fa-info" style="color: #808080;" id="signatureInfo"></i>
-              </abbr>
+        <div class="modal-header">
+            <h2>PERFIL</h2>
+            <div class="close-button">
+                <span class="custom-close" id="closeProfileModal">
+                    <i class="fa-solid fa-x" style="color: #808080;"></i>
+                </span>
             </div>
-          </div>
         </div>
-      </div>
+        <div class="fot">
+            <img src="" alt="Foto de Perfil" id="profileImage">
+        </div>
+        <div class="modal-body">
+            <p>Imagem do Perfil:</p>
+            <div class="img-troca">
+                <label for="newProfileImage" class="Profile">
+                    <i class="fa-solid fa-upload" style="color: #ffffff;"></i>
+                    Alterar Imagem
+                </label>
+                <input type="file" id="newProfileImage" class="custom-file-input">
+            </div>
+            <button for="SaveProfileImage" class="custom-file-label" id="saveProfileImage">Salvar</button>
+            <div class="container">
+                <h1 id="SignatureTittle">Assinatura Digital</h1>
+                <p>Registre a sua assinatura digital abaixo.</p>
+                <div class="signature-container" id="signature-container">
+                    <canvas id="signatureCanvas"></canvas>
+                    <div>
+                        <button class="btn1" id="limpar">Limpar</button>
+                        <button id="saveSignatureImage">Salvar Assinatura</button>
+                        <abbr
+                            title="Para armazenar sua assinatura, clique em 'Gerar img' e depois em 'Salvar Assinatura'.">
+                            <i class="fa-solid fa-info" style="color: #808080;" id="signatureInfo"></i>
+                        </abbr>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
   <script>
     // Abrir e fechar o modal
     document.getElementById("openProfileModal").addEventListener("click", function () {
@@ -447,7 +449,9 @@
     //FIM DO SCRIPT PARA INTERAÇÕES DA PÁGINA DOCENTE.HTML ----------------------------------------------------
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-  <script type="module" src="./js/docente.js"></script>
+  <script type="module" src="./js/gestao.js"></script>
+  <script type="module" src="./api.js"></script>
+
 </body>
 
 </html>

@@ -92,6 +92,152 @@ export async function login(email, senha) {
         return { success: false, message: 'Erro ao conectar ao servidor.' };
     }
 }
+export async function uploadProfileImage(selectedProfileImage) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('Token não encontrado');
+    }
+    const formData = new FormData();
+    formData.append('profileImage', selectedProfileImage);
+    try {
+        const response = await fetch(`${API_URL}/authen/foto-perfil`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: formData,
+        });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao fazer upload da imagem');
+        }
+        const data = await response.json();
+        console.log('Resposta do servidor:', data);
+        if (!data.path) {
+            throw new Error('Caminho da imagem não retornado pelo servidor');
+        }
+        return data;
+    } catch (error) {
+        console.error('Erro no upload:', error);
+        throw error;
+    }
+}
+export async function getFotoPerfil() {
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response = await fetch(`${API_URL}/authen/usuario/foto-perfil`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        const data = await response.json();
+        const fotoPerfil = `..${data.fotoPerfil}`;
+        // Atualiza a imagem de perfil na interface (substitua "profileImgElement" pelo ID ou classe do elemento HTML)
+        // Atualiza as imagens de perfil na interface
+        const ids = ['img-perfil', 'profileImage']; // Lista de IDs dos elementos
+        if (fotoPerfil) {
+            ids.forEach((id) => {
+                const element = document.getElementById(id); // Seleciona o elemento pelo ID
+                if (element) {
+                    element.src = fotoPerfil; // Atualiza a imagem
+                }
+            });
+        }
+        return;
+    } catch (error) {
+        console.error('Erro ao buscar foto do perfil:', error);
+        return;
+    }
+}
+// Função para enviar assinatura
+export async function uploadSignature(blob) {
+    const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
+    if (!token) {
+        console.error('Token não encontrado.');
+        throw new Error('Token não encontrado. Faça login novamente.'); // Lança um erro em vez de apenas retornar
+    }
+    const formData = new FormData();
+    formData.append('assinatura', blob, 'assinatura.png'); // Nome do campo ajustado para 'assinatura' e arquivo com nome adequado
+    try {
+        const response = await fetch(`${API_URL}/authen/assinatura`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`, // Autorização via token
+            },
+            body: formData, // Envia o arquivo como FormData
+        });
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Erro na resposta do servidor:', errorData);
+            throw new Error(errorData.message || 'Erro ao processar a solicitação no servidor.');
+        }
+        const data = await response.json();
+        console.log('Resposta do servidor:', data);
+        if (!data.path) {
+            throw new Error('Caminho da assinatura não retornado pelo servidor.');
+        }
+        return data; // Retorna os dados da resposta, incluindo o caminho da assinatura
+    } catch (error) {
+        console.error('Erro no upload:', error);
+        throw error; // Propaga o erro para o chamador lidar com ele
+    }
+}
+export async function getAssinatura() {
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response = await fetch(`${API_URL}/authen/usuario/assinatura`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        const data = await response.json();
+        const imgAssinatura = data.imgAssinatura;
+        if (imgAssinatura === 'useCanvas') {
+            const container = document.getElementById('container');
+            container.innerHTML = `
+                <h1 id="SignatureTittle">Assinatura Digital</h1>
+                <p>Registre a sua assinatura digital abaixo.</p>
+                <div class="signature-container" id="signature-container">
+                    <canvas id="signatureCanvas"></canvas>
+                    <div>
+                        <button class="btn1" id="limpar">Limpar</button>
+                        <button id="saveSignatureImage">Salvar Assinatura</button>
+                        <abbr title="Para armazenar sua assinatura, clique em 'Gerar img' e depois em 'Salvar Assinatura'.">
+                            <i class="fa-solid fa-info" style="color: #808080;" id="signatureInfo"></i>
+                        </abbr>
+                    </div>
+                </div>`;
+        } else {
+            const container = document.getElementById('signature-container');
+            container.innerHTML = '';
+            container.innerHTML = `<img src="${imgAssinatura}" alt="Assinatura" class="assinatura" />`;
+            const p = document.querySelector('.container p'); // Seleciona o primeiro <p> dentro da div container
+            p.innerText = '';
+            return;
+        }
+    } catch (error) {
+        console.error('Erro ao buscar assinatura:', error);
+        return;
+    }
+}
 // Função para deslogar o usuário
 export async function logoutUser() {
     try {
@@ -327,152 +473,6 @@ export async function getNome() {
     } catch (error) {
         console.error('Erro ao buscar o nome:', error);
         return { nome: 'Erro ao buscar nome' }; // Retorna um array vazio em caso de erro
-    }
-}
-export async function uploadProfileImage(selectedProfileImage) {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        throw new Error('Token não encontrado');
-    }
-    const formData = new FormData();
-    formData.append('profileImage', selectedProfileImage);
-    try {
-        const response = await fetch(`${API_URL}/authen/foto-perfil`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-            body: formData,
-        });
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Erro ao fazer upload da imagem');
-        }
-        const data = await response.json();
-        console.log('Resposta do servidor:', data);
-        if (!data.path) {
-            throw new Error('Caminho da imagem não retornado pelo servidor');
-        }
-        return data;
-    } catch (error) {
-        console.error('Erro no upload:', error);
-        throw error;
-    }
-}
-export async function getFotoPerfil() {
-    const token = localStorage.getItem('token');
-    // Verificar se o token existe antes de fazer a requisição
-    if (!token) {
-        console.error('Token não encontrado.');
-        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
-    }
-    try {
-        const response = await fetch(`${API_URL}/authen/usuario/foto-perfil`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.statusText}`);
-        }
-        const data = await response.json();
-        const fotoPerfil = `..${data.fotoPerfil}`;
-        // Atualiza a imagem de perfil na interface (substitua "profileImgElement" pelo ID ou classe do elemento HTML)
-        // Atualiza as imagens de perfil na interface
-        const ids = ['img-perfil', 'profileImage']; // Lista de IDs dos elementos
-        if (fotoPerfil) {
-            ids.forEach((id) => {
-                const element = document.getElementById(id); // Seleciona o elemento pelo ID
-                if (element) {
-                    element.src = fotoPerfil; // Atualiza a imagem
-                }
-            });
-        }
-        return;
-    } catch (error) {
-        console.error('Erro ao buscar foto do perfil:', error);
-        return;
-    }
-}
-// Função para enviar assinatura
-export async function uploadSignature(blob) {
-    const token = localStorage.getItem('token'); // Supondo que o token JWT esteja armazenado no localStorage
-    if (!token) {
-        console.error('Token não encontrado.');
-        throw new Error('Token não encontrado. Faça login novamente.'); // Lança um erro em vez de apenas retornar
-    }
-    const formData = new FormData();
-    formData.append('assinatura', blob, 'assinatura.png'); // Nome do campo ajustado para 'assinatura' e arquivo com nome adequado
-    try {
-        const response = await fetch(`${API_URL}/authen/assinatura`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${token}`, // Autorização via token
-            },
-            body: formData, // Envia o arquivo como FormData
-        });
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Erro na resposta do servidor:', errorData);
-            throw new Error(errorData.message || 'Erro ao processar a solicitação no servidor.');
-        }
-        const data = await response.json();
-        console.log('Resposta do servidor:', data);
-        if (!data.path) {
-            throw new Error('Caminho da assinatura não retornado pelo servidor.');
-        }
-        return data; // Retorna os dados da resposta, incluindo o caminho da assinatura
-    } catch (error) {
-        console.error('Erro no upload:', error);
-        throw error; // Propaga o erro para o chamador lidar com ele
-    }
-}
-export async function getAssinatura() {
-    const token = localStorage.getItem('token');
-    // Verificar se o token existe antes de fazer a requisição
-    if (!token) {
-        console.error('Token não encontrado.');
-        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
-    }
-    try {
-        const response = await fetch(`${API_URL}/authen/usuario/assinatura`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.statusText}`);
-        }
-        const data = await response.json();
-        const imgAssinatura = data.imgAssinatura;
-        if (imgAssinatura === 'useCanvas') {
-            const container = document.getElementById('container');
-            container.innerHTML = `
-                <h1 id="SignatureTittle">Assinatura Digital</h1>
-                <p>Registre a sua assinatura digital abaixo.</p>
-                <div class="signature-container" id="signature-container">
-                    <canvas id="signatureCanvas"></canvas>
-                    <div>
-                        <button class="btn1" id="limpar">Limpar</button>
-                        <button id="saveSignatureImage">Salvar Assinatura</button>
-                        <abbr title="Para armazenar sua assinatura, clique em 'Gerar img' e depois em 'Salvar Assinatura'.">
-                            <i class="fa-solid fa-info" style="color: #808080;" id="signatureInfo"></i>
-                        </abbr>
-                    </div>
-                </div>`;
-        } else {
-            const container = document.getElementById('signature-container');
-            container.innerHTML = '';
-            container.innerHTML = `<img src="${imgAssinatura}" alt="Assinatura" class="assinatura" />`;
-            const p = document.querySelector('.container p'); // Seleciona o primeiro <p> dentro da div container
-            p.innerText = '';
-            return;
-        }
-    } catch (error) {
-        console.error('Erro ao buscar assinatura:', error);
-        return;
     }
 }
 /*-------- visualizar kits didáticos ---------------*/
