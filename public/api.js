@@ -207,6 +207,37 @@ export async function getCursosVigentes() {
         return { cursos: [] }; // Retorna um array vazio em caso de erro
     }
 }
+
+export async function buscarKits(nome_curso) {
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    try {
+        const response = await fetch(`${API_URL}/routes/kit-didatico-curso`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({nome_curso:nome_curso})
+        });
+
+        if (response.status === 404) {
+            console.warn('Curso não possui kits.');
+            return []; // Retorna array vazio em caso de curso sem kits
+        }
+        
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+        const result = await response.json();
+        //console.log(`${result}`);
+        return result
+    } catch (error) {
+        console.error('Erro ao buscar cursos:', error);
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+
 export async function buscarCursosConcluidos(data1, data2) { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONANDO
     const token = localStorage.getItem('token');
     console.log('buscando datas', { data1, data2 })

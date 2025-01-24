@@ -32,9 +32,9 @@ router.get('/cursos-vigentes', authMiddleware,controllerDocente.buscarCursosVige
 router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosConcluidos);
 
 
-router.get('/solicitacao-kit', authMiddleware,controllerDocente.TodasSolicitacoes);
-router.get('/kit-didatico-curso', authMiddleware, controllerDocente.TodosKits);
-router.get('/materiais-kit-didatico', authMiddleware, controllerDocente.TodosMateriais)
+router.get('/solicitacao-kit', authMiddleware,controllerDocente.todasSolicitacoes);
+router.post('/kit-didatico-curso', authMiddleware, controllerDocente.todosKits);
+router.get('/materiais-kit-didatico', authMiddleware, controllerDocente.todosMateriais)
 
 
 

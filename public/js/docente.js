@@ -1,5 +1,5 @@
 2// Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
-import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getCursosConcluidos, buscarCursosConcluidosPorPesquisa, getNome, logoutUser, monitorarTokenExpiracao, getKits, getMateriaisKit } from '../api.js'; // Ajuste o caminho conforme necessário
+import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos, getCursosConcluidos, buscarCursosConcluidosPorPesquisa, getNome, logoutUser, monitorarTokenExpiracao, buscarKits, getMateriaisKit } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
@@ -109,16 +109,42 @@ async function carregarCursosVigentes() {
                     <span><strong>Turno:</strong>${curso.turno}</span>
                     <span><strong>Turma:</strong>${curso.turma}</span>
                 </div>
+                <button onclick="openModal()" type="submit" class="curso_nome" id="${curso.nome}">Abrir Solicitação</button>
             </div>
         `;
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
-
+    document.querySelectorAll('.curso_nome').forEach(nome => {
+        nome.addEventListener('click', async (event) => {
+            if (event.target.tagName === "BUTTON") {
+                const nome_curso = event.target.id;
+                console.log(`Curso clicado: ${nome_curso}`);
+                const kits = await buscarKits(nome_curso);
+                const select = document.getElementById('selecao');
+                select.innerHTML = ''; // Limpa as opções anteriores
+                // Adiciona uma opção padrão
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = kits.length === 0
+                    ? 'Não há kits disponíveis'
+                    : 'Selecione um kit';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                select.appendChild(defaultOption);
+                // Adiciona opções de kits (se houver)
+                kits.forEach(kit => {
+                    const option = document.createElement('option');
+                    option.textContent = kit.nome_kit;
+                    select.appendChild(option);
+                });
+                console.log(kits.length === 0 ? 'Nenhum kit encontrado.' : 'Kits renderizados com sucesso!');
+            }
+        });
+    });
     document.querySelectorAll('.course').forEach(course => {
         course.addEventListener('click', () => {
             const content = course.querySelector('.accordion-content');
             const arrowIcon = course.querySelector('.arrow i'); // Selecione o <i>
-
             if (content.classList.contains('show')) {
                 content.classList.remove('show'); // Fecha
                 arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
@@ -185,24 +211,21 @@ async function carregarNome() {
         }; //Exibir uma mensagem informando que nao há transações
         return; //Sai da função, já que nao há transaçoes a serem exibidas.
     }
-
     // função para ajustar nome de usuário
-    function transformarNome(nome){
+    function transformarNome(nome) {
         return nome.split(" ")
     }
-    function ajustandoNome(nomes){
+    function ajustandoNome(nomes) {
         let nomeAjustado = ""
-    
         nomes.forEach(nome => {
-            if(nome.length > 3){
+            if (nome.length > 3) {
                 nomeAjustado += `${nome[0].toUpperCase()}${nome.substring(1)} `
-            }else{
-                nomeAjustado+=nome+" "
+            } else {
+                nomeAjustado += nome + " "
             }
         });
         return nomeAjustado.substring(0, nomeAjustado.length - 1)
     }
-    
     // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
     const saudacao1 = document.getElementsByClassName('saudacao')[0];
     saudacao1.innerText = `${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
@@ -331,48 +354,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
 /*---- CARREGAR KITS DIDÁTICOS ---- */
-async function carregarKits() {
-    try {
-        const kitsResponse = await getKits();
-        if (!kitsResponse || !Array.isArray(kitsResponse)) {
-            console.error('Resposta inválida da API ou dados não são um array:', kitsResponse);
-            return;
-        }
-        const select = document.getElementById('selecao');
-        select.innerHTML = '';
-        // Adiciona uma opção padrão
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.textContent = 'Selecione um kit';
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        select.appendChild(defaultOption);
-        // Adiciona opções de kits
-        kitsResponse.forEach(kit => {
-            const option = document.createElement('option');
-            option.textContent = kit.nome_kit; // Nome do kit como texto da opção
-            select.appendChild(option);
-        });
-        console.log('Kits renderizados com sucesso!');
-    } catch (error) {
-        console.error('Erro ao renderizar os kits:', error);
-    }
-}
-
+// async function carregarKits() {
+//     try {
+//         const kitsResponse = await buscarKits();
+//         if (!kitsResponse || !Array.isArray(kitsResponse)) {
+//             console.error('Resposta inválida da API ou dados não são um array:', kitsResponse);
+//             return;
+//         }
+//         const select = document.getElementById('selecao');
+//         select.innerHTML = '';
+//         // Adiciona uma opção padrão
+//         const defaultOption = document.createElement('option');
+//         defaultOption.value = '';
+//         defaultOption.textContent = 'Selecione um kit';
+//         defaultOption.disabled = true;
+//         defaultOption.selected = true;
+//         select.appendChild(defaultOption);
+//         // Adiciona opções de kits
+//         kitsResponse.forEach(kit => {
+//             const option = document.createElement('option');
+//             option.textContent = kit.nome_kit; // Nome do kit como texto da opção
+//             select.appendChild(option);
+//         });
+//         console.log('Kits renderizados com sucesso!');
+//     } catch (error) {
+//         console.error('Erro ao renderizar os kits:', error);
+//     }
+// }
 /*----- renderizar materiais do kit didático ----- */
 async function renderizarMateriais(nomeKit) {
     try {
         // Obtém os materiais do kit
         const MateriaisKit = await getMateriaisKit(nomeKit);
-
         // Seleciona o elemento tbody
         const tbody = document.querySelector('#body-table');
-
         // Limpa o conteúdo anterior da tabela
         tbody.innerHTML = '';
-
         // Verifica se a resposta foi bem-sucedida e possui dados
         if (!MateriaisKit || MateriaisKit.success === false || MateriaisKit.length === 0) {
             console.log('Nenhum material encontrado ou erro na busca');
@@ -381,7 +399,6 @@ async function renderizarMateriais(nomeKit) {
             tbody.appendChild(tr);
             return;
         }
-
         // Itera pelos materiais e adiciona uma linha para cada um
         MateriaisKit.forEach(material => {
             const tr = document.createElement('tr');
@@ -404,10 +421,8 @@ async function renderizarMateriais(nomeKit) {
         });
     } catch (erro) {
         console.error('Erro ao renderizar materiais:', erro);
-
         // Seleciona o elemento tbody
         const tbody = document.querySelector('#body-table');
-
         // Exibe uma mensagem de erro na tabela
         tbody.innerHTML = '';
         const tr = document.createElement('tr');
@@ -415,14 +430,12 @@ async function renderizarMateriais(nomeKit) {
         tbody.appendChild(tr);
     }
 }
-
 document.getElementById('buscar-materiais').addEventListener('click', () => {
     const resultado = document.getElementById('result');
     const nomeKit = document.getElementById('selecao').value;
-    if(nomeKit) {
+    if (nomeKit) {
         renderizarMateriais(nomeKit)
         resultado.innerHTML = '';
-
     } else {
         console.log('Nome do kit não fornecido');
         let select = document.getElementById('selecao');
@@ -431,12 +444,9 @@ document.getElementById('buscar-materiais').addEventListener('click', () => {
             `<p style="color: red; text-align: center;" >Selecione um kit!</p>`
     }
 });
-
-
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarCursosVigentes(),
         carregarCursosConcluidos(),
-        carregarNome(),
-        carregarKits()
+        carregarNome()
 });

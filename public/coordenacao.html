@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,9 +14,7 @@
     <link rel="stylesheet" href="css/coordenacao.css">
     <title>Gestão S</title>
 </head>
-
 <body>
-
     <div class="sidebar">
         <div>
             <div class="sidbox">
@@ -35,24 +32,22 @@
         </div>
         <div class="profile">
             <div class="avatar">
-                <img src="" alt="Avatar" class="profile-image" id="img-perfil">
+              <img src="" alt="Avatar" class="profile-image" id="img-perfil">
             </div>
             <div class="info">
-                <span class="name saudacao">Name</span>
-                <span class="func">Coordenador</span>
+              <span class="name saudacao">Name</span>
+              <span class="func">Coordenador</span>
             </div>
             <div class="logout">
-                <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
-                <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;"
-                        id="perfil"></i></button>
+              <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
+              <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;" id="perfil"></i></button>
             </div>
-        </div>
+          </div>
     </div>
     <div class="main">
         <div class="main-header">
             <div>
                 <h2 class="saudacao">Olá, </h2>
-
                 <!-- Menus com botões -->
                 <div class="tabs">
                     <div class="tab cursos active" data-tab="cursos">Cursos</div>
@@ -62,8 +57,6 @@
             </div>
             <div><img src="./assets/logo_gestao_s.svg" alt="logo_gestao_s" class="logo"></div>
         </div>
-
-
         <!-- Section de Cursos -->
         <section class="main">
             <div id="cursos" class="content active">
@@ -96,15 +89,12 @@
                         <input type="text" placeholder="Matrícula" />
                         <input type="email" placeholder="Email" />
                         <input type="tel" placeholder="Telefone" />
-
-
                     </form>
                     <div class="bnt-save">
                         <button type="button">Cancelar</button>
                         <button type="submit">Salvar</button>
                     </div>
                 </div>
-
                 <div id="curso" class="toggle-content">
                     <h3>Cadastrar Cursos</h3>
                     <form>
@@ -115,10 +105,8 @@
                         <label for="date">data início / data Fim</label>
                         <div class="date">
                             <input type="date" placeholder="Data início" />
-
                             <input type="date" placeholder="Data Fim" />
                         </div>
-
                         <input type="text" placeholder="Localidade" />
                         <input type="text" placeholder="Turno" />
                         <input type="text" placeholder="Turma" />
@@ -133,12 +121,10 @@
                         </div>
                     </form>
                 </div>
-
                 <div id="material" class="toggle-content">
                     <h3>Cadastrar Materiais</h3>
                     <form>
                         <input type="text" placeholder="Código do Produto" />
-
                         <input type="text" placeholder="Descrição" />
                         <input type="number" placeholder="Quantidade" />
                         <input type="text" placeholder="Unidade de Medida" />
@@ -153,12 +139,9 @@
                     </form>
                 </div>
             </div>
-
-
             <section id="status" class="content">
                 Conteúdo para Status
             </section>
-
             <!-- Section de Registro -->
             <section id="registro" class="content">
                 <div class="nome-com-linha">
@@ -184,7 +167,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Segunda aba -->
                     <div class="course">
                         <div class="accordion-header">
@@ -205,9 +187,7 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Terceira aba -->
-
                     <div class="course">
                         <div class="accordion-header">
                             <span>Kit de Soldador - Consumo</span>
@@ -227,9 +207,7 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Quarta aba -->
-
                     <div class="course">
                         <div class="accordion-header">
                             <span>Kit de Pintor - Consumo</span>
@@ -249,9 +227,7 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Quinta Aba -->
-
                     <div class="course">
                         <div class="accordion-header">
                             <span>Kit de Costura - Consumo</span>
@@ -274,8 +250,6 @@
                 </div>
             </section>
     </div>
-
-
     <!-- Primeiro Modal: Confirmação -->
     <div id="confirmModal" class="modal-2">
         <div class="modal-content">
@@ -362,22 +336,17 @@
                 modal.style.display = "none";
             }
         });
-
         document.addEventListener("DOMContentLoaded", () => {
             const buttons = document.querySelectorAll(".toggle-button");
             const contents = document.querySelectorAll(".toggle-content");
-
             buttons.forEach(button => {
                 button.addEventListener("click", () => {
                     // Remover a classe ativa de todos os botões
                     buttons.forEach(btn => btn.classList.remove("active"));
-
                     // Esconder todo o conteúdo
                     contents.forEach(content => (content.style.display = "none"));
-
                     // Ativar o botão clicado
                     button.classList.add("active");
-
                     // Mostrar o conteúdo correspondente
                     const contentId = button.getAttribute("data-content");
                     const contentToShow = document.getElementById(contentId);
@@ -387,18 +356,15 @@
                 });
             });
         });
-
         // Selecione todas as abas e conteúdos
         const tabs = document.querySelectorAll('.tab');
         const contents = document.querySelectorAll('.content');
-
         // Adicione o evento de clique para cada aba
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 // Remover a classe ativa de todas as abas e conteúdos
                 tabs.forEach(t => t.classList.remove('active'));
                 contents.forEach(c => c.classList.remove('active'));
-
                 // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
                 tab.classList.add('active');
                 const target = document.getElementById(tab.dataset.tab);
@@ -407,17 +373,12 @@
                 }
             });
         });
-
-
         const accordionHeaders = document.querySelectorAll('.accordion-header');
-
         accordionHeaders.forEach(header => {
             header.addEventListener('click', () => {
                 const content = header.nextElementSibling;
-
                 // Toggle active class for arrow rotation
                 header.classList.toggle('active');
-
                 // Toggle visibility of accordion content
                 if (content.style.display === 'block') {
                     content.style.display = 'none';
@@ -426,11 +387,9 @@
                 }
             });
         });
-
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
     <script type="module" src="./js/coordenacao.js"></script>
-
+    <script type="module" src="./api.js" ></script>
 </body>
-
 </html>

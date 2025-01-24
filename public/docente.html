@@ -72,9 +72,9 @@
             <form class="search-filters" id="buscar-cursos-concluidos">
                 <input type="date" placeholder="dd/mm/aaaa" id="date1">
                 <input type="date" placeholder="dd/mm/aaaa" id="date2">
-                <input type="text" id="busca-por-cursos-concluidos" placeholder="Busque por cursos concluídos...">
-                <button>Buscar</button>
+                <button>Buscar</button> 
             </form>
+            <input type="text" id="busca-por-cursos-concluidos" placeholder="Busque por cursos concluídos...">
             <div id="cursos-concluidos" class="content-wrapper">
                 <div class="loading">
                     <div class="loader"></div>
@@ -355,23 +355,6 @@
                 modal.style.display = "none";
             }
         });
-        // dropdown 
-        document.querySelectorAll('.course').forEach(course => {
-            course.addEventListener('click', () => {
-                const content = course.querySelector('.accordion-content');
-                const arrowIcon = course.querySelector('.arrow i'); // Selecione o <i>
-
-                if (content.classList.contains('show')) {
-                    content.classList.remove('show'); // Fecha
-                    arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
-                } else {
-                    content.classList.add('show'); // Abre
-                    arrowIcon.style.transform = 'rotate(180deg)'; // Rotaciona
-                }
-            });
-        });
-
-
         function decreaseValue(button) {
             const input = button.nextElementSibling;
             const value = parseInt(input.value);
