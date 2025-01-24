@@ -52,7 +52,7 @@
         <h2 class="saudacao">Olá, </h2>
         <div class="tabs">
           <div class="tab cursos active" data-tab="cursos">Solicitações</div>
-          <div class="tab status" data-tab="status" id="tabStatus">
+          <div class="tab status" data-tab="concluidas" id="tabStatus">
             Concluídas
           </div>
         </div>
@@ -142,52 +142,9 @@
         </div>
       </div>
 
-      <!-- <div class="nome-com-linha">
-          <span class="nome title">Cursos Concluídos</span>
-        </div> -->
-
-      <!-- <div class="search-filters">
-          <input type="date" placeholder="dd/mm/aaaa" />
-          <input type="date" placeholder="dd/mm/aaaa" />
-          <input type="text" placeholder="Busque por cursos concluídos..." />
-          <button type="submit" id="cursos-concluidos">Buscar</button>
-        </div>
-
-        <div id="cursos-concluidos" class="content-wrapper"> -->
-      <!-- <div class="loading">
-                    <div class="loader"></div>
-                </div> -->
-
-      <!-- RESULTADO DA PESQUISA EXEMPLO!!!! -->
-      <!-- <div class="course-item">
-            <h2 class="course-title">Introdução à Programação</h2>
-            <p class="course-date">Concluído em 01/12/2022</p>
-          </div>
-
-          <div class="course-item">
-            <h2 class="course-title">Design de Interfaces</h2>
-            <p class="course-date">Concluído em 15/03/2023</p>
-          </div>
-
-          <div class="course-item">
-            <h2 class="course-title">Machine Learning</h2>
-            <p class="course-date">Concluído em 10/06/2023</p>
-          </div>
-          <div class="course-item">
-            <h2 class="course-title">Machine Learning</h2>
-            <p class="course-date">Concluído em 10/06/2023</p>
-          </div>
-          <div class="course-item">
-            <h2 class="course-title">Machine Learning</h2>
-            <p class="course-date">Concluído em 10/06/2023</p>
-          </div>
-          <div class="course-item">
-            <h2 class="course-title">Machine Learning</h2>
-            <p class="course-date">Concluído em 10/06/2023</p>
-          </div> -->
   </div>
   </section>
-  <section class="content" id="concluidas">
+  <section class="content" id="status">
     <div class="nome-com-linha">
       <span class="nome">Baixar relatório do curso</span>
     </div>
@@ -374,6 +331,10 @@
 </div>
   <script>
     
+    // Seleciona elementos do DOM
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.content');
+
     // Abrir e fechar o modal
     document.getElementById("openProfileModal").addEventListener("click", function () {
       document.getElementById("profileModal").style.display = "block";
@@ -404,8 +365,8 @@
         }
       });
     });
-            // Função para ativar uma aba específica
-            function activateTab(tabName) {
+  // Função para ativar uma aba específica
+  function activateTab(tabName) {
             // Remove a classe ativa de todas as abas e conteúdos
             tabs.forEach(tab => tab.classList.remove('active'));
             contents.forEach(content => content.classList.remove('active'));
@@ -417,18 +378,19 @@
                 targetContent.classList.add('active');
             }
         }
-          // Gerencia cliques manuais nas abas
-          tabs.forEach(tab => {
-           tab.addEventListener('click', () => {
-                // Remover a classe ativa de todas as abas e conteúdos
-                tabs.forEach(t => t.classList.remove('active'));
-                contents.forEach(c => c.classList.remove('active'));
-                // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
-                tab.classList.add('active');
-                const target = document.getElementById(tab.dataset.tab);
-                target.classList.add('active');
-            });
-         });
+  // Gerencia cliques manuais nas abas
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        // Remover a classe ativa de todas as abas e conteúdos
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
+        tab.classList.add('active');
+        const target = document.getElementById(tab.dataset.tab);
+          target.classList.add('active');
+    });
+  });
+
   </script>
   <script type="module" src="./js/setor_de_compras.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>

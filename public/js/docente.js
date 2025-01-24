@@ -1,6 +1,9 @@
 2// Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
-import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos,
-    getCursosConcluidos, buscarCursosConcluidosPorPesquisa, getNome, logoutUser, monitorarTokenExpiracao, buscarKits, getMateriaisKit } from '../api.js'; // Ajuste o caminho conforme necessário
+import {
+    getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos,
+    getCursosConcluidos, buscarCursosConcluidosPorPesquisa, buscarMateriaisDocente, getNome, logoutUser, monitorarTokenExpiracao,
+    buscarKitsDocente
+} from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
@@ -31,16 +34,16 @@ async function carregarNome() {
         return; //Sai da função, já que nao há transaçoes a serem exibidas.
     }
     // função para ajustar nome de usuário
-    function transformarNome(nome){
+    function transformarNome(nome) {
         return nome.split(" ")
     }
-    function ajustandoNome(nomes){
+    function ajustandoNome(nomes) {
         let nomeAjustado = ""
         nomes.forEach(nome => {
-            if(nome.length > 3){
+            if (nome.length > 3) {
                 nomeAjustado += `${nome[0].toUpperCase()}${nome.substring(1)} `
-            }else{
-                nomeAjustado+=nome+" "
+            } else {
+                nomeAjustado += nome + " "
             }
         });
         return nomeAjustado.substring(0, nomeAjustado.length - 1)
@@ -288,7 +291,7 @@ async function carregarCursosVigentes() {
             if (event.target.tagName === "BUTTON") {
                 const nome_curso = event.target.id;
                 console.log(`Curso clicado: ${nome_curso}`);
-                const kits = await buscarKits(nome_curso);
+                const kits = await buscarKitsDocente(nome_curso);
                 const select = document.getElementById('selecao');
                 select.innerHTML = ''; // Limpa as opções anteriores
                 // Adiciona uma opção padrão
@@ -304,11 +307,45 @@ async function carregarCursosVigentes() {
                 kits.forEach(kit => {
                     const option = document.createElement('option');
                     option.textContent = kit.nome_kit;
+                    option.value = kit.nome_kit;
                     select.appendChild(option);
                 });
-                console.log(kits.length === 0 ? 'Nenhum kit encontrado.' : 'Kits renderizados com sucesso!');
+                c//onsole.log(kits.length === 0 ? 'Nenhum kit encontrado.' : 'Kits renderizados com sucesso!');
             }
         });
+    });
+    const select = document.getElementById('selecao');
+    const bodyTable = document.getElementById('body-table');
+    select.addEventListener('change', async (event) => {
+        const nome_kit = event.target.value; // Captura o valor selecionado
+        if (nome_kit) {
+            console.log(`Kit selecionado: ${nome_kit}`);
+
+            const materiais = await buscarMateriaisDocente(nome_kit);
+            //console.log(materiais);
+            function preencherTabela(materiais) {
+                bodyTable.innerHTML = '';
+                materiais.forEach(material => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                <td>${material.cod_produto}</td>
+                <td>${material.descricao}</td>
+                <td>${material.qnt_max}</td>
+                <td>${material.unidade_medida}</td>
+                <td>${material.saldo}</td>
+                <td>
+                    <button onclick="decreaseValue(this)" class="btn-cont">-</button>
+                    <input type="number" value="0" min="0" style="width: 40px; text-align: center;" onchange="validateValue(this)">
+                    <button class="add" onclick="increaseValue(this)">+</button>
+                    <button class="delete" onclick="deleteRow(this)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>`;
+                    bodyTable.appendChild(row);
+                });
+            }
+            preencherTabela(materiais);
+        }
     });
     document.querySelectorAll('.course').forEach(course => {
         course.addEventListener('click', () => {
@@ -356,58 +393,38 @@ async function carregarCursosConcluidos() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
-async function loadMateriais() {
-    const result = await getMateriaisKit();
-
-    if (result.success) {
-        const materiais = result.data?.materiais;
-
-        // Verifica se `materiais` é um array
-        if (Array.isArray(materiais)) {
-            renderizarMateriais(materiais);
-        } else {
-            console.error('Os materiais retornados não são um array:', materiais);
-            alert('Erro: Os materiais não estão no formato correto.');
-        }
-    } else {
-        console.error(result.message);
-        alert('Erro ao carregar materiais: ' + result.message);
-    }
-}
 
 // Função para renderizar os materiais em uma tabela HTML
-function renderizarMateriais(materiais) {
-    // Seleciona o elemento da tabela no HTML
-    const tableBody = document.querySelector('#body-table');
-    
-    // Limpa o conteúdo anterior da tabela
-    tableBody.innerHTML = '';
+async function carregarMateriaisKit() {
+    const tbody = document.querySelector("#body-table");
+    const materiaisKit = await buscarMateriaisDocente();
+    console.log(materiaisKit);
+    //1.
+    try {
+        materiaisKit.forEach(material => {
+            const tr = document.createElement('tr');
+            tr.innerHTML =
+                `<td>${material.cod_kit || 'N/A'}</td>
+            <td>${material.descricao || 'N/A'}</td>
+            <td>${material.quantidade || 'N/A'}</td>
+            <td>${material.unidade_medida || 'N/A'}</td>`;
+            tbody.appendChild(tr);
+        });
 
-    // Preenche a tabela com os dados
-    materiais.forEach((material) => {
-        const row = document.createElement('tr');
-
-        // Cria as células com os dados do material
-        row.innerHTML = `
-            <td>${material.id}</td>
-            <td>${material.nome_kit}</td>
-            <td>${material.descricao}</td>
-            <td>${material.quantidade}</td>
-            <td>${material.unidade_medida}</td>
-        `;
-
-        // Adiciona a linha à tabela
-        tableBody.appendChild(row);
-    });
+    } catch (error) {
+        console.log('error: ', error);
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+            `<td colspan="4">error: ${error.message}<td>`;
+        tbody.appendChild(tr);
+    }
 }
-
-
 
 document.getElementById('buscar-materiais').addEventListener('click', () => {
     const resultado = document.getElementById('result');
     const nomeKit = document.getElementById('selecao').value;
     if (nomeKit) {
-        renderizarMateriais(nomeKit)
+        carregarMateriaisKit()
         resultado.innerHTML = '';
     } else {
         console.log('Nome do kit não fornecido');
@@ -417,6 +434,10 @@ document.getElementById('buscar-materiais').addEventListener('click', () => {
             `<p style="color: red; text-align: center;" >Selecione um kit!</p>`
     }
 });
+
+
+
+
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarCursosVigentes(),

@@ -350,33 +350,6 @@ export async function getCursosVigentes() {
         return { cursos: [] }; // Retorna um array vazio em caso de erro
     }
 }
-export async function buscarKits(nome_curso) {
-    const token = localStorage.getItem('token');
-    // Verificar se o token existe antes de fazer a requisição
-    try {
-        const response = await fetch(`${API_URL}/routes/kit-didatico-curso`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({nome_curso:nome_curso})
-        });
-        if (response.status === 404) {
-            console.warn('Curso não possui kits.');
-            return []; // Retorna array vazio em caso de curso sem kits
-        }
-        if (!response.ok) {
-            throw new Error('Erro na resposta do servidor');
-        }
-        const result = await response.json();
-        //console.log(`${result}`);
-        return result
-    } catch (error) {
-        console.error('Erro ao buscar cursos:', error);
-        return { message: error.message}; // Retorna um array vazio em caso de erro
-    }
-}
 export async function buscarCursosConcluidos(data1, data2) { //FALTA EDITAR, AINDA NÃO ESTA FUNCIONANDO
     const token = localStorage.getItem('token');
     console.log('buscando datas', { data1, data2 })
@@ -476,60 +449,86 @@ export async function getNome() {
     }
 }
 /*-------- visualizar kits didáticos ---------------*/
-export async function getKits() {
+export async function buscarKitsDocente(nome_curso) {
     const token = localStorage.getItem('token');
-    if (!token) {
-        console.error('Token não encontrado.');
-        return { success: false, message: 'Usuário não autenticado.' };
-    }
-    //2.
+    // Verificar se o token existe antes de fazer a requisição
     try {
         const response = await fetch(`${API_URL}/routes/kit-didatico-curso`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({nome_curso:nome_curso})
         });
+        if (response.status === 404) {
+            console.warn('Curso não possui kits.');
+            return []; // Retorna array vazio em caso de curso sem kits
+        }
         if (!response.ok) {
-            const erro_message = await response.text();
-            throw new Error(`Erro na requisição (${`response.status`}: ${erro_message}`)
+            throw new Error('Erro na resposta do servidor');
         }
-        const data = await response.json();
-        const kits = data.nome_kit || data;
-        console.log('Kits didáticos: ', kits);
-        return await kits;
+        const result = await response.json();
+        //console.log(`${result}`);
+        return result
     } catch (error) {
-        if (error instanceof TypeError) {
-            // TypeError ocorre para problemas de rede ou conexão.
-            console.error('Erro de conexão:', error);
-            return { success: false, message: 'Erro de conexão. Verifique sua internet.' };
-        } else {
-            // Outros erros (ex.: erro lançado acima).
-            console.error('Erro do servidor:', error.message);
-            return { success: false, message: error.message };
-        }
+        console.error('Erro ao buscar cursos:', error);
+        return { message: error.message}; // Retorna um array vazio em caso de erro
     }
 }
 /*----- Visualizar os materiais inseridos nos kit didáticos-----*/
-export async function getMateriaisKit() {
+export async function buscarMateriaisDocente(nome_kit) {
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição 
     try {
-        const token = localStorage.getItem('token');
         const response = await fetch(`${API_URL}/routes/materiais-kit-didatico`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
+            body: JSON.stringify({nome_kit:nome_kit})
         });
-        if (!response.ok) {
-            const erro_message = await response.text();
-            throw new Error(`Erro na requisição - ${`response.status`}: ${erro_message}`)
+        if (response.status === 404) {
+            console.warn('Kit não possui materiais');
+            return []; // Retorna array vazio em caso de curso sem kits
         }
-        const data = await response.json();
-        return data;
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+        const result = await response.json();
+        //console.log(result);
+        return result
     } catch (error) {
-        console.error('Erro ao buscar materiais:', error);
-        return { sucess: false, message: 'ERRO' }
+        console.error('Erro ao buscar os materiais:', error);
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+
+//visualizar kits didáticos - coordenação
+
+export async function buscarKitsCoordenacao() {
+    const token = localStorage.getItem('token');
+    try {
+        const response= await fetch(`${API_URL}/routes/buscar-kits`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        if(response.status === 404) {
+            res.send('Nenhum kit encontrado - api')
+        }
+
+        if(!response.ok) {
+            throw new res.send('Erro no server');
+        }
+
+        const resultado = await response.json();
+        console.log(resultado)
+        return resultado
+    } catch(error) {
+        console.error('Erro ao buscar os materiais:', error);
+        return { message: error.message}; // Retorna um array vazio em caso de erro
     }
 }

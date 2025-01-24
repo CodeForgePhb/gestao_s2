@@ -187,7 +187,7 @@ export const todosKits = async (req, res) => {
 
 //3. Visualizar materiais dentro dos kit didáticos
 export const todosMateriais = async (req, res) => {
-  const { nome_curso } = req.body;
+  const { nome_kit } = req.body;
   try {
     //1.
     const token = req.headers.authorization?.split(' ')[1];
@@ -195,37 +195,25 @@ export const todosMateriais = async (req, res) => {
       return res.status(401).json({ message: 'Token não fornecido' })
     }
     //2.
-    const [ kit_didatico ] = await db.query(
-      'SELECT nome_kit from kit WHERE curso = ?', [nome_curso]);
-      
-    const kitMaterial = kit_didatico.map((kit) => kit.nome_kit);
-    console.log([kitMaterial])
+    const [result] = await db.query(
+      'SELECT cod_produto, descricao, qnt_max, unidade_medida, saldo from materiais WHERE nome_kit = ?', [nome_kit]);
 
-    if(kitMaterial.length === 0) {
-      res.status(404).json({message: 'Nenhum kit encontrado'});
-      console.log('nenhum kit encontrado')
+    // Verifica se o array está vazio ou indefinido
+    if (result.length === 0) {
+      return res.status(404).json({ message: 'Não há materiais para o kit.' });
     }
-
-    const materialKit = await db.query('SELECT* from materiais WHERE nome_kit IN (?)', [kitMaterial]);
-
-    if(materialKit.length === 0) {
-      console.log('Material didático não existente')
-      res.status(404).send('Material não encontrado')
-    }
-
-    const materiaisKits = materialKit[0]
-
-    return await res.status(200).json({materiaisKits})
-
+// Retorna os kits encontrados
+    console.log(result); // Mostra todos os kits no console
+    return res.status(200).json(result); // Retorna o array completo no response
   } catch (error) {
-    console.error('Erro encontrado: ', error);
-    res.status(500).json({ message: 'Erro no controlador' })
+    console.error('Erro ao buscar os materiais.', error);
+    return res.status(500).json({ message: 'Erro ao buscar os materiais.', error });
   }
 }
 
 //4. adicionar solicitacao de material didático
 export const addSolicitacao = async (req, res) => {
-  
+
   try {
     //1.
     const token = req.headers.authorization?.split(' ')[1];
@@ -253,9 +241,9 @@ export const todasSolicitacoes = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { nome_usuario } = decoded;
     //3.
-    const [ userResult ] = await db.query('SELECT nome FROM docente WHERE email = ?', [email]);
-    if(userResult.length === 0) {
-      res.status(404).json({message : 'usuário não encontrado'});
+    const [userResult] = await db.query('SELECT nome FROM docente WHERE email = ?', [email]);
+    if (userResult.length === 0) {
+      res.status(404).json({ message: 'usuário não encontrado' });
     }
     //4.
     const nome_curso = await db.query(

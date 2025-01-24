@@ -1,4 +1,4 @@
-import { uploadProfileImage, uploadSignature, getFotoPerfil, getAssinatura, getCursosVigentes, getCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
+import { uploadProfileImage, uploadSignature, getFotoPerfil, getAssinatura, getCursosVigentes, getCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao, buscarKitsCoordenacao } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     getFotoPerfil();
     getAssinatura();
@@ -232,9 +232,72 @@ async function carregarCursosConcluidos() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
+
+ async function carregarKitsCoordenacao() {
+    //1.
+    const kitDidatico = await buscarKitsCoordenacao();
+    console.log('Kits didáticos: ', kitDidatico);
+    try {
+        // Buscando os dados da API
+        const kits = await buscarKitsCoordenacao();
+        console.log('Dados retornados pela API:', kits); // Debug
+
+        // Verifique se os dados são um array
+        if (!Array.isArray(kits)) {
+            throw new Error('Os dados retornados não são uma lista.');
+        }
+
+        // Seleciona o contêiner principal
+        const coursesContainer = document.querySelector('.courses');
+        if (!coursesContainer) {
+            throw new Error('Contêiner principal ".courses" não encontrado no HTML.');
+        }
+
+        // Limpa o contêiner antes de adicionar os elementos
+        coursesContainer.innerHTML = '';
+
+        // Itera pelos kits e renderiza
+        kits.forEach((kit) => {
+            const courseDiv = document.createElement('div');
+            courseDiv.classList.add('course');
+
+            // Preenchendo os dados dinamicamente
+            courseDiv.innerHTML = `
+                <div class="accordion-content">
+                    <div class="inf">
+                        <span><strong>Nível:</strong> ${kit.cod_kit || 'Indisponível'}</span>
+                        <span><strong>Data:</strong> ${kit.nome_kit || 'Indisponível'}</span>
+                    </div>
+                </div>
+            `;
+
+            // Adiciona o elemento ao contêiner
+            coursesContainer.appendChild(courseDiv);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar os kits:', error);
+
+        // Exibe uma mensagem de erro no contêiner
+        const coursesContainer = document.querySelector('.courses');
+        if (coursesContainer) {
+            coursesContainer.innerHTML = `
+                <div class="course">
+                    <div class="accordion-content">
+                        <div class="inf">
+                            <span><strong>Erro:</strong> ${error.message}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+}
+
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarCursosVigentes(),   
     carregarCursosConcluidos(),
-    carregarNome() 
+    carregarNome(),
+    carregarKitsCoordenacao()
 });

@@ -23,6 +23,7 @@ router.get('/cursos-concluidos', authMiddleware,controllerCoordenacao.buscarCurs
 router.delete('/curso-vigente/:id_curso', authMiddleware,controllerCoordenacao.delCursoVigente);
 router.post('/adicionar-kit', authMiddleware,controllerCoordenacao.adicionar_kit);
 router.post('/adicionar-materiais', authMiddleware,controllerCoordenacao.addMateriais);
+router.get('/buscar-kits', authMiddleware,controllerCoordenacao.buscarKitCoordenacao);
 
 
 //----------------Docente----------------------------------------------------------------------------------------------
@@ -35,7 +36,7 @@ router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosCo
 
 router.get('/solicitacao-kit', authMiddleware,controllerDocente.todasSolicitacoes);
 router.post('/kit-didatico-curso', authMiddleware, controllerDocente.todosKits);
-router.get('/materiais-kit-didatico', authMiddleware, controllerDocente.todosMateriais)
+router.post('/materiais-kit-didatico', authMiddleware, controllerDocente.todosMateriais)
 
 
 

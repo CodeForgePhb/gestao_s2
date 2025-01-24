@@ -140,6 +140,27 @@ export const buscarDocentes = async (req, res) => {
     }
 };
 
+// VISUALIZAR KIT DIDÁTICOS
+
+export const buscarKitCoordenacao = async (req, res) => {
+    try {
+        const [result] = await db.query('SELECT* FROM kit')
+
+        if(result.length === 0) {
+            console.log('Nenhum kit cadastrado')
+            return await res.status(404).send('Nenhum kit cadastrado')
+        }
+        res.json(result);
+        console.log(result)
+
+    } catch(error) { 
+        console.error('ERRO ENCONTRADO: ', error);
+        res.status(500).json({message: 'Erro'})
+    }
+};
+
+
+
 // ------------------------ ROTAS DELETE ------------------------
 export const delDocente = async (req, res) => {
     try {
