@@ -144,15 +144,15 @@ export const buscarDocentes = async (req, res) => {
 
 export const buscarKitCoordenacao = async (req, res) => {
     try {
-        const [result] = await db.query('SELECT* FROM kit')
+        const [result] = await db.query('SELECT cod_kit, nome_kit, tipo, curso FROM kit')
 
-        if(result.length === 0) {
-            console.log('Nenhum kit cadastrado')
-            return await res.status(404).send('Nenhum kit cadastrado')
-        }
-        res.json(result);
-        console.log(result)
-
+    // Verifica se o array está vazio ou indefinido
+    if (result.length === 0) {
+        return res.status(404).json({ message: 'Não há materiais para o kit.' });
+      }
+  // Retorna os kits encontrados
+      console.log(result); // Mostra todos os kits no console
+      return res.status(200).json(result); // Retorna o array completo no response
     } catch(error) { 
         console.error('ERRO ENCONTRADO: ', error);
         res.status(500).json({message: 'Erro'})

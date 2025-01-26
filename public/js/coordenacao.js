@@ -1,8 +1,10 @@
-import { uploadProfileImage, uploadSignature, getFotoPerfil, getAssinatura, getCursosVigentes, getCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao, buscarKitsCoordenacao } from '../api.js'; // Ajuste o caminho conforme necessário
+import { uploadProfileImage, uploadSignature, getFotoPerfil, getAssinatura, getCursosVigentes, 
+    getCursosConcluidos, getNome, logoutUser, monitorarTokenExpiracao, buscarKitsCoordenacao } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     getFotoPerfil();
     getAssinatura();
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
+    buscarKitsCoordenacao()
 };
 // Função para obter nome do "User"
 async function carregarNome() {
@@ -172,132 +174,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-async function carregarCursosVigentes() {
-    //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
-    const token = localStorage.getItem('token');
+
+async function carregarKitsCoordenacao() {
     //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
-    const cursos = await getCursosVigentes();
-    console.log('Cursos Vigentes:', cursos); //Adiciona um log para verificar os dados carregados.
+    const kitsCoord = await buscarKitsCoordenacao();
+    console.log('Kits:', kitsCoord); //Adiciona um log para verificar os dados carregados.
     //Obtém o corpo da tabela onde as transações serão inseridas.
-    const div = document.getElementById('courses');
+    const div = document.getElementById('kits');
     div.innerHTML = ''; //Limpa o conteúdo da tabela antes de adicionar as novas transações
     //Verificar se a lista de trasações está vazia.
-    if (!cursos[0].nome_curso || cursos[0].nome_curso.length === 0) {
+    if (kitsCoord.length === 0) {
         console.log('Nenhum curso encontrado.') //Loga se não houver transações
         const divInterna = document.createElement('div'); // Cria uma nova div.
         divInterna.classList.add('course');
         divInterna.innerHTML = `<span>Nenhum curso encontrado.</span>`; //Exibir uma mensagem informando que nao há transações
         div.appendChild(divInterna); // Adiciona a linha na tabela.
-        //return; //Sai da função, já que nao há transaçoes a serem exibidas.
+        return; //Sai da função, já que nao há transaçoes a serem exibidas.
     }
     // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
-    cursos.forEach(curso => {
+    kitsCoord.forEach(kitCoord => {
         const divInterna = document.createElement('div'); // Criar uma nova linha na tabela.
-        divInterna.classList.add('course')
+        divInterna.classList.add('course');
         divInterna.innerHTML = `
-            <div class="accordion-header">
-                <span>${curso.nome_curso}</span><!--Exibe o nome do curso-->
-                <span class="arrow">&#9650;</span>
+            <div class="accordion-header">                
+            <span id="cod-kit">${kitCoord.cod_kit}</span>
+                <span id="nome-kit">${kitCoord.nome_kit}</span><!--Exibe o nome do curso-->
+                <span class="arrow"><i class="fa-solid fa-chevron-down" style="color: #808080;"></i></span>
+            </div>
+            <div class="accordion-content">
+                <div class="inf">
+                    <span><strong>Tipo:</strong> ${kitCoord.tipo}</span>
+                    <span><strong>Curso Vinculado:</strong> ${kitCoord.curso}</span>
+                </div>
+                <button type="submit" class="editar_kit" id="${kitCoord.cod_kit}">Editar Kit</button>
             </div>
         `;
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
-}
-async function carregarCursosConcluidos() {
-    //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
-    const token = localStorage.getItem('token');
-    //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
-    const cursos = await getCursosConcluidos();
-    console.log('Cursos cursos concluidos:', cursos); //Adiciona um log para verificar os dados carregados.
-    //Obtém o corpo da tabela onde as transações serão inseridas.
-    const div = document.getElementById('all-cursos-concluidos')
-    div.innerHTML = ''; //Limpa o conteúdo da tabela antes de adicionar as novas transações
-    //Verificar se a lista de trasações está vazia.
-    if (!cursos[0].nome_curso || cursos[0].nome_curso.length === 0) {
-        console.log('Nenhum curso encontrado.') //Loga se não houver transações
-        const divInterna = document.createElement('div'); // Cria uma nova div.
-        divInterna.innerHTML = `<span>Nenhum curso encontrado.</span>`; //Exibir uma mensagem informando que nao há transações
-        divInterna.classList.add('course-item')
-        div.appendChild(divInterna); // Adiciona a linha na tabela.
-        return; //Sai da função, já que nao há transaçoes a serem exibidas.
-    }
-    // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
-    cursos.forEach(curso => {
-        const divInterna = document.createElement('div'); // Criar uma nova linha na tabela.
-        divInterna.classList.add('course-item');
-        divInterna.innerHTML = `
-        <h2 class="course-title">${curso.nome_curso}</h2>
-        <p class="course-date"><b>Concluido em ${curso.data_fim.substring(0, 10)}</b></p>
-        `;
-        div.appendChild(divInterna); // Adiciona a linha à tabela
-    });
-}
-
- async function carregarKitsCoordenacao() {
-    //1.
-    const kitDidatico = await buscarKitsCoordenacao();
-    console.log('Kits didáticos: ', kitDidatico);
-    try {
-        // Buscando os dados da API
-        const kits = await buscarKitsCoordenacao();
-        console.log('Dados retornados pela API:', kits); // Debug
-
-        // Verifique se os dados são um array
-        if (!Array.isArray(kits)) {
-            throw new Error('Os dados retornados não são uma lista.');
-        }
-
-        // Seleciona o contêiner principal
-        const coursesContainer = document.querySelector('.courses');
-        if (!coursesContainer) {
-            throw new Error('Contêiner principal ".courses" não encontrado no HTML.');
-        }
-
-        // Limpa o contêiner antes de adicionar os elementos
-        coursesContainer.innerHTML = '';
-
-        // Itera pelos kits e renderiza
-        kits.forEach((kit) => {
-            const courseDiv = document.createElement('div');
-            courseDiv.classList.add('course');
-
-            // Preenchendo os dados dinamicamente
-            courseDiv.innerHTML = `
-                <div class="accordion-content">
-                    <div class="inf">
-                        <span><strong>Nível:</strong> ${kit.cod_kit || 'Indisponível'}</span>
-                        <span><strong>Data:</strong> ${kit.nome_kit || 'Indisponível'}</span>
-                    </div>
-                </div>
-            `;
-
-            // Adiciona o elemento ao contêiner
-            coursesContainer.appendChild(courseDiv);
+    document.querySelectorAll('.course').forEach(course => {
+        course.addEventListener('click', () => {
+            const content = course.querySelector('.accordion-content');
+            const arrowIcon = course.querySelector('.arrow i'); // Selecione o <i>
+            if (content.classList.contains('show')) {
+                content.classList.remove('show'); // Fecha
+                arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
+            } else {
+                content.classList.add('show'); // Abre
+                arrowIcon.style.transform = 'rotate(180deg)'; // Rotaciona
+            }
         });
-    } catch (error) {
-        console.error('Erro ao carregar os kits:', error);
-
-        // Exibe uma mensagem de erro no contêiner
-        const coursesContainer = document.querySelector('.courses');
-        if (coursesContainer) {
-            coursesContainer.innerHTML = `
-                <div class="course">
-                    <div class="accordion-content">
-                        <div class="inf">
-                            <span><strong>Erro:</strong> ${error.message}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-    }
-
+    });
 }
 
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
-    carregarCursosVigentes(),   
-    carregarCursosConcluidos(),
     carregarNome(),
     carregarKitsCoordenacao()
 });

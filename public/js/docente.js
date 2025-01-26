@@ -244,8 +244,6 @@ document.getElementById('busca-por-cursos-concluidos').addEventListener('keyup',
 })
 //Função assíncrona para carregar e exibir as transações na tabela.
 async function carregarCursosVigentes() {
-    //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
-    const token = localStorage.getItem('token');
     //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
     const cursos = await getCursosVigentes();
     console.log('Cursos Vigentes:', cursos); //Adiciona um log para verificar os dados carregados.
@@ -310,7 +308,7 @@ async function carregarCursosVigentes() {
                     option.value = kit.nome_kit;
                     select.appendChild(option);
                 });
-                c//onsole.log(kits.length === 0 ? 'Nenhum kit encontrado.' : 'Kits renderizados com sucesso!');
+                //console.log(kits.length === 0 ? 'Nenhum kit encontrado.' : 'Kits renderizados com sucesso!');
             }
         });
     });

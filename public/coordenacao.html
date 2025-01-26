@@ -54,14 +54,14 @@
                 <!-- Menus com botões -->
                 <div class="tabs">
                     <div class="tab cursos active" data-tab="cursos">Cursos</div>
-                    <div class="tab registro" data-tab="registro">Registro</div>
+                    <div class="tab registro" data-tab="registros">Registros</div>
                     <div class="tab status" data-tab="status" id="tabStatus">Status</div>
                 </div>
             </div>
             <div><img src="./assets/logo_gestao_s.svg" alt="logo_gestao_s" class="logo"></div>
         </div>
         <!-- Section de Cursos -->
-        <section class="main">
+        <section>
             <div id="cursos" class="content active">
                 <div class="columns">
                     <div id="primeiro" class="button toggle-button" data-content="professor">
@@ -70,23 +70,23 @@
                         </div>
                         <b>Docente</b>
                     </div>
-                    <div id="segundo" class="button toggle-button " data-content="curso">
+                    <div id="segundo" class="button toggle-button" data-content="curso">
                         <div class="icone-mais">
                             <img src="./assets/icons/plus-solid.svg" alt="">
-                            <b>Cursos</b>
                         </div>
+                        <b>Curso</b>
                     </div>
                     <div id="terceiro" class="button toggle-button" data-content="material">
                         <div class="icone-mais">
                             <img src="./assets/icons/plus-solid.svg" alt="">
                         </div>
-                        <b>Kits</b>
+                        <b>Kit e Materiais</b>
                     </div>
                 </div>
                 <!-- Áreas de conteúdo -->
                 <!-- Áreas de conteúdo -->
                 <div id="professor" class="toggle-content">
-                    <h3>Cadastrar Professor</h3>
+                    <h3>Cadastrar Docente</h3>
                     <form>
                         <input type="text" placeholder="Nome" />
                         <input type="text" placeholder="Matrícula" />
@@ -99,7 +99,7 @@
                     </div>
                 </div>
                 <div id="curso" class="toggle-content">
-                    <h3>Cadastrar Cursos</h3>
+                    <h3>Cadastrar Curso</h3>
                     <form>
                         <input type="text" placeholder="Nome do Curso" />
                         <input type="text" placeholder="Código" />
@@ -115,9 +115,6 @@
                         <input type="text" placeholder="Turma" />
                         <input type="text" placeholder="Carga Horária" />
                         <input type="text" placeholder="Matrícula Prevista" />
-                        <select>
-                            <option>Curso</option>
-                        </select>
                         <div class="bnt-save">
                             <button type="button">Cancelar</button>
                             <button type="submit">Salvar</button>
@@ -125,8 +122,8 @@
                     </form>
                 </div>
                 <div id="material" class="toggle-content">
-                    <h3>Cadastrar Materiais</h3>
-                    <form id="form-material">
+                    <form id="form-kit">
+                        <h3>Cadastrar Kit</h3>
                         <input type="text" placeholder="Código do kit" id="codigo-kit" />
                         <input type="number" placeholder="Saldo" id="saldo" />
                         <select>
@@ -136,119 +133,46 @@
                         <button type="button" id="cancelar-btn">Cancelar</button>
                         <button type="button" id="salvar-btn">Salvar</button>
                     </form>
-                    <div id="extra-inputs" style="margin-top: 20px;"></div>
+                    <form id="form-material">
+                        <h3>Cadastrar Material</h3>
+                        <input type="text" id="codigo-produto" placeholder="Código do produto" />
+                        <input type="text" id="descricao-produto" placeholder="Descrição do produto" />
+                        <input type="number" id="quantidade" placeholder="Quantidade" />
+                        <input type="text" id="unidade-medida" placeholder="Unidade de medida" />
+                        <select id="codigo-kit-select">
+                            <option value="">Selecione o código do kit</option>
+                            <option value="kit1">Kit 1</option>
+                            <option value="kit2">Kit 2</option>
+                            <!-- Adicione outras opções aqui -->
+                        </select>
+                        <select id="codigo-kit-select">
+                            <option value="">Selecione o kit</option>
+                            <option value="kit1">Kit 1</option>
+                            <option value="kit2">Kit 2</option>
+                            <!-- Adicione outras opções aqui -->
+                        </select>
+                        <div style="margin-top: 20px;">
+                            <button type="button" id="extra-cancelar-btn">Cancelar</button>
+                            <button type="button" id="extra-salvar-btn">Salvar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <section id="status" class="content">
-                Conteúdo para Status
-            </section>
+
             <!-- Section de Registro -->
-            <section id="registro" class="content">
+
+            <div id="registros" class="content">
                 <div class="nome-com-linha">
                     <span class="nome">Kits</span>
                 </div>
-                <div class="courses ">
-                    <div class="course">
-                        <!-- <div class="accordion-header">
-                            <span>Kits de informática para Internet - Consumo</span>
-                            <span>Código 2514</span>
-                            <span class="arrow">&#9650;</span>
-                        </div> -->
-                        <div class="accordion-content">
-                            <div class="inf">
-                                <span><strong>Nível B:</strong> Em Análise</span>
-                                <span><strong>Data:</strong> 01/02/2025 13:20</span>
-                                <span><strong>Departamento:</strong> Coordenação</span>
-                            </div>
-                            <div class="inf">
-                                <span><strong>Cód:</strong> 000001</span>
-                                <span><strong>Turno:</strong> Manhã</span>
-                                <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Segunda aba -->
-                    <div class="course">
-                        <div class="accordion-header">
-                            <span>Kit de Eletricista - Semipermanente</span>
-                            <span>cód 0043</span>
-                            <span class="arrow">&#9650;</span>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="inf">
-                                <span><strong>Nível B:</strong> Em Análise</span>
-                                <span><strong>Data:</strong> 01/02/2025 13:20</span>
-                                <span><strong>Departamento:</strong> Coordenação</span>
-                            </div>
-                            <div class="inf">
-                                <span><strong>Cód:</strong> 000001</span>
-                                <span><strong>Turno:</strong> Manhã</span>
-                                <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Terceira aba -->
-                    <div class="course">
-                        <div class="accordion-header">
-                            <span>Kit de Soldador - Consumo</span>
-                            <span>cód 0088</span>
-                            <span class="arrow">&#9650;</span>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="inf">
-                                <span><strong>Nível B:</strong> Em Análise</span>
-                                <span><strong>Data:</strong> 01/02/2025 13:20</span>
-                                <span><strong>Departamento:</strong> Coordenação</span>
-                            </div>
-                            <div class="inf">
-                                <span><strong>Cód:</strong> 000001</span>
-                                <span><strong>Turno:</strong> Manhã</span>
-                                <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Quarta aba -->
-                    <div class="course">
-                        <div class="accordion-header">
-                            <span>Kit de Pintor - Consumo</span>
-                            <span>cód 0069</span>
-                            <span class="arrow">&#9650;</span>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="inf">
-                                <span><strong>Nível B:</strong> Em Análise</span>
-                                <span><strong>Data:</strong> 01/02/2025 13:20</span>
-                                <span><strong>Departamento:</strong> Coordenação</span>
-                            </div>
-                            <div class="inf">
-                                <span><strong>Cód:</strong> 000001</span>
-                                <span><strong>Turno:</strong> Manhã</span>
-                                <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Quinta Aba -->
-                    <div class="course">
-                        <div class="accordion-header">
-                            <span>Kit de Costura - Consumo</span>
-                            <span>cód 0032</span>
-                            <span class="arrow">&#9650;</span>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="inf">
-                                <span><strong>Nível B:</strong> Em Análise</span>
-                                <span><strong>Data:</strong> 01/02/2025 13:20</span>
-                                <span><strong>Departamento:</strong> Coordenação</span>
-                            </div>
-                            <div class="inf">
-                                <span><strong>Cód:</strong> 000001</span>
-                                <span><strong>Turno:</strong> Manhã</span>
-                                <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="courses" id="kits">
+                    <!-- conteudo da api -->
                 </div>
-            </section>
+            </div>
+            <div id="registros" class="content">
+                Conteúdo para Status
+            </div>
+        </section>
     </div>
     <!-- Primeiro Modal: Confirmação -->
     <div id="confirmModal" class="modal-2">
@@ -323,55 +247,15 @@
         </div>
     </div>
     <script>
-        // drop materiais
-        document.getElementById('salvar-btn').addEventListener('click', function () {
-            const extraInputsContainer = document.getElementById('extra-inputs');
-
-            // Verifica se os campos adicionais já foram adicionadoss
-            if (!document.getElementById('codigo-produto')) {
-                // Cria os novos campos de entrada
-                extraInputsContainer.innerHTML = `
-            <input type="text" id="codigo-produto" placeholder="Código do produto" />
-            <input type="text" id="descricao-produto" placeholder="Descrição do produto" />
-            <input type="number" id="quantidade" placeholder="Quantidade" />
-            <input type="text" id="unidade-medida" placeholder="Unidade de medida" />
-            <select id="codigo-kit-select">
-                <option value="">Selecione o código do kit</option>
-                <option value="kit1">Kit 1</option>
-                <option value="kit2">Kit 2</option>
-                <!-- Adicione outras opções aqui -->
-            </select>
-           <select id="codigo-kit-select">
-                <option value="">Selecione o kit</option>
-                <option value="kit1">Kit 1</option>
-                <option value="kit2">Kit 2</option>
-                <!-- Adicione outras opções aqui -->
-            </select>
-            <div style="margin-top: 20px;">
-                <button type="button" id="extra-cancelar-btn">Cancelar</button>
-                <button type="button" id="extra-salvar-btn">Salvar</button>
-            </div>
-        `;
-
-                // Adiciona funcionalidade aos novos botões "Salvar" e "Cancelar"
-                document.getElementById('extra-cancelar-btn').addEventListener('click', function () {
-                    // Remove os campos adicionais
-                    extraInputsContainer.innerHTML = '';
-                });
-
-                document.getElementById('extra-salvar-btn').addEventListener('click', function () {
-                    // Aqui você pode implementar a lógica de salvar os dados adicionais
-                    alert('Dados adicionais salvos com sucesso!');
-                });
-            }
+        const cancelar = document.querySelectorAll('#cancelar-btn, #extra-cancelar-btn')
+        cancelar.forEach(canc => {
+            canc.addEventListener('click', () => {
+                document.getElementById('form-material').reset();
+                document.getElementById('form-kit').reset();
+            })
         });
 
-        document.getElementById('cancelar-btn').addEventListener('click', function () {
-            // Limpa os campos do formulário e os campos adicionais
-            document.getElementById('form-material').reset();
-            document.getElementById('extra-inputs').innerHTML = '';
-        });
-        //
+        //PROFILE
         // Abrir e fechar o modal
         document.getElementById("openProfileModal").addEventListener("click", function () {
             document.getElementById("profileModal").style.display = "block";

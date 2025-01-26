@@ -525,7 +525,7 @@ export async function buscarKitsCoordenacao() {
         }
 
         const resultado = await response.json();
-        console.log(resultado)
+        console.log('api', resultado)
         return resultado
     } catch(error) {
         console.error('Erro ao buscar os materiais:', error);
