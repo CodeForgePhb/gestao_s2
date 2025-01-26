@@ -2,7 +2,7 @@
 import {
     getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos,
     getCursosConcluidos, buscarCursosConcluidosPorPesquisa, buscarMateriaisDocente, getNome, logoutUser, monitorarTokenExpiracao,
-    buscarKitsDocente
+    buscarKitsDocente, postSolicitacao, dadosSolicitacao
 } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
@@ -279,16 +279,45 @@ async function carregarCursosVigentes() {
                     <span><strong>Turno:</strong>${curso.turno}</span>
                     <span><strong>Turma:</strong>${curso.turma}</span>
                 </div>
-                <button onclick="openModal()" type="submit" class="curso_nome" id="${curso.nome}">Abrir Solicitação</button>
+                <button onclick="openModal()" type="submit" class="curso_nome" value="${curso.cod}" id="${curso.nome}">Abrir Solicitação</button>
             </div>
         `;
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
+    
     document.querySelectorAll('.curso_nome').forEach(nome => {
         nome.addEventListener('click', async (event) => {
             if (event.target.tagName === "BUTTON") {
                 const nome_curso = event.target.id;
-                console.log(`Curso clicado: ${nome_curso}`);
+                const cod_curso = event.target.value;
+                console.log(`Curso clicado: ${nome_curso} Cod curso: ${cod_curso}`);
+                const dadosCursoArray = await dadosSolicitacao(cod_curso);
+                // Extrai o primeiro elemento do array (esperando que a API sempre retorne uma lista)
+            const dadosCurso = dadosCursoArray[0];
+            console.log("Dados do curso:", dadosCurso);
+
+            // Formata as datas para exibição
+            const dataInicio = new Date(dadosCurso.data_inicio).toLocaleDateString('pt-BR');
+            const dataFim = new Date(dadosCurso.data_fim).toLocaleDateString('pt-BR');
+
+            // Renderiza os dados no frontend
+            const info = document.getElementById('info');
+            info.innerHTML = `
+                <div>
+                    <div><b>Cód Curso:</b> ${dadosCurso.cod}</div>
+                    <div><b>Curso:</b> ${dadosCurso.nome}</div>
+                    <div><b>Turno:</b> ${dadosCurso.turno}</div>
+                    <div><b>Período:</b> ${dataInicio} à ${dataFim}</div>
+                    <div><b>Modalidade:</b> ${dadosCurso.modalidade}</div>
+                </div>
+                <div>
+                    <div><b>Linha de ação:</b> ${dadosCurso.financiamento}</div>
+                    <div><b>Professor:</b> ${dadosCurso.docente}</div>
+                    <div><b>CH Total:</b> ${dadosCurso.ch_total} horas</div>
+                    <div><b>Matrículas previstas:</b> ${dadosCurso.matriculas_previstas}</div>
+                    <div><b>Localidade:</b> ${dadosCurso.localidade}</div>
+                </div>`
+                
                 const kits = await buscarKitsDocente(nome_curso);
                 const select = document.getElementById('selecao');
                 select.innerHTML = ''; // Limpa as opções anteriores
@@ -326,14 +355,14 @@ async function carregarCursosVigentes() {
                 materiais.forEach(material => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                <td>${material.cod_produto}</td>
-                <td>${material.descricao}</td>
-                <td>${material.qnt_max}</td>
-                <td>${material.unidade_medida}</td>
-                <td>${material.saldo}</td>
+                <td id="cod_produto">${material.cod_produto}</td>
+                <td id="descricao">${material.descricao}</td>
+                <td id="qnt_max">${material.qnt_max}</td>
+                <td id="unidade_medida">${material.unidade_medida}</td>
+                <td id="saldo">${material.saldo}</td>
                 <td>
                     <button onclick="decreaseValue(this)" class="btn-cont">-</button>
-                    <input type="number" value="0" min="0" style="width: 40px; text-align: center;" onchange="validateValue(this)">
+                    <input type="number" value="0"  id="qnt_requerida" min="0" style="width: 40px; text-align: center;" onchange="validateValue(this)">
                     <button class="add" onclick="increaseValue(this)">+</button>
                     <button class="delete" onclick="deleteRow(this)">
                         <i class="fa fa-trash"></i>
@@ -344,7 +373,53 @@ async function carregarCursosVigentes() {
             }
             preencherTabela(materiais);
         }
+
+        document.getElementById('sendBtn').addEventListener('click', async () => {
+                const rows = document.querySelectorAll('#body-table tr');
+                const solicitacoes = [];
+
+                // Percorre cada linha da tabela
+                rows.forEach((row) => {
+                    const solicitacao = {
+                        cod_produto: parseInt(row.querySelector('#cod_produto').textContent.trim(), 10),
+                        descricao: row.querySelector('#descricao').textContent.trim(),
+                        qnt_max: parseInt(row.querySelector('#qnt_max').textContent.trim(), 10),
+                        unidade_medida: row.querySelector('#unidade_medida').textContent.trim(),
+                        saldo: parseInt(row.querySelector('#saldo').textContent.trim(), 10),
+                        qnt_requerida: parseInt(row.querySelector('#qnt_requerida').value.trim(), 10),
+                    };
+                    solicitacoes.push(solicitacao);
+                });
+                const response = await postSolicitacao(solicitacoes);
+
+            if(response.message) {
+                console.log(response.message);
+                alert('Solicitação enviada');
+            }
+        });
+
+        
+        // document.querySelector('#sendBtn').addEventListener('submit', async (event) => {
+        //     event.preventDefault();
+        //     //
+        //     const cod_produto = document.getElementById('cod_produto').value;
+        //     const descricao = document.getElementById('descricao').value;
+        //     const qnt_max = document.getElementById('qnt_max').value;
+        //     const unidade_medida = document.getElementById('unidade_medida').value;
+        //     const saldo = document.getElementById('saldo').value;
+        //     const qnt_requerida = document.querySelector('#qnt_requerida').value;
+
+        //     const response = await postSolicitacao(cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida);
+
+        //     if(response.message) {
+        //         window.alert('Solicitação enviada');
+        //         return response;
+        //     }
+        // })
+        
     });
+
+    
     document.querySelectorAll('.course').forEach(course => {
         course.addEventListener('click', () => {
             const content = course.querySelector('.accordion-content');
@@ -391,49 +466,6 @@ async function carregarCursosConcluidos() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
-
-// Função para renderizar os materiais em uma tabela HTML
-async function carregarMateriaisKit() {
-    const tbody = document.querySelector("#body-table");
-    const materiaisKit = await buscarMateriaisDocente();
-    console.log(materiaisKit);
-    //1.
-    try {
-        materiaisKit.forEach(material => {
-            const tr = document.createElement('tr');
-            tr.innerHTML =
-                `<td>${material.cod_kit || 'N/A'}</td>
-            <td>${material.descricao || 'N/A'}</td>
-            <td>${material.quantidade || 'N/A'}</td>
-            <td>${material.unidade_medida || 'N/A'}</td>`;
-            tbody.appendChild(tr);
-        });
-
-    } catch (error) {
-        console.log('error: ', error);
-        const tr = document.createElement('tr');
-        tr.innerHTML =
-            `<td colspan="4">error: ${error.message}<td>`;
-        tbody.appendChild(tr);
-    }
-}
-
-document.getElementById('buscar-materiais').addEventListener('click', () => {
-    const resultado = document.getElementById('result');
-    const nomeKit = document.getElementById('selecao').value;
-    if (nomeKit) {
-        carregarMateriaisKit()
-        resultado.innerHTML = '';
-    } else {
-        console.log('Nome do kit não fornecido');
-        let select = document.getElementById('selecao');
-        select.focus();
-        resultado.innerHTML =
-            `<p style="color: red; text-align: center;" >Selecione um kit!</p>`
-    }
-});
-
-
 
 
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.

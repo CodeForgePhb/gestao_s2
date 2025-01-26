@@ -84,76 +84,84 @@
                     </div>
                 </div>
                 <!-- Áreas de conteúdo -->
-                <!-- Áreas de conteúdo -->
                 <div id="professor" class="toggle-content">
                     <h3>Cadastrar Docente</h3>
-                    <form>
-                        <input type="text" placeholder="Nome" />
-                        <input type="text" placeholder="Matrícula" />
-                        <input type="email" placeholder="Email" />
-                        <input type="tel" placeholder="Telefone" />
+                    <form id="form-docente" class="form-reg">
+                        <input type="text" id="nome-doc" placeholder="Nome" />
+                        <input type="text" id="matricula-doc" placeholder="Matrícula" />
+                        <input type="email" id="email-doc" placeholder="Email" />
+                        <input type="tel" id="telefone-doc" placeholder="Telefone" />
+                        <div class="bnt-save">
+                            <button type="button" id="canc">Cancelar</button>
+                            <button type="submit">Salvar</button>
+                        </div>
                     </form>
-                    <div class="bnt-save">
-                        <button type="button">Cancelar</button>
-                        <button type="submit">Salvar</button>
-                    </div>
                 </div>
                 <div id="curso" class="toggle-content">
                     <h3>Cadastrar Curso</h3>
-                    <form>
-                        <input type="text" placeholder="Nome do Curso" />
-                        <input type="text" placeholder="Código" />
-                        <input type="text" placeholder="Financiamento" />
-                        <input type="text" placeholder="Modalidade" />
+                    <form id="form-curso" class="form-reg">
+                        <input type="text" id="nome-cur" placeholder="Nome do Curso" />
+                        <input type="text" id="cod-cur" placeholder="Código" />
+                        <input type="text" id="finan-cur" placeholder="Financiamento" />
+                        <input type="text" id="modali-cur" placeholder="Modalidade" />
                         <label for="date">data início / data Fim</label>
                         <div class="date">
-                            <input type="date" placeholder="Data início" />
-                            <input type="date" placeholder="Data Fim" />
+                            <input type="date" id="inicio-cur" placeholder="Data início" />
+                            <input type="date" id="fim-cur" placeholder="Data Fim" />
                         </div>
-                        <input type="text" placeholder="Localidade" />
-                        <input type="text" placeholder="Turno" />
-                        <input type="text" placeholder="Turma" />
-                        <input type="text" placeholder="Carga Horária" />
-                        <input type="text" placeholder="Matrícula Prevista" />
+                        <input type="text" id="locali-cur" placeholder="Localidade" />
+                        <input type="text" id="turno-cur" placeholder="Turno" />
+                        <input type="text" id="turma-cur" placeholder="Turma" />
+                        <input type="text" id="ch-cur" placeholder="Carga Horária" />
+                        <input type="text" id="mat-prev-cur" placeholder="Matrícula Prevista" />
+                        <select id="docente-select">
+                            <option value="">Selecione o docente</option>
+                            <option value="doc1">Serejo</option>
+                            <option value="doc2">Jonas</option>
+                            <!-- Adicione outras opções aqui -->
+                        </select>
                         <div class="bnt-save">
-                            <button type="button">Cancelar</button>
+                            <button type="button" id="canc">Cancelar</button>
                             <button type="submit">Salvar</button>
                         </div>
                     </form>
                 </div>
                 <div id="material" class="toggle-content">
-                    <form id="form-kit">
+                    <form id="form-kit" class="form-reg">
                         <h3>Cadastrar Kit</h3>
-                        <input type="text" placeholder="Código do kit" id="codigo-kit" />
-                        <input type="number" placeholder="Saldo" id="saldo" />
-                        <select>
-                            <option>Curso</option>
-                        </select>
-                        <input type="text" placeholder="Nome do kit" id="nome-kit" />
-                        <button type="button" id="cancelar-btn">Cancelar</button>
-                        <button type="button" id="salvar-btn">Salvar</button>
+                        <input type="text" placeholder="Código do kit" id="cod-kit" />
+                        <input type="text" placeholder="Nome do kit" id="nome-kit"/>
+                        <input type="text" placeholder="Tipo" id="tipo-kit" />
+                        <select id="curso-select">
+                            <option value="">Selecione o curso</option>
+                            <option value="cur1">Padaria</option>
+                            <option value="cur2">Padaria</option> n, parece que ´=
+                            <!-- Adicione outras opções aqui -->                        </select>
+                        <button type="button" id="canc">Cancelar</button>
+                        <button type="submit">Salvar</button>
                     </form>
-                    <form id="form-material">
+                    <form id="form-material" class="form-reg">
                         <h3>Cadastrar Material</h3>
-                        <input type="text" id="codigo-produto" placeholder="Código do produto" />
-                        <input type="text" id="descricao-produto" placeholder="Descrição do produto" />
-                        <input type="number" id="quantidade" placeholder="Quantidade" />
+                        <input type="text" id="cod-material" placeholder="Código do produto" />
+                        <input type="text" id="desc-material" placeholder="Descrição do produto" />
+                        <input type="number" id="qnt-max" placeholder="Quantidade Máxima" />
                         <input type="text" id="unidade-medida" placeholder="Unidade de medida" />
+                        <input type="number" id="saldo" placeholder="Saldo" />
                         <select id="codigo-kit-select">
                             <option value="">Selecione o código do kit</option>
-                            <option value="kit1">Kit 1</option>
-                            <option value="kit2">Kit 2</option>
+                            <option value="cod-kit1">456</option>
+                            <option value="cod-kit2">101</option>
                             <!-- Adicione outras opções aqui -->
                         </select>
-                        <select id="codigo-kit-select">
+                        <select id="nome-kit-select">
                             <option value="">Selecione o kit</option>
-                            <option value="kit1">Kit 1</option>
-                            <option value="kit2">Kit 2</option>
+                            <option value="kit1">Kit Utensílios</option>
+                            <option value="kit2">Kit Ferramentas</option>
                             <!-- Adicione outras opções aqui -->
                         </select>
                         <div style="margin-top: 20px;">
-                            <button type="button" id="extra-cancelar-btn">Cancelar</button>
-                            <button type="button" id="extra-salvar-btn">Salvar</button>
+                            <button type="button" id="canc">Cancelar</button>
+                            <button type="submit">Salvar</button>
                         </div>
                     </form>
                 </div>
@@ -163,13 +171,25 @@
 
             <div id="registros" class="content">
                 <div class="nome-com-linha">
+                    <span class="nome">Docentes</span>
+                </div>
+                <div class="courses" id="docentesReg">
+                    <!-- conteudo da api -->
+                </div>
+                <div class="nome-com-linha">
+                    <span class="nome">Cursos</span>
+                </div>
+                <div class="courses" id="cursosReg">
+                    <!-- conteudo da api -->
+                </div>
+                <div class="nome-com-linha">
                     <span class="nome">Kits</span>
                 </div>
-                <div class="courses" id="kits">
+                <div class="courses" id="kitsReg">
                     <!-- conteudo da api -->
                 </div>
             </div>
-            <div id="registros" class="content">
+            <div id="status" class="content">
                 Conteúdo para Status
             </div>
         </section>

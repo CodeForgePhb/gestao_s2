@@ -452,6 +452,10 @@ export async function getNome() {
 export async function buscarKitsDocente(nome_curso) {
     const token = localStorage.getItem('token');
     // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
     try {
         const response = await fetch(`${API_URL}/routes/kit-didatico-curso`, {
             method: 'POST',
@@ -480,6 +484,10 @@ export async function buscarKitsDocente(nome_curso) {
 export async function buscarMateriaisDocente(nome_kit) {
     const token = localStorage.getItem('token');
     // Verificar se o token existe antes de fazer a requisição 
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
     try {
         const response = await fetch(`${API_URL}/routes/materiais-kit-didatico`, {
             method: 'POST',
@@ -504,11 +512,13 @@ export async function buscarMateriaisDocente(nome_kit) {
         return { message: error.message}; // Retorna um array vazio em caso de erro
     }
 }
-
 //visualizar kits didáticos - coordenação
-
 export async function buscarKitsCoordenacao() {
     const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
     try {
         const response= await fetch(`${API_URL}/routes/buscar-kits`, {
             method: 'GET',
@@ -519,16 +529,267 @@ export async function buscarKitsCoordenacao() {
         if(response.status === 404) {
             res.send('Nenhum kit encontrado - api')
         }
-
         if(!response.ok) {
             throw new res.send('Erro no server');
         }
-
         const resultado = await response.json();
-        console.log('api', resultado)
+        //console.log('api', resultado)
         return resultado
     } catch(error) {
         console.error('Erro ao buscar os materiais:', error);
         return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+export async function buscarDocentesCoordenacao() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response= await fetch(`${API_URL}/routes/docentes`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        if(response.status === 404) {
+            res.send('Nenhum docente encontrado')
+        }
+        if(!response.ok) {
+            throw new res.send('Erro no server');
+        }
+        const resultado = await response.json();
+        //console.log('api', resultado)
+        return resultado
+    } catch(error) {
+        console.error('Erro ao buscar os materiais:', error);
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+export async function buscarCursosCoordenacao() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response= await fetch(`${API_URL}/routes/cursos`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        if(response.status === 404) {
+            res.send('Nenhum curso encontrado')
+        }
+        if(!response.ok) {
+            throw new res.send('Erro no server');
+        }
+        const resultado = await response.json();
+        //console.log('api', resultado)
+        return resultado
+    } catch(error) {
+        console.error('Erro ao buscar os materiais:', error);
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+//POST DOCENTE CURSO KIT E MATERIAIS
+export async function postDocente(matricula, nome, email, telefone) {
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response = await fetch(`${API_URL}/routes/add-docente`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ matricula, nome, email, telefone }) // Converte os dados do registro em uma string JSON e os envia no corpo da requisição.
+        });
+        if (response.status === 409) {
+            console.warn('Docente já cadastrado.');
+            alert('Docente já cadastrado')
+            return
+        }
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+        const result = await response.json();
+        //console.log(`${result}`);
+        return result
+    } catch (error) {
+        console.error('Erro ao cadastrar docente:', error);
+        alert('Erro ao cadastrar docente, tente novamente.')
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+export async function postCurso(nome, matriculas_previstas, turno, ch_total, modalidade, financiamento, localidade, turma, data_inicio, data_fim, cod, docente) {
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response = await fetch(`${API_URL}/routes/add-curso`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nome, matriculas_previstas, turno, ch_total, modalidade, financiamento, localidade, turma, data_inicio, data_fim, cod, docente }) // Converte os dados do registro em uma string JSON e os envia no corpo da requisição.
+        });
+        if (response.status === 409) {
+            console.warn('Curso já cadastrado.');
+            alert('Curso já cadastrado')
+            return
+        }
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+        const result = await response.json();
+        //console.log(`${result}`);
+        return result
+    } catch (error) {
+        console.error('Erro ao cadastrar curso:', error);
+        alert('Erro ao cadastrar curso, tente novamente.')
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+
+export async function postKit(cod_kit, nome_kit, tipo, curso) {
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response = await fetch(`${API_URL}/routes/add-kit`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cod_kit, nome_kit, tipo, curso }) // Converte os dados do registro em uma string JSON e os envia no corpo da requisição.
+        });
+        if (response.status === 409) {
+            console.warn('Kit já cadastrado.');
+            alert('Kit já cadastrado')
+            return
+        }
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+        const result = await response.json();
+        //console.log(`${result}`);
+        return result
+    } catch (error) {
+        console.error('Erro ao cadastrar kit:', error);
+        alert('Erro ao cadastrar kit, tente novamente.')
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+export async function postMaterial(cod_produto, descricao, qnt_max, unidade_medida, saldo, cod_kit, nome_kit) {
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response = await fetch(`${API_URL}/routes/add-material`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cod_produto, descricao, qnt_max, unidade_medida, saldo, cod_kit, nome_kit }) // Converte os dados do registro em uma string JSON e os envia no corpo da requisição.
+        });
+        if (response.status === 409) {
+            console.warn('Material já cadastrado.');
+            alert('Material já cadastrado')
+            return
+        }
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+        const result = await response.json();
+        //console.log(`${result}`);
+        return result
+    } catch (error) {
+        console.error('Erro ao cadastrar material:', error);
+        alert('Erro ao cadastrar material, tente novamente.')
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+
+export async function dadosSolicitacao(cod_curso) {
+    const token = localStorage.getItem('token');
+    // Verificar se o token existe antes de fazer a requisição
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response = await fetch(`${API_URL}/routes/dados-curso`, {
+            method: 'POST',
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({cod:cod_curso})
+        });
+        if (response.status === 404) {
+            console.warn('Dados não encontrados');
+            return []; // Retorna array vazio em caso de curso sem kits
+        }
+        if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+        }
+        const result = await response.json();
+        console.log(result);
+        return result
+    } catch (error) {
+        console.error('Erro ao buscar os materiais:', error);
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+
+
+export async function postSolicitacao(cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida) {
+    //1.
+    const token = localStorage.getItem('token');
+
+    try {
+        //2.
+        const response = await fetch(`${API_URL}/routes/adicionar-solicitacao`, {
+            method: "POST",
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida})
+        });
+
+        if(response.status === 404) {
+            window.alert('solicitação já existe');
+        return
+        }
+        
+        if(!response.ok) {
+            throw new Error('Erro ao solicitar material')
+        }
+
+        const result = await response.json();
+        return result;
+    } catch(error) {
+        console.error('Erro: ', error);
+        return {message : error.message }
     }
 }

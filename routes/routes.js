@@ -14,16 +14,16 @@ const router = express.Router();
 //----------------Coordenação------------------------------------------------------------------------------------------
 router.post('/add-curso', authMiddleware,controllerCoordenacao.addCurso);
 router.post('/add-docente', authMiddleware,controllerCoordenacao.addDocente);
-router.get('/docentes', authMiddleware,controllerCoordenacao.buscarDocentes);
-router.get('/cursos', authMiddleware,controllerCoordenacao.buscarCursos);
+router.get('/docentes', authMiddleware,controllerCoordenacao.buscarDocentes);//
+router.get('/cursos', authMiddleware,controllerCoordenacao.buscarCursos);//
 router.get('/all-cursos-vigentes', authMiddleware,controllerCoordenacao.buscarCursosVigentes);
 router.delete('/docente/:id', authMiddleware,controllerCoordenacao.delDocente);
 router.get('/cursos-concluidos', authMiddleware,controllerCoordenacao.buscarCursosConcluidos); 
 
 router.delete('/curso-vigente/:id_curso', authMiddleware,controllerCoordenacao.delCursoVigente);
-router.post('/adicionar-kit', authMiddleware,controllerCoordenacao.adicionar_kit);
-router.post('/adicionar-materiais', authMiddleware,controllerCoordenacao.addMateriais);
-router.get('/buscar-kits', authMiddleware,controllerCoordenacao.buscarKitCoordenacao);
+router.post('/add-kit', authMiddleware,controllerCoordenacao.adicionar_kit);
+router.post('/add-material', authMiddleware,controllerCoordenacao.addMateriais);
+router.get('/buscar-kits', authMiddleware,controllerCoordenacao.buscarKitCoordenacao);//
 
 
 //----------------Docente----------------------------------------------------------------------------------------------
@@ -37,6 +37,8 @@ router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosCo
 router.get('/solicitacao-kit', authMiddleware,controllerDocente.todasSolicitacoes);
 router.post('/kit-didatico-curso', authMiddleware, controllerDocente.todosKits);
 router.post('/materiais-kit-didatico', authMiddleware, controllerDocente.todosMateriais)
+router.post('/dados-curso', authMiddleware, controllerDocente.dadosCursoClicado);
+router.post('/adicionar-solicitacao', authMiddleware, controllerDocente.addSolicitacao);
 
 
 
