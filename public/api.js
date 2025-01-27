@@ -661,7 +661,6 @@ export async function postCurso(nome, matriculas_previstas, turno, ch_total, mod
         return { message: error.message}; // Retorna um array vazio em caso de erro
     }
 }
-
 export async function postKit(cod_kit, nome_kit, tipo, curso) {
     const token = localStorage.getItem('token');
     // Verificar se o token existe antes de fazer a requisição
@@ -728,7 +727,6 @@ export async function postMaterial(cod_produto, descricao, qnt_max, unidade_medi
         return { message: error.message}; // Retorna um array vazio em caso de erro
     }
 }
-
 export async function dadosSolicitacao(cod_curso) {
     const token = localStorage.getItem('token');
     // Verificar se o token existe antes de fazer a requisição
@@ -760,36 +758,33 @@ export async function dadosSolicitacao(cod_curso) {
         return { message: error.message}; // Retorna um array vazio em caso de erro
     }
 }
-
-
-export async function postSolicitacao(cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida) {
-    //1.
-    const token = localStorage.getItem('token');
-
+export async function postSolicitacao(solicitacoes) {
+    const token = localStorage.getItem('token'); // Obtém o token armazenado localmente
     try {
-        //2.
+        // Faz a solicitação ao backend
         const response = await fetch(`${API_URL}/routes/adicionar-solicitacao`, {
             method: "POST",
-            headers: { 
+            headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida})
+            body: JSON.stringify(solicitacoes) // Envia o array de solicitações
         });
-
-        if(response.status === 404) {
-            window.alert('solicitação já existe');
-        return
+        // Lida com os possíveis códigos de erro
+        if (response.status === 409) {
+            window.alert('Uma ou mais solicitações já existem');
+            return;
         }
-        
-        if(!response.ok) {
-            throw new Error('Erro ao solicitar material')
+        if (!response.ok) {
+            throw new Error('Erro ao solicitar materiais');
         }
-
+        // Processa a resposta do backend
         const result = await response.json();
+        // Exibe mensagem de sucesso
+        alert(`Solicitações criadas com sucesso!`);
         return result;
-    } catch(error) {
+    } catch (error) {
         console.error('Erro: ', error);
-        return {message : error.message }
+        return { message: error.message };
     }
 }

@@ -577,6 +577,9 @@ span.arrow.down {
     border-collapse: collapse;
     margin-bottom: 16px;
 }
+.table thead {
+    width: auto;
+}
 .table th,
 .table td {
     border: 1px solid #ddd;

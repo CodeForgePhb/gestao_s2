@@ -173,27 +173,18 @@
                     <div id="result"></div>
                 </div>
                 <div class="info info2" id="info">
-                    <div>
-                        <div><b>Cód Curso:</b> 000001</div>
-                        <div><b>Curso:</b> Técnico em Informática</div>
-                        <div><b>Turno:</b> Manhã</div>
-                    </div>
-                    <div><b>Período:</b> 01/01/2025 à 01/12/2025</div>
-                    <div>
-                        <div><b>Modalidade:</b> Qualificação</div>
-                        <div><b>Linha de ação:</b> Gratuidade</div>
-                        <div><b>Professor:</b> Turiano</div>
-                    </div>
+                    <!-- conteudo da api -->
                 </div>
                 <table class="table" id="table-materiais">
                     <thead>
+                        <tr><th colspan="6" style="text-align: center; border: 1px solid #000;"id="name-kit"></th></tr>
                         <tr>
-                            <th>COD. PROTHEUS</th>
-                            <th>PRODUTO</th>
-                            <th>QUANTIDADE MAX</th>
-                            <th>UNIDADE</th>
-                            <th>SALDO</th>
-                            <th>QUANTIDADE REQUERIDA</th>
+                            <th colspan="1">COD. PROTHEUS</th>
+                            <th colspan="1">PRODUTO</th>
+                            <th colspan="1">QUANTIDADE MAX</th>
+                            <th colspan="1">UNIDADE</th>
+                            <th colspan="1">SALDO</th>
+                            <th colspan="1">QUANTIDADE REQUERIDA</th>
                         </tr>
                     </thead>
                     <tbody id="body-table">
@@ -208,7 +199,7 @@
             </div>
             <div class="modal-footer">
                 <button class="cancel" onclick="closeModal()">Cancelar</button>
-                <button id="openModalBtn">Enviar</button>
+                <button id="openModalBtn" type="submit">Enviar</button>
             </div>
         </div>
     </div>
@@ -220,7 +211,7 @@
             <p>Tem certeza que deseja enviar?</p>
             <div class="modal-footer-2">
                 <button id="cancelBtn" class="cancel">Não</button>
-                <button id="sendBtn" type="submit">Sim</button>
+                <button id="sendBtn">Sim</button>
             </div>
         </div>
     </div>

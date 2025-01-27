@@ -246,7 +246,7 @@ document.getElementById('busca-por-cursos-concluidos').addEventListener('keyup',
 async function carregarCursosVigentes() {
     //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
     const cursos = await getCursosVigentes();
-    console.log('Cursos Vigentes:', cursos); //Adiciona um log para verificar os dados carregados.
+    //console.log('Cursos Vigentes:', cursos); //Adiciona um log para verificar os dados carregados.
     //Obtém o corpo da tabela onde as transações serão inseridas.
     const div = document.getElementById('courses');
     div.innerHTML = ''; //Limpa o conteúdo da tabela antes de adicionar as novas transações
@@ -284,7 +284,19 @@ async function carregarCursosVigentes() {
         `;
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
-    
+    document.querySelectorAll('.course').forEach(course => {
+        course.addEventListener('click', () => {
+            const content = course.querySelector('.accordion-content');
+            const arrowIcon = course.querySelector('.arrow i'); // Selecione o <i>
+            if (content.classList.contains('show')) {
+                content.classList.remove('show'); // Fecha
+                arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
+            } else {
+                content.classList.add('show'); // Abre
+                arrowIcon.style.transform = 'rotate(180deg)'; // Rotaciona
+            }
+        });
+    });
     document.querySelectorAll('.curso_nome').forEach(nome => {
         nome.addEventListener('click', async (event) => {
             if (event.target.tagName === "BUTTON") {
@@ -293,16 +305,14 @@ async function carregarCursosVigentes() {
                 console.log(`Curso clicado: ${nome_curso} Cod curso: ${cod_curso}`);
                 const dadosCursoArray = await dadosSolicitacao(cod_curso);
                 // Extrai o primeiro elemento do array (esperando que a API sempre retorne uma lista)
-            const dadosCurso = dadosCursoArray[0];
-            console.log("Dados do curso:", dadosCurso);
-
-            // Formata as datas para exibição
-            const dataInicio = new Date(dadosCurso.data_inicio).toLocaleDateString('pt-BR');
-            const dataFim = new Date(dadosCurso.data_fim).toLocaleDateString('pt-BR');
-
-            // Renderiza os dados no frontend
-            const info = document.getElementById('info');
-            info.innerHTML = `
+                const dadosCurso = dadosCursoArray[0];
+                console.log("Dados do curso:", dadosCurso);
+                // Formata as datas para exibição
+                const dataInicio = new Date(dadosCurso.data_inicio).toLocaleDateString('pt-BR');
+                const dataFim = new Date(dadosCurso.data_fim).toLocaleDateString('pt-BR');
+                // Renderiza os dados no frontend
+                const info = document.getElementById('info');
+                info.innerHTML = `
                 <div>
                     <div><b>Cód Curso:</b> ${dadosCurso.cod}</div>
                     <div><b>Curso:</b> ${dadosCurso.nome}</div>
@@ -311,13 +321,12 @@ async function carregarCursosVigentes() {
                     <div><b>Modalidade:</b> ${dadosCurso.modalidade}</div>
                 </div>
                 <div>
-                    <div><b>Linha de ação:</b> ${dadosCurso.financiamento}</div>
-                    <div><b>Professor:</b> ${dadosCurso.docente}</div>
+                    <div><b>Financiamento:</b> ${dadosCurso.financiamento}</div>
+                    <div><b>Docente:</b> ${dadosCurso.docente}</div>
                     <div><b>CH Total:</b> ${dadosCurso.ch_total} horas</div>
                     <div><b>Matrículas previstas:</b> ${dadosCurso.matriculas_previstas}</div>
                     <div><b>Localidade:</b> ${dadosCurso.localidade}</div>
                 </div>`
-                
                 const kits = await buscarKitsDocente(nome_curso);
                 const select = document.getElementById('selecao');
                 select.innerHTML = ''; // Limpa as opções anteriores
@@ -343,95 +352,79 @@ async function carregarCursosVigentes() {
     });
     const select = document.getElementById('selecao');
     const bodyTable = document.getElementById('body-table');
+    const nameKit = document.getElementById('name-kit');
     select.addEventListener('change', async (event) => {
         const nome_kit = event.target.value; // Captura o valor selecionado
         if (nome_kit) {
             console.log(`Kit selecionado: ${nome_kit}`);
-
             const materiais = await buscarMateriaisDocente(nome_kit);
             //console.log(materiais);
             function preencherTabela(materiais) {
+                nameKit.innerText = `${nome_kit}`;
                 bodyTable.innerHTML = '';
                 materiais.forEach(material => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                <td id="cod_produto">${material.cod_produto}</td>
-                <td id="descricao">${material.descricao}</td>
-                <td id="qnt_max">${material.qnt_max}</td>
-                <td id="unidade_medida">${material.unidade_medida}</td>
-                <td id="saldo">${material.saldo}</td>
-                <td>
-                    <button onclick="decreaseValue(this)" class="btn-cont">-</button>
-                    <input type="number" value="0"  id="qnt_requerida" min="0" style="width: 40px; text-align: center;" onchange="validateValue(this)">
-                    <button class="add" onclick="increaseValue(this)">+</button>
-                    <button class="delete" onclick="deleteRow(this)">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>`;
+                    <td class="cod_produto">${material.cod_produto}</td>
+                    <td class="descricao">${material.descricao}</td>
+                    <td class="qnt_max">${material.qnt_max}</td>
+                    <td class="unidade_medida">${material.unidade_medida}</td>
+                    <td class="saldo">${material.saldo}</td>
+                    <td>
+                        <button onclick="decreaseValue(this)" class="btn-cont">-</button>
+                        <input type="number" value="0" class="qnt_requerida" min="0" style="width: 40px; text-align: center;" onchange="validateValue(this)">
+                        <button class="add" onclick="increaseValue(this)">+</button>
+                        <button class="delete" onclick="deleteRow(this)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>`;
                     bodyTable.appendChild(row);
                 });
             }
             preencherTabela(materiais);
+            console.log('Linhas da tabela preenchidas:', bodyTable.querySelectorAll('tr')); // Verifique se as linhas estão sendo inseridas
         }
+    })
+    document.getElementById('openModalBtn').addEventListener('click', async () => {
+        const rows = bodyTable.querySelectorAll('tr'); // Captura todas as linhas da tabela
+        console.log('Linhas da tabela:', rows); // Verifique se as linhas estão sendo capturadas corretamente
 
-        document.getElementById('sendBtn').addEventListener('click', async () => {
-                const rows = document.querySelectorAll('#body-table tr');
-                const solicitacoes = [];
+        const solicitacoes = Array.from(rows).map(row => {
+            const cod_produto = row.querySelector('.cod_produto')?.innerText || "";
+            const descricao = row.querySelector('.descricao')?.innerText || "";
+            const qnt_max = parseInt(row.querySelector('.qnt_max')?.innerText || 0, 10);
+            const unidade_medida = row.querySelector('.unidade_medida')?.innerText || "";
+            const saldo = parseInt(row.querySelector('.saldo')?.innerText || 0, 10);
+            const qnt_requerida = parseInt(row.querySelector('.qnt_requerida')?.value || 0, 10);
 
-                // Percorre cada linha da tabela
-                rows.forEach((row) => {
-                    const solicitacao = {
-                        cod_produto: parseInt(row.querySelector('#cod_produto').textContent.trim(), 10),
-                        descricao: row.querySelector('#descricao').textContent.trim(),
-                        qnt_max: parseInt(row.querySelector('#qnt_max').textContent.trim(), 10),
-                        unidade_medida: row.querySelector('#unidade_medida').textContent.trim(),
-                        saldo: parseInt(row.querySelector('#saldo').textContent.trim(), 10),
-                        qnt_requerida: parseInt(row.querySelector('#qnt_requerida').value.trim(), 10),
-                    };
-                    solicitacoes.push(solicitacao);
-                });
-                const response = await postSolicitacao(solicitacoes);
+            console.log('Solicitação extraída:', {
+                cod_produto,
+                descricao,
+                qnt_max,
+                unidade_medida,
+                saldo,
+                qnt_requerida
+            });
 
-            if(response.message) {
-                console.log(response.message);
-                alert('Solicitação enviada');
-            }
+            return { cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida };
         });
 
-        
-        // document.querySelector('#sendBtn').addEventListener('submit', async (event) => {
-        //     event.preventDefault();
-        //     //
-        //     const cod_produto = document.getElementById('cod_produto').value;
-        //     const descricao = document.getElementById('descricao').value;
-        //     const qnt_max = document.getElementById('qnt_max').value;
-        //     const unidade_medida = document.getElementById('unidade_medida').value;
-        //     const saldo = document.getElementById('saldo').value;
-        //     const qnt_requerida = document.querySelector('#qnt_requerida').value;
+        console.log(solicitacoes); // Verifique se o array está sendo preenchido corretamente
 
-        //     const response = await postSolicitacao(cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida);
-
-        //     if(response.message) {
-        //         window.alert('Solicitação enviada');
-        //         return response;
-        //     }
-        // })
-        
-    });
-
-    
-    document.querySelectorAll('.course').forEach(course => {
-        course.addEventListener('click', () => {
-            const content = course.querySelector('.accordion-content');
-            const arrowIcon = course.querySelector('.arrow i'); // Selecione o <i>
-            if (content.classList.contains('show')) {
-                content.classList.remove('show'); // Fecha
-                arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
-            } else {
-                content.classList.add('show'); // Abre
-                arrowIcon.style.transform = 'rotate(180deg)'; // Rotaciona
+        // Verifica se há solicitações antes de enviar
+        if (solicitacoes.length > 0) {
+            try {
+                const result = await postSolicitacao(solicitacoes);
+                console.log(result); // Verifique a resposta da API
+            } catch (error) {
+                if(result.status === 409){
+                    alert('Solicitação já enviada.')
+                }
+                console.error('Erro ao enviar as solicitações:', error);
             }
-        });
+        } else {
+            console.log("Nenhuma solicitação para enviar.");
+        }
     });
 }
 //=-=-=-=-=-=-=-= Funcção para carregar CURSOS CONLUÍDOS -=-=--=-=-=-=-=--=-=-=
@@ -441,7 +434,7 @@ async function carregarCursosConcluidos() {
         console.error("Token JWT não encontrado no localStorage")
     }
     const cursos = await getCursosConcluidos();
-    console.log('Cursos concluidos:', cursos); //Adiciona um log para verificar os dados carregados.
+    //console.log('Cursos concluidos:', cursos); //Adiciona um log para verificar os dados carregados.
     //Obtém o corpo da tabela onde as transações serão inseridas.
     const div = document.getElementById('cursos-concluidos');
     div.innerHTML = ''; //Limpa o conteúdo da tabela antes de adicionar as novas transações
@@ -466,8 +459,6 @@ async function carregarCursosConcluidos() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
-
-
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarCursosVigentes(),
