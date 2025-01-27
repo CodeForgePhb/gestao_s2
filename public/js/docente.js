@@ -2,9 +2,10 @@
 import {
     getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos,
     getCursosConcluidos, buscarCursosConcluidosPorPesquisa, buscarMateriaisDocente, getNome, logoutUser, monitorarTokenExpiracao,
-    buscarKitsDocente, postSolicitacao, dadosSolicitacao
+    buscarKitsDocente, postSolicitacao, dadosSolicitacao, buscarSolicitacaoDocente
 } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
+    carregarSolicitacoesDocente()
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
     getAssinatura();
@@ -427,6 +428,7 @@ async function carregarCursosVigentes() {
         }
     });
 }
+
 //=-=-=-=-=-=-=-= Funcção para carregar CURSOS CONLUÍDOS -=-=--=-=-=-=-=--=-=-=
 async function carregarCursosConcluidos() {
     const token = localStorage.getItem('token');
@@ -459,6 +461,61 @@ async function carregarCursosConcluidos() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
+
+//GET PARA SOLICITAÇÕES EM ANDAMENTO
+async function carregarSolicitacoesDocente() {
+    //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
+    const solicDocente = await buscarSolicitacaoDocente();
+    //console.log('Docentes:', docenCoord); //Adiciona um log para verificar os dados carregados.
+    //Obtém o corpo da tabela onde as transações serão inseridas.
+    const div = document.getElementById('sol-docente');
+    div.innerHTML = ''; //Limpa o conteúdo da tabela antes de adicionar as novas transações
+    //Verificar se a lista de trasações está vazia.
+    console.log(solicDocente)
+    if (solicDocente.message === "Nenhuma solicitação encontrada.") {
+        console.log('Nenhuma solicitação encontrada.') //Loga se não houver transações
+        const divInterna = document.createElement('div'); // Cria uma nova div.
+        divInterna.classList.add('course');
+        divInterna.innerHTML = `<span>Nenhuma solicitação encontrada.</span>`; //Exibir uma mensagem informando que nao há transações
+        div.appendChild(divInterna); // Adiciona a linha na tabela.
+        return; //Sai da função, já que nao há transaçoes a serem exibidas.
+    }
+    // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
+    solicDocente.forEach(solDoc => {
+        const divInterna = document.createElement('div'); // Criar uma nova linha na tabela.
+        divInterna.classList.add('course');
+        divInterna.innerHTML = `
+            <div class="accordion-header">              
+                <span id="num-sol">${solDoc.numero_solicitacao}</span>
+                <span id="nivel-sol">Setor: ${solDoc.setor_atual}</span>
+                <span class="arrow"><i class="fa-solid fa-chevron-down" style="color: #808080;"></i></span>
+            </div>
+            <div class="accordion-content">
+                <div class="inf">
+                    <span><strong>Cód Produto</strong> ${solDoc.cod_produto}</span>
+                    <span><strong>Descrição</strong> ${solDoc.descricao}</span>
+                    <span><strong>Unid de Medida</strong> ${solDoc.unidade_medida}</span>
+                    <span><strong>Qnt Requerida</strong> ${solDoc.qnt_requerida}</span>
+                </div>
+            </div>
+        `;
+        div.appendChild(divInterna); // Adiciona a linha à tabela
+    });
+    document.querySelectorAll('.course').forEach(course => {
+        course.addEventListener('click', () => {
+            const content = course.querySelector('.accordion-content');
+            const arrowIcon = course.querySelector('.arrow i'); // Selecione o <i>
+            if (content.classList.contains('show')) {
+                content.classList.remove('show'); // Fecha
+                arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
+            } else {
+                content.classList.add('show'); // Abre
+                arrowIcon.style.transform = 'rotate(180deg)'; // Rotaciona
+            }
+        });
+    });
+}
+
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarCursosVigentes(),

@@ -1,1 +1,0 @@
-SELECT * FROM gestao_s2.cursos_vigentes;

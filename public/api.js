@@ -788,3 +788,92 @@ export async function postSolicitacao(solicitacoes) {
         return { message: error.message };
     }
 }
+
+// api para carregar solicitações em andamento da coordenação
+export async function getSolicitacoesEmAndamento ()  {
+    const token = localStorage.getItem('token');
+    //
+    try {
+        const response = await fetch(`${API_URL}/routes/solicitacoes-status-em-andamento`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        //
+        if(!response.ok) {
+            throw new Error('Erro ao solicitar materiais');
+        }
+
+        if(response.length === 0 ) {
+            console.log('Nenhuma solicitação encontrada');
+        return await res.status(404).json({message: 'nada encontrado'})
+        }
+
+        const result = await response.json()
+        return result;
+
+    } catch(error) {
+        console.error('Erro na requisição: ', error);
+        return { message: error.message };
+    }
+}
+
+// api para visualizar as solicitações concluídas ou encaminhadas
+
+export async function getSolicitacoesEncaminhadas() {
+    const token = localStorage.getItem('token');
+    //
+    try {
+        const response = await fetch(`${API_URL}/routes/solicitacoes-encaminhada`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        if(!response.ok) {
+            throw new Error('Erro nas solicitaçoes');
+        }
+
+        if(response.length === 0 ) {
+            console.log('Nenhuma solicitação encontrada');
+        return await res.status(404).json({message: 'nada encontrado'})
+        }
+
+        return response.json();
+    } catch(error) {
+        console.error('Erro na requisição: ', error);
+        return { message: error.message };
+    }
+}
+
+//
+
+export async function buscarSolicitacaoDocente() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response= await fetch(`${API_URL}/routes/buscar-solicitacoes-docente`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        if(response.status === 404) {
+            return {message: 'Nenhuma solicitação encontrada'}
+        }
+        if(!response.ok) {
+            throw new res.send('Erro no server');
+        }
+        const resultado = await response.json();
+        console.log('api', resultado)
+        return resultado
+    } catch(error) {
+        console.error('Erro ao buscar os materiais:', error);
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}

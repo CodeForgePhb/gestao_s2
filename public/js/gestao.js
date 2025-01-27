@@ -164,6 +164,9 @@ document.querySelector('#btnLogout').addEventListener('click', async (event) => 
         alert('Houve um erro ao tentar deslogar. Tente novamente.');
     }
 });
+
+//GET DE SOLICITAÇOES EM ANDAMENTO
+
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     getNome()

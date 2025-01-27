@@ -68,7 +68,7 @@
                         <div class="icone-mais">
                             <img src="./assets/icons/plus-solid.svg" alt="">
                         </div>
-                        <b>Docente</b>
+                        <b id="docente-menu">Docente</b>
                     </div>
                     <div id="segundo" class="button toggle-button" data-content="curso">
                         <div class="icone-mais">
@@ -189,8 +189,20 @@
                     <!-- conteudo da api -->
                 </div>
             </div>
+            <!-- Status de solicitações -->
             <div id="status" class="content">
-                Conteúdo para Status
+                <div class="nome-com-linha">
+                    <span class="nome">Solicitações</span>
+                </div>
+                <div class="courses" id="solicitacoes">
+                    <!-- conteudo da api -->
+                </div>
+                <div class="nome-com-linha">
+                    <span class="nome">Encaminhados</span>
+                </div>
+                <div class="courses" id="encaminhados">
+                    <!-- conteudo da api -->
+                </div>
             </div>
         </section>
     </div>
@@ -256,10 +268,6 @@
                         <div>
                             <button class="btn1" id="limpar">Limpar</button>
                             <button id="saveSignatureImage">Salvar Assinatura</button>
-                            <abbr
-                                title="Para armazenar sua assinatura, clique em 'Gerar img' e depois em 'Salvar Assinatura'.">
-                                <i class="fa-solid fa-info" style="color: #808080;" id="signatureInfo"></i>
-                            </abbr>
                         </div>
                     </div>
                 </div>

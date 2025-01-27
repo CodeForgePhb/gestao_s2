@@ -18,33 +18,36 @@ USE `gestao_s2`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `cursos_vigentes`
+-- Table structure for table `solicitacoes`
 --
 
-DROP TABLE IF EXISTS `cursos_vigentes`;
+DROP TABLE IF EXISTS `solicitacoes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cursos_vigentes` (
-  `id_curso` int DEFAULT NULL,
-  `nome_curso` varchar(255) DEFAULT NULL,
-  `docente` varchar(100) DEFAULT NULL,
-  KEY `id_curso` (`id_curso`),
-  KEY `nome_curso` (`nome_curso`),
-  KEY `docente` (`docente`),
-  CONSTRAINT `cursos_vigentes_ibfk_1` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id`),
-  CONSTRAINT `cursos_vigentes_ibfk_2` FOREIGN KEY (`nome_curso`) REFERENCES `curso` (`nome`),
-  CONSTRAINT `cursos_vigentes_ibfk_3` FOREIGN KEY (`docente`) REFERENCES `docente` (`nome`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `solicitacoes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `cod_produto` int DEFAULT NULL,
+  `descricao` varchar(255) DEFAULT NULL,
+  `qnt_max` int DEFAULT NULL,
+  `unidade_medida` varchar(45) DEFAULT NULL,
+  `saldo` int DEFAULT NULL,
+  `qnt_requerida` int DEFAULT NULL,
+  `setor_atual` enum('docente','coordenacao','gestao','compras') NOT NULL DEFAULT 'docente',
+  `numero_solicitacao` varchar(255) NOT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `numero_solicitacao` (`numero_solicitacao`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cursos_vigentes`
+-- Dumping data for table `solicitacoes`
 --
 
-LOCK TABLES `cursos_vigentes` WRITE;
-/*!40000 ALTER TABLE `cursos_vigentes` DISABLE KEYS */;
-INSERT INTO `cursos_vigentes` VALUES (2,'Tecnico de Informática para Internet','miguel sousinha'),(3,'Administração','miguel sousinha');
-/*!40000 ALTER TABLE `cursos_vigentes` ENABLE KEYS */;
+LOCK TABLES `solicitacoes` WRITE;
+/*!40000 ALTER TABLE `solicitacoes` DISABLE KEYS */;
+INSERT INTO `solicitacoes` VALUES (19,234,'mouse',2,'un',2,2,'docente','19-miguel sousa-1737939035919-234','em andamento'),(20,234,'mouse',2,'un',2,1,'gestao','19-miguel sousa-1737939356998-234','em andamento'),(21,234,'mouse',2,'un',2,1,'coordenacao','19-miguel sousa-1737975484662-234','em andamento'),(22,234,'mouse',2,'un',2,2,'compras','19-miguel sousa-1737985202867-234','em andamento');
+/*!40000 ALTER TABLE `solicitacoes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-27 10:58:52
+-- Dump completed on 2025-01-27 10:58:51

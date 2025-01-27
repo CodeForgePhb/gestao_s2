@@ -137,6 +137,48 @@ export const buscarDocentes = async (req, res) => {
         return res.status(500).send('Erro ao processar a requisição.');
     }
 };
+
+//visualizar soliticações em andamento
+export const buscarSolicitacaoEmAndamento = async (req, res) => {
+    const setorAtual = 'coordenacao';
+    const statusSolicitacao = 'em andamento';
+    try {
+        //
+        const [ result ] = await db.query(`
+            SELECT * FROM solicitacoes WHERE setor_atual = ? AND status = ?`, [setorAtual, statusSolicitacao]);
+        
+        if(result.length === 0) {
+            return res.status(404).json({message: 'não há solicitações em andamento'})
+        }
+        //
+        return res.json(result);
+    } catch(error) {
+        console.error('erro encontrado: ', error);
+        return res.status(500).json({error});
+    }
+}
+
+//visualizar solicitacoes encaminhadas
+export const buscarSolicitacaoEncaminhada = async (req, res) => {
+    const setorAtual = 'gestao' || 'setor de compras';
+    
+    try {
+        const [ result ] = await db.query(`SELECT* from solicitacoes WHERE setor_atual = ?`, [setorAtual]);
+    //
+    if(result.length === 0) {
+        console.log('Nenhuma solicitação existente');
+        return res.status(404).json({message: 'nenhuma solicitação'})
+    }
+    console.log(result)
+    return res.json(result);
+
+    } catch(error) {
+        console.error('Erro encontrado: ', error);
+        return res.status(500).json({error});
+    }
+}
+
+
 // VISUALIZAR KIT DIDÁTICOS
 export const buscarKitCoordenacao = async (req, res) => {
     try {

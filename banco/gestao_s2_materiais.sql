@@ -28,14 +28,16 @@ CREATE TABLE `materiais` (
   `id` int NOT NULL AUTO_INCREMENT,
   `cod_produto` int DEFAULT NULL,
   `descricao` varchar(255) DEFAULT NULL,
-  `quantidade` int DEFAULT NULL,
+  `qnt_max` int DEFAULT NULL,
   `unidade_medida` varchar(10) DEFAULT NULL,
+  `saldo` int DEFAULT NULL,
   `cod_kit` int DEFAULT NULL,
   `nome_kit` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cod_kit` (`cod_kit`) /*!80000 INVISIBLE */,
-  KEY `nome_kit` (`nome_kit`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `nome_kit` (`nome_kit`),
+  KEY `cod_produto` (`cod_produto`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +46,7 @@ CREATE TABLE `materiais` (
 
 LOCK TABLES `materiais` WRITE;
 /*!40000 ALTER TABLE `materiais` DISABLE KEYS */;
-INSERT INTO `materiais` VALUES (1,444,'martelo',2,'un',101,'Kit de Ferramentas'),(2,445,'chave estrela',5,'un',101,'Kit de Ferramentas'),(3,345,'mouse',3,'un',4,'Kit de Periféricos'),(4,344,'teclado',3,'un',4,'Kit de Periféricos'),(5,343,'teclado',3,'un',4,'Kit de Periféricos'),(6,NULL,NULL,NULL,NULL,NULL,NULL),(7,341,'teclado',3,'un',4,'Kit de Periféricos'),(8,NULL,NULL,NULL,NULL,NULL,NULL),(9,340,'teclado',3,'un',4,'Kit de Periféricos'),(10,150,'Folha A4',25,'cx',120,'kit_consumo_administracao');
+INSERT INTO `materiais` VALUES (1,444,'martelo',3,'un',2,101,'Kit de Ferramentas'),(2,445,'chave estrela',2,'un',5,101,'Kit de Ferramentas'),(3,234,'mouse',2,'un',2,100,'Kit de Periféricos'),(11,23,'panela',3,'un',0,456,'Kit Utensílios');
 /*!40000 ALTER TABLE `materiais` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-24 10:57:59
+-- Dump completed on 2025-01-27 10:58:51

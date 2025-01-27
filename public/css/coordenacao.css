@@ -234,7 +234,7 @@ body {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background-color: #ffffff;
     border-radius: 8px;
-    height: 85%;
+    height: 75%;
     overflow-y: scroll
 }
 
@@ -1223,6 +1223,7 @@ input[type="file"] {
 #segundo:hover,
 #terceiro:hover {
     background-color: #163193;
+    color: white;
     /* Mudança de cor ao passar o mouse */
     transform: scale(1.05);
     /* Efeito de aumentar levemente */
@@ -1249,7 +1250,6 @@ input[type="file"] {
     display: none;
     padding: 20px;
     margin-top: 10px;
-
     border-radius: 5px;
 
 }
@@ -1323,11 +1323,11 @@ input[type="file"] {
   /* dropdown input  */
   #professor input, #curso input, #material input{
     width: 400px;
-    height: 30px;
+    height: 40px;
     margin: 8px;
+    padding: 10px;
     border-radius: 5px;
-    border: solid 1px #969696;
- 
+    border: solid 2px #969696;
   }
  
 #professor form {
@@ -1359,6 +1359,12 @@ input[type="file"] {
 }
 
 
+
+#docente-menu {
+    color: black;
+}
+
+.cursos:hover { color:white; }
 
 
 

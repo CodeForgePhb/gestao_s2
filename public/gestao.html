@@ -55,7 +55,7 @@
       <div class="general">
         <h2 class="saudacao">Olá, </h2>
         <div class="tabs">
-          <div class="tab status" data-tab="status" id="tabStatus">Status</div>
+          <div class="tab status" data-tab="status" id="tabStatus">Solicitações</div>
         </div>
       </div>
       <div><img src="./assets/logo_gestao_s.svg" alt="logo_gestao_s" class="logo"></div>
@@ -333,10 +333,6 @@
                     <div>
                         <button class="btn1" id="limpar">Limpar</button>
                         <button id="saveSignatureImage">Salvar Assinatura</button>
-                        <abbr
-                            title="Para armazenar sua assinatura, clique em 'Gerar img' e depois em 'Salvar Assinatura'.">
-                            <i class="fa-solid fa-info" style="color: #808080;" id="signatureInfo"></i>
-                        </abbr>
                     </div>
                 </div>
             </div>
@@ -413,39 +409,39 @@
       closeModal();
     });
     // Função para ativar uma aba específica
-    function activateTab(tabName) {
-      // Remove a classe ativa de todas as abas e conteúdos
-      tabs.forEach(tab => tab.classList.remove('active'));
-      contents.forEach(content => content.classList.remove('active'));
-      // Adiciona a classe ativa à aba e ao conteúdo correspondente
-      const targetTab = document.querySelector(`.tab.${tabName}`);
-      const targetContent = document.getElementById(tabName);
-      if (targetTab && targetContent) {
-        targetTab.classList.add('active');
-        targetContent.classList.add('active');
-      }
-    }
-    // Redireciona para a aba "Status" e fecha todos os modais ao clicar em OK
-    okBtn.addEventListener('click', () => {
-      successModal.style.display = 'none'; // Fecha o modal de sucesso
-      const kitModal = document.getElementById('kitModal');
-      if (kitModal) {
-        kitModal.style.display = 'none'; // Fecha o modal principal de solicitação
-      }
-      activateTab('status'); // Ativa a aba "Status" e seu conteúdo
-    });
-    // Gerencia cliques manuais nas abas
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        // Remover a classe ativa de todas as abas e conteúdos
-        tabs.forEach(t => t.classList.remove('active'));
-        contents.forEach(c => c.classList.remove('active'));
-        // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
-        tab.classList.add('active');
-        const target = document.getElementById(tab.dataset.tab);
-        target.classList.add('active');
-      });
-    });
+    // function activateTab(tabName) {
+    //   // Remove a classe ativa de todas as abas e conteúdos
+    //   tabs.forEach(tab => tab.classList.remove('active'));
+    //   contents.forEach(content => content.classList.remove('active'));
+    //   // Adiciona a classe ativa à aba e ao conteúdo correspondente
+    //   const targetTab = document.querySelector(`.tab.${tabName}`);
+    //   const targetContent = document.getElementById(tabName);
+    //   if (targetTab && targetContent) {
+    //     targetTab.classList.add('active');
+    //     targetContent.classList.add('active');
+    //   }
+    // }
+    // // Redireciona para a aba "Status" e fecha todos os modais ao clicar em OK
+    // okBtn.addEventListener('click', () => {
+    //   successModal.style.display = 'none'; // Fecha o modal de sucesso
+    //   const kitModal = document.getElementById('kitModal');
+    //   if (kitModal) {
+    //     kitModal.style.display = 'none'; // Fecha o modal principal de solicitação
+    //   }
+    //   activateTab('status'); // Ativa a aba "Status" e seu conteúdo
+    // });
+    // // Gerencia cliques manuais nas abas
+    // tabs.forEach(tab => {
+    //   tab.addEventListener('click', () => {
+    //     // Remover a classe ativa de todas as abas e conteúdos
+    //     tabs.forEach(t => t.classList.remove('active'));
+    //     contents.forEach(c => c.classList.remove('active'));
+    //     // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
+    //     tab.classList.add('active');
+    //     const target = document.getElementById(tab.dataset.tab);
+    //     target.classList.add('active');
+    //   });
+    // });
     //FIM DO SCRIPT PARA INTERAÇÕES DA PÁGINA DOCENTE.HTML ----------------------------------------------------
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>

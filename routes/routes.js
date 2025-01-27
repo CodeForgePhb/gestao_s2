@@ -11,7 +11,7 @@ import authMiddleware from '../middleware/authorization.js'; // Importa o middle
 
 const router = express.Router();
 
-//----------------Coordenação------------------------------------------------------------------------------------------
+//----------------Coordenação-----------------------------------------
 router.post('/add-curso', authMiddleware,controllerCoordenacao.addCurso);
 router.post('/add-docente', authMiddleware,controllerCoordenacao.addDocente);
 router.get('/docentes', authMiddleware,controllerCoordenacao.buscarDocentes);//
@@ -23,7 +23,9 @@ router.get('/cursos-concluidos', authMiddleware,controllerCoordenacao.buscarCurs
 router.delete('/curso-vigente/:id_curso', authMiddleware,controllerCoordenacao.delCursoVigente);
 router.post('/add-kit', authMiddleware,controllerCoordenacao.adicionar_kit);
 router.post('/add-material', authMiddleware,controllerCoordenacao.addMateriais);
-router.get('/buscar-kits', authMiddleware,controllerCoordenacao.buscarKitCoordenacao);//
+router.get('/buscar-kits', authMiddleware,controllerCoordenacao.buscarKitCoordenacao);
+router.get('/solicitacoes-status-em-andamento', controllerCoordenacao.buscarSolicitacaoEmAndamento);
+router.get('/solicitacoes-encaminhada', controllerCoordenacao.buscarSolicitacaoEncaminhada);
 
 
 //----------------Docente----------------------------------------------------------------------------------------------
@@ -33,12 +35,11 @@ router.post('/buscar-por-pesquisa', authMiddleware,controllerDocente.buscarCurso
 router.get('/cursos-vigentes', authMiddleware,controllerDocente.buscarCursosVigentes);
 router.get('/cursos-concluidos', authMiddleware,controllerDocente.buscarCursosConcluidos);
 
-
-router.get('/solicitacao-kit', authMiddleware,controllerDocente.todasSolicitacoes);
 router.post('/kit-didatico-curso', authMiddleware, controllerDocente.todosKits);
 router.post('/materiais-kit-didatico', authMiddleware, controllerDocente.todosMateriais)
 router.post('/dados-curso', authMiddleware, controllerDocente.dadosCursoClicado);
 router.post('/adicionar-solicitacao', authMiddleware, controllerDocente.addSolicitacao);
+router.get('/buscar-solicitacoes-docente', authMiddleware, controllerDocente.todasSolicitacoesDocente);
 
 
 

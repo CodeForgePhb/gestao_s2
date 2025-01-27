@@ -1,7 +1,7 @@
 import {
     uploadProfileImage, uploadSignature, getFotoPerfil, getAssinatura, getNome,
     logoutUser, monitorarTokenExpiracao, buscarKitsCoordenacao, buscarDocentesCoordenacao,
-    buscarCursosCoordenacao, postDocente, postCurso, postKit, postMaterial
+    buscarCursosCoordenacao, postDocente, postCurso, postKit, postMaterial, getSolicitacoesEmAndamento, getSolicitacoesEncaminhadas
 } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     getFotoPerfil();
@@ -400,10 +400,88 @@ document.getElementById('form-material').addEventListener('submit', async (event
         event.target.reset();
     }
 });
+
+// função para renderizar todas as solicitações
+
+async function carregarSolicitacoesEmAndamento () {
+    const contentStatus = document.querySelector('#solicitacoes');
+    const solicitacoesEmAndamento = await getSolicitacoesEmAndamento();
+    console.log('SOLICITAÇÕES EM ANDAMENTO: ', solicitacoesEmAndamento);
+    //
+    if(solicitacoesEmAndamento.length === 0) {
+        console.log('Nenhuma solicitação encontrada');
+        contentStatus.innerHTML = '';
+        contentStatus.innerHTML =
+        `
+        <h3>Nenhuma solicitação encontrada</h3>
+        `;
+        return
+    }
+
+    solicitacoesEmAndamento.forEach((produto) => {
+        const divInterna = document.createElement('div');
+        
+        divInterna.innerHTML = `
+            <div class="titulo">Produto: ${produto.descricao}</div>
+            <div class="produto-info">Código: ${produto.cod_produto}</div>
+            <div class="produto-info">Quantidade Máxima: ${produto.qnt_max} ${produto.unidade_medida}</div>
+            <div class="produto-info">Saldo: ${produto.saldo} ${produto.unidade_medida}</div>
+            <div class="produto-info">Quantidade Requerida: ${produto.qnt_requerida} ${produto.unidade_medida}</div>
+            <div class="produto-info">Setor Atual: ${produto.setor_atual}</div>
+            <div class="produto-info">Número da Solicitação: ${produto.numero_solicitacao}</div>
+            <div class="produto-info">
+                Status: <span class="status">${produto.status}</span>
+            </div>
+        `;
+        contentStatus.appendChild(divInterna);
+    });
+}
+
+// função para renderizar as solicitações encaminhadas
+
+async function carregarSolicitacoesEncaminhadas() {
+
+    const coursesEncaminhados = document.getElementById('encaminhados');
+    const solicitacoesEncaminhadas = await getSolicitacoesEncaminhadas();
+    console.log('Solicitações encaminhadas: ', solicitacoesEncaminhadas);
+
+    //
+    if (!Array.isArray(solicitacoesEncaminhadas) || solicitacoesEncaminhadas.length === 0) {
+        coursesEncaminhados.innerHTML = `    
+            <h3>Nenhuma solicitação encontrada</h3>
+        `;
+        return;
+    }
+    //
+    solicitacoesEncaminhadas.forEach((produto)=> {
+        const divInterna = document.createElement('div');
+        coursesEncaminhados.innerHTML = '';
+
+        divInterna.innerHTML=`
+            <div class="titulo">Produto: ${produto.descricao}</div>
+            <div class="produto-info">Código: ${produto.cod_produto}</div>
+            <div class="produto-info">Quantidade Máxima: ${produto.qnt_max} ${produto.unidade_medida}</div>
+            <div class="produto-info">Saldo: ${produto.saldo} ${produto.unidade_medida}</div>
+            <div class="produto-info">Quantidade Requerida: ${produto.qnt_requerida} ${produto.unidade_medida}</div>
+            <div class="produto-info">Setor Atual: ${produto.setor_atual}</div>
+            <div class="produto-info">Número da Solicitação: ${produto.numero_solicitacao}</div>
+            <div class="produto-info">
+                Status: <span class="status">${produto.status}</span>
+            </div> 
+        `;
+        coursesEncaminhados.appendChild(divInterna);
+    })
+}
+
+
+
+
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarNome(),
     carregarKitsCoordenacao(),
     carregarCursosCoordenacao(),
-    carregarDocentesCoordenacao()
+    carregarDocentesCoordenacao(),
+    carregarSolicitacoesEmAndamento(),
+    carregarSolicitacoesEncaminhadas()
 });

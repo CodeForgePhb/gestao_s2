@@ -234,7 +234,8 @@ export const dadosCursoClicado = async (req, res) => {
 //4. adicionar solicitacao de material didático
 export const addSolicitacao = async (req, res) => {
   const solicitacoes = req.body; // Recebe um array de solicitações
-  const setor_atual = 'docente';
+  const setor_atual = 'coordenacao';
+  const status = 'em andamento';
   try {
     // Valida o token JWT
     const token = req.headers.authorization?.split(' ')[1];
@@ -243,7 +244,7 @@ export const addSolicitacao = async (req, res) => {
     }
     // Decodifica o token para obter os dados do usuário
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { id, nome } = decoded;
+    const { userId, nome } = decoded;
     // Itera sobre cada solicitação no array
     for (const solicitacao of solicitacoes) {
       const { cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida } = solicitacao;
@@ -260,12 +261,12 @@ export const addSolicitacao = async (req, res) => {
       }
       // Gera o número único da solicitação
       const timestamp = new Date().getTime(); // Timestamp único
-      const numeroSolicitacao = `${id}-${nome}-${timestamp}-${cod_produto}`; // Formato: "id-nome-timestamp-cod_produto"
+      const numeroSolicitacao = `${userId}-${nome}-${timestamp}-${cod_produto}`; // Formato: "id-nome-timestamp-cod_produto"
       // Insere a solicitação no banco de dados
       await db.query(
-        `INSERT INTO solicitacoes (cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida, setor_atual, numero_solicitacao) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-        [cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida, setor_atual, numeroSolicitacao]
+        `INSERT INTO solicitacoes (cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida, setor_atual, numero_solicitacao, status) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida, setor_atual, numeroSolicitacao, status]
       );
     }
     // Retorna sucesso após processar todas as solicitações
@@ -277,45 +278,26 @@ export const addSolicitacao = async (req, res) => {
     return res.status(500).json({ error });
   }
 };
+
 //1. Visualizar todas as solicitações
-export const todasSolicitacoes = async (req, res) => {
+export const todasSolicitacoesDocente = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
     //1.
+    const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
       return res.status(401).json({ message: 'Token não fornecido' })
     }
-    //2.
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { nome_usuario } = decoded;
-    //3.
-    const [userResult] = await db.query('SELECT nome FROM docente WHERE email = ?', [email]);
-    if (userResult.length === 0) {
-      res.status(404).json({ message: 'usuário não encontrado' });
+    const { userId, nome } = decoded;
+    const [result] = await db.query(`SELECT cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida,
+       setor_atual, numero_solicitacao, status FROM solicitacoes WHERE numero_solicitacao LIKE ?`, [`${userId}-${nome}%`]);
+    if (result.length === 0) {
+      return res.status(404).json({ message: 'Não há solicitações para esse docente.' });
     }
-    //4.
-    const nome_curso = await db.query(
-      'SELECT nome FROM curso WHERE docente = ?',
-      [nome_usuario])
-    if (!nome_curso) {
-      console.log('curso não encontrado')
-      res.status(404).send('Nenhum curso encontrado')
-    }
-    //5.
-    const soliciticao = await db.query(
-      'SELECT * FROM materiais WHERE nome_curso', [nome_curso],
-      (err, result) => {
-        if (err) {
-          console.log('Erro no controlador: ', err)
-          res.status(500).json({ err })
-        } else {
-          console.log('Deu bom')
-          res.status(200).json({ soliciticao })
-        }
-      }
-    )
+    console.log(result);
+    return res.status(200).json(result); // Retorna o array completo no response
   } catch (error) {
-    res.status(500).json({ error });
-    console.log(error);
+    console.error('Erro ao buscar as solicitações.', error);
+    return res.status(500).json({ message: 'Erro ao buscar os dados.', error });
   }
 };
