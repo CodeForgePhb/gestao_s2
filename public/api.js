@@ -772,7 +772,7 @@ export async function postSolicitacao(solicitacoes) {
         });
         // Lida com os possíveis códigos de erro
         if (response.status === 409) {
-            window.alert('Uma ou mais solicitações já existem');
+            alert('Uma ou mais solicitações já existem');
             return;
         }
         if (!response.ok) {

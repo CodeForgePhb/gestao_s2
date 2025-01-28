@@ -12,18 +12,6 @@ window.onload = () => {
     carregarCursosVigentes();
     buscarSolicitacaoDocente();
 };
-// Função para decodificar o token e gerar o número de solicitação
-function gerarNumeroSolicitacao() {
-    // Supondo que o token JWT esteja armazenado em um local adequado (por exemplo, localStorage ou sessionStorage)
-    const token = localStorage.getItem('token'); // Substitua pelo método adequado para obter o token
-    const decodedToken = jwt_decode(token); // Decodificando o token para extrair userId e name
-    const userId = decodedToken.userId; // Extraindo o userId
-    const name = decodedToken.nome; // Extraindo o nome do docente
-    // Gerando o timestamp único
-    const timestamp = new Date().getTime(); // Timestamp baseado no horário atual
-    // Gerando o número de solicitação no formato userId-name-timestamp
-    return `${userId}-${name}-${timestamp}`;
-}
 // Função para obter nome do "User"
 async function carregarNome() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
@@ -363,83 +351,106 @@ async function carregarCursosVigentes() {
             }
         });
     });
-    select.replaceWith(select.cloneNode(true)); // Substitui o elemento, removendo todos os listeners antigos
     const select = document.getElementById('selecao'); // Obtém o novo seletor
     const bodyTable = document.getElementById('body-table');
     const nameKit = document.getElementById('name-kit');
+
     select.addEventListener('change', async (event) => {
+        event.stopImmediatePropagation(); // Impede eventos duplicados
+        console.log('Evento change disparado'); // Verifica se o evento está disparando mais de uma vez
+
         const nome_kit = event.target.value; // Captura o valor selecionado
         if (nome_kit) {
             console.log(`Kit selecionado: ${nome_kit}`);
+
             const materiais = await buscarMateriaisDocente(nome_kit);
-            //console.log(materiais);
+            console.log('Materiais recebidos:', materiais); // Verifica se os dados estão vindo corretamente
+
             function preencherTabela(materiais) {
+                console.log('Preenchendo tabela...'); // Verifica se essa função é chamada mais de uma vez
+
                 nameKit.innerText = `${nome_kit}`;
                 bodyTable.innerHTML = '';
+
                 materiais.forEach(material => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                    <td class="cod_produto">${material.cod_produto}</td>
-                    <td class="descricao">${material.descricao}</td>
-                    <td class="qnt_max">${material.qnt_max}</td>
-                    <td class="unidade_medida">${material.unidade_medida}</td>
-                    <td class="saldo">${material.saldo}</td>
-                    <td>
-                        <button onclick="decreaseValue(this)" class="btn-cont">-</button>
-                        <input type="number" value="0" class="qnt_requerida" min="0" style="width: 40px; text-align: center;" onchange="validateValue(this)">
-                        <button class="add" onclick="increaseValue(this)">+</button>
-                        <button class="delete" onclick="deleteRow(this)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </td>`;
+                <td class="cod_produto">${material.cod_produto}</td>
+                <td class="descricao">${material.descricao}</td>
+                <td class="qnt_max">${material.qnt_max}</td>
+                <td class="unidade_medida">${material.unidade_medida}</td>
+                <td class="saldo">${material.saldo}</td>
+                <td>
+                    <button onclick="decreaseValue(this)" class="btn-cont">-</button>
+                    <input type="number" value="0" class="qnt_requerida" min="0" style="width: 40px; text-align: center;" onchange="validateValue(this)">
+                    <button class="add" onclick="increaseValue(this)">+</button>
+                    <button class="delete" onclick="deleteRow(this)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>`;
                     bodyTable.appendChild(row);
                 });
             }
+
             preencherTabela(materiais);
-            console.log('Linhas da tabela preenchidas:', bodyTable.querySelectorAll('tr')); // Verifique se as linhas estão sendo inseridas
-        }
-    })
-    document.getElementById('openModalBtn').addEventListener('click', async () => {
-        const rows = bodyTable.querySelectorAll('tr'); // Captura todas as linhas da tabela
-        console.log('Linhas da tabela:', rows); // Verifique se as linhas estão sendo capturadas corretamente
-
-        const solicitacoes = Array.from(rows).map(row => {
-            const cod_produto = row.querySelector('.cod_produto')?.innerText || "";
-            const descricao = row.querySelector('.descricao')?.innerText || "";
-            const qnt_max = parseInt(row.querySelector('.qnt_max')?.innerText || 0, 10);
-            const unidade_medida = row.querySelector('.unidade_medida')?.innerText || "";
-            const saldo = parseInt(row.querySelector('.saldo')?.innerText || 0, 10);
-            const qnt_requerida = parseInt(row.querySelector('.qnt_requerida')?.value || 0, 10);
-
-            console.log('Solicitação extraída:', {
-                cod_produto,
-                descricao,
-                qnt_max,
-                unidade_medida,
-                saldo,
-                qnt_requerida
-            });
-
-            return { cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida };
-        });
-
-        console.log(solicitacoes); // Verifique se o array está sendo preenchido corretamente
-
-        // Verifica se há solicitações antes de enviar
-        if (solicitacoes.length > 0) {
-            try {
-                const result = await postSolicitacao(solicitacoes);
-                console.log(result); // Verifique a resposta da API
-            } catch (error) {
-                if(result.status === 409){
-                    alert('Solicitação já enviada.')
-                }
-                console.error('Erro ao enviar as solicitações:', error);
-            }
-        } else {
-            console.log("Nenhuma solicitação para enviar.");
+            console.log('Linhas da tabela preenchidas:', bodyTable.querySelectorAll('tr')); // Verifica se as linhas estão sendo inseridas
         }
     });
+
+    const openModalBtn = document.getElementById('openModalBtn');
+
+function handleOpenModal(event) {
+    event.stopImmediatePropagation(); // Impede que o evento seja disparado múltiplas vezes
+
+    const rows = bodyTable.querySelectorAll('tr'); // Captura todas as linhas da tabela
+    console.log('Linhas da tabela:', rows);
+
+    const solicitacoes = Array.from(rows).map(row => {
+        const cod_produto = row.querySelector('.cod_produto')?.innerText || "";
+        const descricao = row.querySelector('.descricao')?.innerText || "";
+        const qnt_max = parseInt(row.querySelector('.qnt_max')?.innerText || 0, 10);
+        const unidade_medida = row.querySelector('.unidade_medida')?.innerText || "";
+        const saldo = parseInt(row.querySelector('.saldo')?.innerText || 0, 10);
+        const qnt_requerida = parseInt(row.querySelector('.qnt_requerida')?.value || 0, 10);
+
+        console.log('Solicitação extraída:', {
+            cod_produto,
+            descricao,
+            qnt_max,
+            unidade_medida,
+            saldo,
+            qnt_requerida
+        });
+
+        return { cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida };
+    });
+
+    console.log('Solicitações:', solicitacoes);
+
+    // Verifica se há solicitações antes de enviar
+    if (solicitacoes.length > 0) {
+        postSolicitacao(solicitacoes)
+            .then(result => {
+                console.log('Resposta da API:', result);
+                document.getElementById('kit-Modal').style.display = 'none';
+                bodyTable.innerHTML = ''; // Limpa a tabela após o envio
+                window.location.reload(); // Recarrega a página para evitar estados inconsistentes
+            })
+            .catch(error => {
+                console.error('Erro ao enviar as solicitações:', error);
+                if (error.response && error.response.status === 409) {
+                    alert('Solicitação já enviada.');
+                }
+            });
+    } else {
+        console.log("Nenhuma solicitação para enviar.");
+    }
+}
+
+// Removendo evento duplicado antes de adicionar
+openModalBtn.removeEventListener('click', handleOpenModal);
+openModalBtn.addEventListener('click', handleOpenModal, { once: true }); // Garantindo que só será chamado uma vez
+
 }
 //=-=-=-=-=-=-=-= Funsão para carregar CURSOS CONLUÍDOS -=-=--=-=-=-=-=--=-=-=
 async function carregarCursosConcluidos() {
