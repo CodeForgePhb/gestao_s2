@@ -356,6 +356,9 @@ h3 {
   margin: 0;
 }
 
+/* MODAL KITS */ 
+
+
 /* DROPDOWN CURSOS  */
 .accordion-header {
   font-weight: bold;
@@ -617,7 +620,7 @@ span strong {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
 }

@@ -1,4 +1,5 @@
-import { uploadProfileImage, uploadSignature, getFotoPerfil,getAssinatura, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
+import { uploadProfileImage, uploadSignature, getFotoPerfil,getAssinatura, getNome, logoutUser, monitorarTokenExpiracao, getSolicitacoesCompras, dadosSolicitacao, getCursosCompras } from '../api.js'; // Ajuste o caminho conforme necessário
+
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
@@ -165,11 +166,71 @@ saudacao1.innerText = `${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o
 const saudacao2 = document.getElementsByClassName('saudacao')[1];
 saudacao2.innerText = `Olá, ${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
 
-// função para modal
 
-async function openModal() {
-    const modal = document.getElementById('')
+// renderizar solicitações na table
+async function carregarSolicitacoesCompras() {
+    const cod_curso = '60';
+    const dadosCursoArray = await dadosSolicitacao(cod_curso);
+    // Extrai o primeiro elemento do array (esperando que a API sempre retorne uma lista)
+    const dadosCurso = dadosCursoArray[0];
+    console.log("Dados do curso:", dadosCurso);
+    // Formata as datas para exibição
+    const dataInicio = new Date(dadosCurso.data_inicio).toLocaleDateString('pt-BR');
+    const dataFim = new Date(dadosCurso.data_fim).toLocaleDateString('pt-BR');
+    // Renderiza os dados no frontend
+    const info = document.getElementById('info');
+    info.innerHTML = `
+                    <div>
+                        <div><b>Cód Curso:</b> ${dadosCurso.cod}</div>
+                        <div><b>Curso:</b> ${dadosCurso.nome}</div>
+                        <div><b>Turno:</b> ${dadosCurso.turno}</div>
+                        <div><b>Período:</b> ${dataInicio} à ${dataFim}</div>
+                        <div><b>Modalidade:</b> ${dadosCurso.modalidade}</div>
+                    </div>
+                    <div>
+                        <div><b>Financiamento:</b><p> ${dadosCurso.financiamento}</p></div>
+                        <div><b>Docente:</b> ${dadosCurso.docente}</div>
+                        <div><b>CH Total:</b> ${dadosCurso.ch_total} horas</div>
+                        <div><b>Matrículas previstas:</b> ${dadosCurso.matriculas_previstas}</div>
+                        <div><b>Localidade:</b> ${dadosCurso.localidade}</div>
+                    </div>`
+    const bodyTable = document.getElementById('body-table');
+    const docentesoli = await getSolicitacoesCompras();
+    console.log(docentesoli);
+    document.getElementById('name-kit').innerText = `Kit de Periféricos`;
+    const numerosSolicitacao = docentesoli.map(item => item.numero_solicitacao).join(', ');
+    document.getElementById('num-solic').innerText = `Número de solicitações: ${numerosSolicitacao}`;
+    function preencherTabela(docentesoli) {
+        bodyTable.innerHTML = '';
+        docentesoli.forEach(docsoli => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td class="cod_produto">${docsoli.cod_produto}</td>
+            <td class="descricao">${docsoli.descricao}</td>
+            <td class="qnt_max">${docsoli.qnt_max}</td>
+            <td class="unidade_medida">${docsoli.unidade_medida}</td>
+            <td class="saldo">${docsoli.saldo}</td>
+            <td class="qnt-req">${docsoli.qnt_requerida}</td>`;
+            bodyTable.appendChild(row);
+        });
+    }
+    preencherTabela(docentesoli);
 }
+//
+document.querySelector('#openModal-solicitacao').addEventListener('click', carregarSolicitacoesCompras);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

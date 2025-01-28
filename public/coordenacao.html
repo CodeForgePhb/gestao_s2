@@ -53,7 +53,7 @@
                 <h2 class="saudacao">Olá, </h2>
                 <!-- Menus com botões -->
                 <div class="tabs">
-                    <div class="tab cursos active" data-tab="cursos">Cursos</div>
+                    <div class="tab cursos active" data-tab="cursos">Cadastro</div>
                     <div class="tab registro" data-tab="registros">Registros</div>
                     <div class="tab status" data-tab="status" id="tabStatus">Status</div>
                 </div>
@@ -68,13 +68,13 @@
                         <div class="icone-mais">
                             <img src="./assets/icons/plus-solid.svg" alt="">
                         </div>
-                        <b id="docente-menu">Docente</b>
+                        <b id="docente-menu">Docentes</b>
                     </div>
                     <div id="segundo" class="button toggle-button" data-content="curso">
                         <div class="icone-mais">
                             <img src="./assets/icons/plus-solid.svg" alt="">
                         </div>
-                        <b>Curso</b>
+                        <b>Cursos</b>
                     </div>
                     <div id="terceiro" class="button toggle-button" data-content="material">
                         <div class="icone-mais">
@@ -212,12 +212,11 @@
     <!-- MODAL SOLICITAÇÕES -->
     <div class="modal-s">
         <div class="modal" id="kit-Modal">
-            <div class="modal-header">
-                <img src="./assets/logo-2.svg" class="logo-2" alt="logo">
+        <div class="modal-header">
                 <h2>Solicitação dos Kits</h2>
             </div>
             <div class="modal-body">
-                <h3>Solicitação nº 000000</h3>
+                <h3 id="num-solic">Solicitação nº 000000</h3>
                 <div class="info info2" id="info">
                     <!-- conteudo da api -->
                 </div>

@@ -1,9 +1,14 @@
-import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getNome, logoutUser, monitorarTokenExpiracao, buscarSolicitacaoGestao } from '../api.js'; // Ajuste o caminho conforme necessário
+import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature,
+    getNome, logoutUser, monitorarTokenExpiracao, buscarSolicitacaoGestao, 
+    getSolicitacoesEmAndamentoGestao, dadosSolicitacao, trocaParaCompras } from '../api.js'; // Ajuste o caminho conforme necessário
 
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
     getAssinatura();
+    getNome();
+    carregarSolicitacoesEmAndamento();
+    buscarSolicitacoesEmAndamentoGestao();
 };
 //FOTO PERFIL
 document.addEventListener('DOMContentLoaded', async () => {
@@ -167,34 +172,116 @@ document.querySelector('#btnLogout').addEventListener('click', async (event) => 
 });
 
 //GET DE SOLICITAÇOES EM ANDAMENTO
-
-async function carregarSolicitacoes() {
-    const solicitacoes = await buscarSolicitacaoGestao();
-    console.log(solici)
-    const div = document.getElementById('solicitacoes');
-    div.innerHTML = ''; // Limpa o conteúdo antes de adicionar as novas transações
-    // Verificar se o array está vazio
-    if (!cursos.cursos || cursos.cursos.length === 0) {
-        console.log('Nenhuma solicitação concluída.'); // Loga se não houver transações
+async function carregarSolicitacoesEmAndamento() {
+    const contentStatus = document.querySelector('#solicitacoes');
+    const solicitacoesEmAndamento = await getSolicitacoesEmAndamentoGestao();
+    //console.log('Dados recebidos:', solicitacoesEmAndamento); // Loga os dados recebidos
+    //console.log('É um array?', Array.isArray(solicitacoesEmAndamento)); // Confirma se é um array
+    //console.log('Tamanho do array:', solicitacoesEmAndamento.length); // Verifica o tamanho do array
+    //
+    if (!Array.isArray(solicitacoesEmAndamento) || solicitacoesEmAndamento.length === 0) {
+        console.log('Nenhuma solicitação encontrada.'); // Loga se não houver transações
         const divInterna = document.createElement('div'); // Cria uma nova div.
-        divInterna.classList.add('course');
-        divInterna.innerHTML = `<span>Nenhuma solicitação concluída.</span>`; // Exibir uma mensagem informando que não há transações
-        div.appendChild(divInterna); // Adiciona a linha na tabela
+        divInterna.classList.add('solicitacao');
+        divInterna.innerHTML = `<span>Nenhuma solicitação encontrada.</span>`; // Exibir uma mensagem informando que não há transações
+        contentStatus.appendChild(divInterna); // Adiciona a linha na tabela
         return; // Sai da função, já que não há transações a serem exibidas
     }
     // Itera sobre a lista de solicitações e cria uma linha de dados para cada solicitação
-    solicitacoes.forEach(solicitacao => {
+    solicitacoesEmAndamento.forEach(solAndam => {
         const divInterna = document.createElement('div'); // Criar uma nova linha
-        divInterna.classList.add('course');
+        divInterna.classList.add('solicitacao');
         divInterna.innerHTML = `
-            <h2 class="course-title">${solicitacao.numero_solicitacao}</h2>
-            <p class="course-date"> <strong>Concluído<i class="fa-solid fa-check"></i></strong></p>
+            <div class="accordion-header">              
+                <span id="num-sol">${solAndam.numero_solicitacao}</span>
+                <span id="nivel-sol">Setor: ${solAndam.setor_atual}</span>
+                <span class="arrow"><i class="fa-solid fa-chevron-down" style="color: #808080;"></i></span>
+            </div>
+            <div class="accordion-content">
+                <div class="inf">
+                    <span><strong>Cód Produto</strong> ${solAndam.cod_produto}</span>
+                    <span><strong>Descrição</strong> ${solAndam.descricao}</span>
+                    <span><strong>Unid de Medida</strong> ${solAndam.unidade_medida}</span>
+                    <span><strong>Qnt Requerida</strong> ${solAndam.qnt_requerida}</span>
+                </div>
+                <button onclick="openModal()" type="submit" class="curso_nome" value="${solAndam.id}" id="${solAndam.numero_solicitacao}">Responder Solicitação</button>
+            </div>
         `;
-        div.appendChild(divInterna); // Adiciona à tabela
+        contentStatus.appendChild(divInterna); // Adiciona à tabela
+    });
+    // Adiciona funcionalidade de accordion
+    document.querySelectorAll('.solicitacao').forEach(solicitacao => {
+        solicitacao.addEventListener('click', () => {
+            const content = solicitacao.querySelector('.accordion-content');
+            const arrowIcon = solicitacao.querySelector('.arrow i'); // Seleciona o <i>
+            if (content.classList.contains('show')) {
+                content.classList.remove('show'); // Fecha
+                arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
+            } else {
+                content.classList.add('show'); // Abre
+                arrowIcon.style.transform = 'rotate(180deg)'; // Rotaciona
+            }
+        });
+    });
+}
+async function buscarSolicitacoesEmAndamentoGestao() {
+    const cod_curso = '60';
+    const dadosCursoArray = await dadosSolicitacao(cod_curso);
+    // Extrai o primeiro elemento do array (esperando que a API sempre retorne uma lista)
+    const dadosCurso = dadosCursoArray[0];
+    console.log("Dados do curso:", dadosCurso);
+    // Formata as datas para exibição
+    const dataInicio = new Date(dadosCurso.data_inicio).toLocaleDateString('pt-BR');
+    const dataFim = new Date(dadosCurso.data_fim).toLocaleDateString('pt-BR');
+    // Renderiza os dados no frontend
+    const info = document.getElementById('info');
+    info.innerHTML = `
+                    <div>
+                        <div><b>Cód Curso:</b> ${dadosCurso.cod}</div>
+                        <div><b>Curso:</b> ${dadosCurso.nome}</div>
+                        <div><b>Turno:</b> ${dadosCurso.turno}</div>
+                        <div><b>Período:</b> ${dataInicio} à ${dataFim}</div>
+                        <div><b>Modalidade:</b> ${dadosCurso.modalidade}</div>
+                    </div>
+                    <div>
+                        <div><b>Financiamento:</b><p> ${dadosCurso.financiamento}</p></div>
+                        <div><b>Docente:</b> ${dadosCurso.docente}</div>
+                        <div><b>CH Total:</b> ${dadosCurso.ch_total} horas</div>
+                        <div><b>Matrículas previstas:</b> ${dadosCurso.matriculas_previstas}</div>
+                        <div><b>Localidade:</b> ${dadosCurso.localidade}</div>
+                    </div>`
+    const bodyTable = document.getElementById('body-table');
+    const docentesoli = await getSolicitacoesEmAndamentoGestao();
+    console.log(docentesoli);
+    document.getElementById('name-kit').innerText = `Kit de Periféricos`;
+    const numerosSolicitacao = docentesoli.map(item => item.numero_solicitacao).join(', ');
+    document.getElementById('num-solic').innerText = `Número de solicitações: ${numerosSolicitacao}`;
+    function preencherTabela(docentesoli) {
+        bodyTable.innerHTML = '';
+        docentesoli.forEach(docsoli => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td class="cod_produto">${docsoli.cod_produto}</td>
+            <td class="descricao">${docsoli.descricao}</td>
+            <td class="qnt_max">${docsoli.qnt_max}</td>
+            <td class="unidade_medida">${docsoli.unidade_medida}</td>
+            <td class="saldo">${docsoli.saldo}</td>
+            <td class="qnt-req">${docsoli.qnt_requerida}</td>`;
+            bodyTable.appendChild(row);
+        });
+    }
+    preencherTabela(docentesoli);
+    document.getElementById('openModalBtn').addEventListener('click', async () => {
+        //aqui
+        const trocarDado = await trocaParaCompras();
+        console.log(trocarDado);
     });
 }
 
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
-    carregarSolicitacoes()
+    carregarSolicitacoes(),
+    buscarSolicitacoesEmAndamentoGestao(),
+    carregarSolicitacoesEmAndamento()
 });
+    

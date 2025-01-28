@@ -1,16 +1,27 @@
 
-// const express = require('express');
-// const db = require('../db'); // Importar a conexão com o banco
-// const router = express.Router();
-
-// import express from 'express';
-// import db from '../db'; // Importa a conexão com o banco
-// import router from express.Router();
-
-
 import db from '../config/db.js'; // Importa a conexão com o banco
 import jwt from 'jsonwebtoken';
 
+
+//visualizar soliticações em andamento
+export const buscarSolicitacaoEmAndamentoGestao = async (req, res) => {
+    const setorAtual = 'gestao';
+    const statusSolicitacao = 'em andamento';
+    try {
+        //
+        const [ result ] = await db.query(`
+            SELECT * FROM solicitacoes WHERE setor_atual = ? AND status = ?`, [setorAtual, statusSolicitacao]);
+    
+        if(result.length === 0) {
+            return res.status(404).json({message: 'não há solicitações em andamento'})
+        }
+        //
+        return res.json(result);
+    } catch(error) {
+        console.error('erro encontrado: ', error);
+        return res.status(500).json({error});
+    }
+}
 
 // Função para buscar cursos
 export const getCursos = async () => {
@@ -166,21 +177,28 @@ export const buscarSolicitacaoEmAndamento = async (req, res) => {
 }
 
 //visualizar solicitacoes encaminhadas
-export const buscarSolicitacaoEncaminhada = async (req, res) => {
-    const setorAtual = 'setor de compras';
-    
+export const atualizarSetorDaSolicitacao = async (req, res) => {
+    const setorAtual = 'gestao';
+    const statusSolicitacao = 'em andamento';
+    const proximoSetor = 'compras'
     try {
-        const [ result ] = await db.query(`SELECT * from solicitacoes WHERE setor_atual = ?`, [setorAtual]);
-    //
-    if(result.length === 0) {
-        //console.log('Nenhuma solicitação existente');
-        return res.status(404).json({message: 'nenhuma solicitação'})
-    }
-    //console.log(result)
-    return res.json(result);
+        //
+        const [ gestao ] = await db.query(`
+            SELECT * FROM solicitacoes WHERE setor_atual = ? AND status = ?`, [setorAtual, statusSolicitacao]);
+        
+        if(coordenacao.length === 0) {
+            return res.status(404).json({message: 'não há solicitações em andamento'})
+        }
+        //
+        const result = await db.query (`
+            UPDATE solicitacoes
+            SET setor_atual = ?
+            WHERE setor_atual = ?;
+        `, [proximoSetor, setorAtual])
 
+        return res.json(result);
     } catch(error) {
-        console.error('Erro encontrado: ', error);
+        console.error('erro encontrado: ', error);
         return res.status(500).json({error});
     }
 }

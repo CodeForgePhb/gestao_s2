@@ -36,18 +36,17 @@
 
     <div class="profile">
       <div class="avatar">
-          <img src="" alt="Avatar" class="profile-image" id="img-perfil">
+        <img src="" alt="Avatar" class="profile-image" id="img-perfil">
       </div>
       <div class="info">
-          <span class="name saudacao">Name</span>
-          <span class="func">Gestor</span>
+        <span class="name saudacao">Name</span>
+        <span class="func">Gestor</span>
       </div>
       <div class="logout">
-          <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
-          <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;"
-                  id="perfil"></i></button>
+        <button><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;" id="btnLogout"></i></button>
+        <button id="openProfileModal"><i class="fa-solid fa-gear" style="color: #ffffff;" id="perfil"></i></button>
       </div>
-  </div>
+    </div>
 
   </div>
   <div class="main">
@@ -60,27 +59,28 @@
       </div>
       <div><img src="./assets/logo_gestao_s.svg" alt="logo_gestao_s" class="logo"></div>
     </div>
-    
-    <section class="content" id="status">
-      <div class="nome-com-linha">
-        <span class="nome">Em Andamento</span>
-      </div>
-      <div class="solicitacoes">
-        
 
-      </div>
-      <div class="nome-com-linha">
-        <span class="nome title">Concluídos</span>
-      </div>
-      <div class="search-filters">
-        <input type="date" placeholder="dd/mm/aaaa">
-        <input type="date" placeholder="dd/mm/aaaa">
-        <input type="text" placeholder="Busque por cursos concluídos...">
-        <button>Buscar</button>
-      </div>
-      <div class="content-wrapper" id="content-wrapper">
-        
-      </div>
+    <section class="content" id="status">
+      <div>
+        <div class="nome-com-linha">
+            <span class="nome">Solicitações</span>
+        </div>
+        <div class="courses" id="solicitacoes">
+            <!-- conteudo da api -->
+        </div>
+        <div class="nome-com-linha">
+            <span class="nome">Concluídos</span>
+        </div>
+        <div class="search-filters">
+          <input type="date" placeholder="dd/mm/aaaa">
+          <input type="date" placeholder="dd/mm/aaaa">
+          <input type="text" placeholder="Busque por cursos concluídos...">
+          <button>Buscar</button>
+        </div>
+        <div class="courses" id="concluidos">
+            <!-- conteudo da api -->
+        </div>
+    </div>
     </section>
   </div>
   <!-- MODAL SOLICITAÇÕES -->
@@ -88,84 +88,39 @@
   <div class="modal-s">
     <div class="modal" id="kit-Modal">
       <div class="modal-header">
-        <img src="./assets/logo-2.svg" class="logo-2" alt="logo">
-        <h2>Solicitação dos Kits</h2>>:
+        <h2>Solicitação dos Kits</h2>
       </div>
       <div class="modal-body">
-        <div class="search-bar">
-          <select id="selecao" required>
-          </select>
-          <button id="buscar-materiais">Buscar</button>
-          <div id="result"></div>
-        </div>
-        <div class="info">
-          <div>
-            <div><b>Cód Curso:</b> 000001</div>
-            <div><b>Curso:</b> Técnico em Informática</div>
-            <div><b>Turno:</b> Manhã</div>
-          </div>
-          <div><b>Período:</b> 01/01/2025 à 01/12/2025</div>
-          <div>
-            <div><b>Modalidade:</b> Qualificação</div>
-            <div><b>Linha de ação:</b> Gratuidade</div>
-            <div><b>Professor:</b> Turiano</div>
-          </div>
+        <h3 id="num-solic">Solicitação nº 000000</h3>
+        <div class="info info2" id="info">
+          <!-- conteudo da api -->
         </div>
         <table class="table" id="table-materiais">
           <thead>
             <tr>
-              <th>COD. PROTHEUS</th>
-              <th>PRODUTO</th>
-              <th>QUANTIDADE MAX</th>
-              <th>UNIDADE</th>
-              <th>SALDO</th>
-              <th>QUANTIDADE REQUERIDA</th>
+              <th colspan="6" style="text-align: center; border: 1px solid #000;" id="name-kit"></th>
+            </tr>
+            <tr>
+              <th colspan="1">COD. PROTHEUS</th>
+              <th colspan="1">PRODUTO</th>
+              <th colspan="1">QUANTIDADE MAX</th>
+              <th colspan="1">UNIDADE</th>
+              <th colspan="1">SALDO</th>
+              <th colspan="1">QUANTIDADE REQUERIDA</th>
             </tr>
           </thead>
           <tbody id="body-table">
-            <!-- <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <button onclick="decreaseValue(this)" class="btn-cont">-</button>
-                                <input type="number" value="0" min="0" style="width: 40px; text-align: center;"
-                                    onchange="validateValue(this)">
-                                <button class="add" onclick="increaseValue(this)">+</button>
-                                <button class="delete" onclick="deleteRow(this)">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <button onclick="decreaseValue(this)" class="btn-cont">-</button>
-                                <input type="number" value="0" min="0" style="width: 40px; text-align: center;"
-                                    onchange="validateValue(this)">
-                                <button class="add" onclick="increaseValue(this)">+</button>
-                                <button class="delete" onclick="deleteRow(this)">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr> -->
+            <!-- dados do servidor -->
           </tbody>
         </table>
         <div class="additional-materials">
           <label for="additional">MATERIAIS ADICIONAIS</label>
-          <textarea id="additional"
-            placeholder="Uma pasta vermelha e verde uma verde para organização de documentos. Quantidade: 5"></textarea>
+          <textarea id="additional" placeholder="Docente não solicitou materiais adicionais."></textarea>
         </div>
       </div>
       <div class="modal-footer">
         <button class="cancel" onclick="closeModal()">Cancelar</button>
-        <button id="openModalBtn">Enviar</button>
+        <button id="openModalBtn" type="submit">Aceitar</button>
       </div>
     </div>
   </div>
@@ -202,144 +157,144 @@
   <!-- MODAL CONFIG -->
   <div class="custom-modal" id="profileModal">
     <div class="custom-modal-content">
-        <div class="modal-header">
-            <h2>PERFIL</h2>
-            <div class="close-button">
-                <span class="custom-close" id="closeProfileModal">
-                    <i class="fa-solid fa-x" style="color: #808080;"></i>
-                </span>
-            </div>
+      <div class="modal-header">
+        <h2>PERFIL</h2>
+        <div class="close-button">
+          <span class="custom-close" id="closeProfileModal">
+            <i class="fa-solid fa-x" style="color: #808080;"></i>
+          </span>
         </div>
-        <div class="fot">
-            <img src="" alt="Foto de Perfil" id="profileImage">
+      </div>
+      <div class="fot">
+        <img src="" alt="Foto de Perfil" id="profileImage">
+      </div>
+      <div class="modal-body">
+        <p>Imagem do Perfil:</p>
+        <div class="img-troca">
+          <label for="newProfileImage" class="Profile">
+            <i class="fa-solid fa-upload" style="color: #ffffff;"></i>
+            Alterar Imagem
+          </label>
+          <input type="file" id="newProfileImage" class="custom-file-input">
         </div>
-        <div class="modal-body">
-            <p>Imagem do Perfil:</p>
-            <div class="img-troca">
-                <label for="newProfileImage" class="Profile">
-                    <i class="fa-solid fa-upload" style="color: #ffffff;"></i>
-                    Alterar Imagem
-                </label>
-                <input type="file" id="newProfileImage" class="custom-file-input">
+        <button for="SaveProfileImage" class="custom-file-label" id="saveProfileImage">Salvar</button>
+        <div class="container">
+          <h1 id="SignatureTittle">Assinatura Digital</h1>
+          <p>Registre a sua assinatura digital abaixo.</p>
+          <div class="signature-container" id="signature-container">
+            <canvas id="signatureCanvas"></canvas>
+            <div>
+              <button class="btn1" id="limpar">Limpar</button>
+              <button id="saveSignatureImage">Salvar Assinatura</button>
             </div>
-            <button for="SaveProfileImage" class="custom-file-label" id="saveProfileImage">Salvar</button>
-            <div class="container">
-                <h1 id="SignatureTittle">Assinatura Digital</h1>
-                <p>Registre a sua assinatura digital abaixo.</p>
-                <div class="signature-container" id="signature-container">
-                    <canvas id="signatureCanvas"></canvas>
-                    <div>
-                        <button class="btn1" id="limpar">Limpar</button>
-                        <button id="saveSignatureImage">Salvar Assinatura</button>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
   <script>
     // // Abrir e fechar o modal
-     document.getElementById("openProfileModal").addEventListener("click", function () {
-       document.getElementById("profileModal").style.display = "block";
-     });
-     document.getElementById("closeProfileModal").addEventListener("click", function () {
-       document.getElementById("profileModal").style.display = "none";
-     });
-     // Fechar o modal ao clicar fora do conteúdo
-     window.addEventListener("click", function (event) {
-       const modal = document.getElementById("profileModal");
-       if (event.target === modal) {
-         modal.style.display = "none";
-       }
-     });
-    // function decreaseValue(button) {
-    //   const input = button.nextElementSibling;
-    //   const value = parseInt(input.value);
-    //   if (value > 0) {
-    //     input.value = value - 1;
-    //   }
-    // }
-    // function increaseValue(button) {
-    //   const input = button.previousElementSibling;
-    //   input.value = parseInt(input.value) + 1;
-    // }
-    // function validateValue(input) {
-    //   if (input.value < 0) {
-    //     input.value = 0;
-    //   }
-    // }
-    // function deleteRow(button) {
-    //   const row = button.closest('tr'); // Localiza a linha mais próxima do botão clicado
-    //   row.remove(); // Remove a linha
-    // }
-    // // Seleciona elementos do DOM
-    // const confirmModal = document.getElementById('confirmModal');
-    // const successModal = document.getElementById('successModal');
-    // const cancelBtn = document.getElementById('cancelBtn');
-    // const sendBtn = document.getElementById('sendBtn');
-    // const okBtn = document.getElementById('okBtn');
-    // const tabs = document.querySelectorAll('.tab');
-    // const contents = document.querySelectorAll('.content');
-    // // Função para abrir o modal principal       
-    // function openModal() {
-    //   const kitModal = document.getElementById('kit-Modal').style.display = 'block';
-    // }
-    // // Fecha o modal principal
-    // function closeModal() {
-    //   const kitModal = document.getElementById('kit-Modal').style.display = 'none';
-    //   const tbody = document.getElementById('body-table');
-    //   const result = document.getElementById('result');
-    //   result.innerHTML = '';
-    //   tbody.innerHTML = '';
-    // }
-    // // Fecha o modal de confirmação
-    // cancelBtn.addEventListener('click', () => {
-    //   confirmModal.style.display = 'none';
-    // });
-    // // Abre o modal de confirmação
-    // document.getElementById('openModalBtn').addEventListener('click', () => {
-    //   confirmModal.style.display = 'flex';
-    // });
-    // // Abre o modal de sucesso
-    // sendBtn.addEventListener('click', () => {
-    //   confirmModal.style.display = 'none';
-    //   successModal.style.display = 'flex';
-    //   closeModal();
-    // });
-    //  //Função para ativar uma aba específica
-    //  function activateTab(tabName) {
-    // //   // Remove a classe ativa de todas as abas e conteúdos
-    //    tabs.forEach(tab => tab.classList.remove('active'));
-    //    contents.forEach(content => content.classList.remove('active'));
-    // //   // Adiciona a classe ativa à aba e ao conteúdo correspondente
-    //    const targetTab = document.querySelector(`.tab.${tabName}`);
-    //    const targetContent = document.getElementById(tabName);
-    //    if (targetTab && targetContent) {
-    //      targetTab.classList.add('active');
-    //      targetContent.classList.add('active');
-    //    }
-    //  }
-    //  // Redireciona para a aba "Status" e fecha todos os modais ao clicar em OK
-    //  okBtn.addEventListener('click', () => {
-    //    successModal.style.display = 'none'; // Fecha o modal de sucesso
-    //    const kitModal = document.getElementById('kitModal');
-    //    if (kitModal) {
-    //      kitModal.style.display = 'none'; // Fecha o modal principal de solicitação
-    //    }
-    //    activateTab('status'); // Ativa a aba "Status" e seu conteúdo
-    //  });
-    // // // Gerencia cliques manuais nas abas
-    //  tabs.forEach(tab => {
-    //    tab.addEventListener('click', () => {
-    //      // Remover a classe ativa de todas as abas e conteúdos
-    //      tabs.forEach(t => t.classList.remove('active'));
-    //      contents.forEach(c => c.classList.remove('active'));
-    //      // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
-    //      tab.classList.add('active');
-    //      const target = document.getElementById(tab.dataset.tab);
-    //      target.classList.add('active');
-    //    });
-    //  });
+    document.getElementById("openProfileModal").addEventListener("click", function () {
+      document.getElementById("profileModal").style.display = "block";
+    });
+    document.getElementById("closeProfileModal").addEventListener("click", function () {
+      document.getElementById("profileModal").style.display = "none";
+    });
+    // Fechar o modal ao clicar fora do conteúdo
+    window.addEventListener("click", function (event) {
+      const modal = document.getElementById("profileModal");
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+    function decreaseValue(button) {
+      const input = button.nextElementSibling;
+      const value = parseInt(input.value);
+      if (value > 0) {
+        input.value = value - 1;
+      }
+    }
+    function increaseValue(button) {
+      const input = button.previousElementSibling;
+      input.value = parseInt(input.value) + 1;
+    }
+    function validateValue(input) {
+      if (input.value < 0) {
+        input.value = 0;
+      }
+    }
+    function deleteRow(button) {
+      const row = button.closest('tr'); // Localiza a linha mais próxima do botão clicado
+      row.remove(); // Remove a linha
+    }
+    // Seleciona elementos do DOM
+    const confirmModal = document.getElementById('confirmModal');
+    const successModal = document.getElementById('successModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const sendBtn = document.getElementById('sendBtn');
+    const okBtn = document.getElementById('okBtn');
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.content');
+    // Função para abrir o modal principal
+    function openModal() {
+      const kitModal = document.getElementById('kit-Modal').style.display = 'block';
+    }
+    // Fecha o modal principal
+    function closeModal() {
+      const kitModal = document.getElementById('kit-Modal').style.display = 'none';
+      const tbody = document.getElementById('body-table');
+      const result = document.getElementById('result');
+      result.innerHTML = '';
+      tbody.innerHTML = '';
+    }
+    // Fecha o modal de confirmação
+    cancelBtn.addEventListener('click', () => {
+      confirmModal.style.display = 'none';
+    });
+    // Abre o modal de confirmação
+    document.getElementById('openModalBtn').addEventListener('click', () => {
+      confirmModal.style.display = 'flex';
+    });
+    // Abre o modal de sucesso
+    sendBtn.addEventListener('click', () => {
+      confirmModal.style.display = 'none';
+      successModal.style.display = 'flex';
+      closeModal();
+    });
+    //Função para ativar uma aba específica
+    function activateTab(tabName) {
+      //   // Remove a classe ativa de todas as abas e conteúdos
+      tabs.forEach(tab => tab.classList.remove('active'));
+      contents.forEach(content => content.classList.remove('active'));
+      //   // Adiciona a classe ativa à aba e ao conteúdo correspondente
+      const targetTab = document.querySelector(`.tab.${tabName}`);
+      const targetContent = document.getElementById(tabName);
+      if (targetTab && targetContent) {
+        targetTab.classList.add('active');
+        targetContent.classList.add('active');
+      }
+    }
+    // Redireciona para a aba "Status" e fecha todos os modais ao clicar em OK
+    okBtn.addEventListener('click', () => {
+      successModal.style.display = 'none'; // Fecha o modal de sucesso
+      const kitModal = document.getElementById('kitModal');
+      if (kitModal) {
+        kitModal.style.display = 'none'; // Fecha o modal principal de solicitação
+      }
+      activateTab('status'); // Ativa a aba "Status" e seu conteúdo
+    });
+    // // Gerencia cliques manuais nas abas
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remover a classe ativa de todas as abas e conteúdos
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
+        tab.classList.add('active');
+        const target = document.getElementById(tab.dataset.tab);
+        target.classList.add('active');
+      });
+    });
     //FIM DO SCRIPT PARA INTERAÇÕES DA PÁGINA GESTAO.HTML ----------------------------------------------------
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>

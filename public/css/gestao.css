@@ -171,6 +171,7 @@ body {
   background-color: #ffffff;
   border-radius: 8px;
   height: 85%;
+  overflow-y: scroll;
 }
 
 /* FIM  */
@@ -184,7 +185,7 @@ body {
 .courses h3 {
   margin-bottom: 15px;
 }
-.course {
+.course, .solicitacao {
   background-color: #f3f3f3;
   padding: 15px;
   border-radius: 5px;
@@ -197,6 +198,9 @@ body {
   box-sizing: border-box;
   flex-direction: column;
 }
+
+
+
 section {
   height: 97%;
   /* Define a altura do pai */
@@ -204,10 +208,10 @@ section {
   position: relative;
   padding: 10px;
 }
-.course:hover {
+.course:hover, .solicitacao:hover {
   background-color: #eaeaea;
 }
-.course .arrow {
+.course .arrow, .solicitacao .arrow {
   font-size: 1.2em;
   color: #666;
 }
@@ -289,14 +293,36 @@ h3 {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 100%;
+  margin-bottom: 5px;
 }
 .accordion-header:hover {
   background-color: #eaeaea;
 }
+
 .accordion-content {
-  padding: 15px;
+  /* padding: 15px;
   width: 100%;
-  height: 130px;
+  height: 130px; */
+  display: none;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  width: 100%;
+}
+.accordion-content .inf {
+  margin: 15px;
+  height: 40%;
+}
+.accordion-content .inf span {
+  width: 100%;
+}
+.accordion-content.show {
+  max-height: 500px;
+  display: block;
+  /* Valor grande o suficiente para acomodar o conteúdo */
+  opacity: 1;
 }
 .course-c {
   background-color: #ddd;
@@ -340,7 +366,7 @@ span strong {
   font-size: 12px;
   transition: transform 0.3s;
 }
-.course .arrow {
+.course .arrow , .solicitacao .arrow{
   font-size: 10pt;
 }
 .arrow.down {
@@ -396,6 +422,8 @@ span strong {
 }
 .modal-body {
   padding: 16px;
+  height: 500px;
+  overflow-y: scroll;
 }
 .search-bar {
   margin-bottom: 16px;
@@ -428,6 +456,15 @@ span strong {
   width: 100%;
   justify-content: space-between;
 }
+
+.info2 {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+
 .info b {
   display: inline-block;
   width: 100px;
@@ -899,3 +936,4 @@ input[type="file"] {
 .assinatura {
   margin: 15px auto 15px auto;
 }
+

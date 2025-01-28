@@ -814,6 +814,87 @@ export async function getSolicitacoesEmAndamento ()  {
         return { message: error.message };
     }
 }
+
+export async function getSolicitacoesEmAndamentoGestao()  {
+    const token = localStorage.getItem('token');
+    //
+    try {
+        const response = await fetch(`${API_URL}/routes/buscar-solicitacoes-gestao`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        //
+        if(!response.ok) {
+            throw new Error('Erro ao solicitar materiais');
+        }
+        if(response.length === 0 ) {
+            console.log('Nenhuma solicitação encontrada');
+        return await res.status(404).json({message: 'nada encontrado'})
+        }
+        const result = await response.json()
+        return result;
+    } catch(error) {
+        console.error('Erro na requisição: ', error);
+        return { message: error.message };
+    }
+}
+
+export async function trocaParaGestao()  {
+    const token = localStorage.getItem('token');
+    //
+    try {
+        const response = await fetch(`${API_URL}/routes/updt-setor`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        //
+        if(!response.ok) {
+            throw new Error('Erro ao solicitar update');
+        }
+        if(response.length === 0 ) {
+            console.log('Nenhuma solicitação encontrada');
+        return await res.status(404).json({message: 'nada encontrado'})
+        }
+        const result = await response.json()
+        console.log(result);
+        return result;
+    } catch(error) {
+        console.error('Erro na requisição: ', error);
+        return { message: error.message };
+    }
+}
+
+export async function trocaParaCompras()  {
+    const token = localStorage.getItem('token');
+    //
+    try {
+        const response = await fetch(`${API_URL}/routes/updt-setor-compras`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        //
+        if(!response.ok) {
+            throw new Error('Erro ao solicitar update');
+        }
+        if(response.length === 0 ) {
+            console.log('Nenhuma solicitação encontrada');
+        return await res.status(404).json({message: 'nada encontrado'})
+        }
+        const result = await response.json()
+        console.log(result);
+        return result;
+    } catch(error) {
+        console.error('Erro na requisição: ', error);
+        return { message: error.message };
+    }
+}
+
 // api para visualizar as solicitações concluídas ou encaminhadas
 export async function getSolicitacoesEncaminhadas() {
     const token = localStorage.getItem('token');
@@ -947,6 +1028,30 @@ export async function getSolicitacoesCompras() {
     }
 }
 
+export async function getCursosCompras() {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`${API_URL}/routes/todos-cursos`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        //
+        if(!response.ok) {
+            throw new Error('Erro encontrado');
+        }
+
+        if(response.lengt === 0) {
+            return res.send('Nenhum curso encontrado');
+        }
+        return response.json();
+        //
+    } catch(error) {
+        console.error('Erro ao buscar cursos', error);
+        return {message: error.message};
+    }
+}
 
 
 

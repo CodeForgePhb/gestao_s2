@@ -548,13 +548,17 @@ span.arrow.down {
 .modal-header {
     background: linear-gradient(180deg, #163193 0%, #0f246d 100%);
     color: white;
-    padding: 16px;
     text-align: center;
     display: flex;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 1.5rem;
+    gap: 15px;
+    margin-bottom: 20px;
 }
-
 .modal-header h2 {
     margin: 0;
     text-align: center;
@@ -562,11 +566,10 @@ span.arrow.down {
     font-size: 15pt;
 }
 
-
 .modal-body {
     padding: 16px;
-
-
+    height: 500px;
+    overflow-y: scroll;
 }
 
 .search-bar {
@@ -601,6 +604,13 @@ span.arrow.down {
 .info {
 
     font-size: 14px;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.info2 {
+    display: flex;
     gap: 10px;
     width: 100%;
     justify-content: space-between;

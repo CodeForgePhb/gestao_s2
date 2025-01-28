@@ -30,7 +30,7 @@ router.post('/add-material', authMiddleware,controllerCoordenacao.addMateriais);
 
 router.delete('/curso-vigente/:id_curso', authMiddleware,controllerCoordenacao.delCursoVigente);
 router.delete('/docente/:id', authMiddleware,controllerCoordenacao.delDocente);
-
+router.put('/updt-setor', authMiddleware,controllerCoordenacao.atualizarSetorDaSolicitacao);
 
 //----------------Docente----------------------------------------------------------------------------------------------
 router.get('/cursos-vigentes', authMiddleware,controllerDocente.buscarCursosVigentes);
@@ -51,12 +51,14 @@ router.post('/adicionar-solicitacao', authMiddleware, controllerDocente.addSolic
 
 //=-=-==-=-=-=-==-== GESTÃO -=-=-=--===-=-=-=====-=-=-=--=
 
-router.get('/buscar-solicitacoes-gestao', authMiddleware, controllerGestao.buscarSolicitacaoEmAndamento);
-router.get('/buscar-solicitacoes-gestao-concluidas', authMiddleware, controllerGestao.buscarSolicitacaoEncaminhada);
+router.get('/buscar-solicitacoes-gestao', authMiddleware, controllerGestao.buscarSolicitacaoEmAndamentoGestao);
+//router.get('/buscar-solicitacoes-gestao-concluidas', authMiddleware, controllerGestao.buscarSolicitacaoEncaminhada);
+router.put('/updt-setor-compras', authMiddleware,controllerCoordenacao.atualizarSetorDaSolicitacao);
 
 //-------------Setor de compras------------
 
-router.get('/solicitacoes-compras', controllerCompras.buscarSolicitacaoCompras);
+router.get('/solicitacoes-compras', controllerCompras.buscarSolicitacaoEmAndamentoCompras);
+router.get('/todos-cursos', controllerCompras.buscarCursosCompras);
 
 
 export default router; // Exporta o roteador como padrão

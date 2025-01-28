@@ -334,7 +334,7 @@ async function carregarCursosVigentes() {
                     <div><b>Modalidade:</b> ${dadosCurso.modalidade}</div>
                 </div>
                 <div>
-                    <div><b>Financiamento:</b> ${dadosCurso.financiamento}</div>
+                    <div><b>Financiamento:</b><s ${dadosCurso.financiamento}</div>
                     <div><b>Docente:</b> ${dadosCurso.docente}</div>
                     <div><b>CH Total:</b> ${dadosCurso.ch_total} horas</div>
                     <div><b>Matrículas previstas:</b> ${dadosCurso.matriculas_previstas}</div>
@@ -363,7 +363,8 @@ async function carregarCursosVigentes() {
             }
         });
     });
-    const select = document.getElementById('selecao');
+    select.replaceWith(select.cloneNode(true)); // Substitui o elemento, removendo todos os listeners antigos
+    const select = document.getElementById('selecao'); // Obtém o novo seletor
     const bodyTable = document.getElementById('body-table');
     const nameKit = document.getElementById('name-kit');
     select.addEventListener('change', async (event) => {
@@ -440,7 +441,7 @@ async function carregarCursosVigentes() {
         }
     });
 }
-//=-=-=-=-=-=-=-= Funcção para carregar CURSOS CONLUÍDOS -=-=--=-=-=-=-=--=-=-=
+//=-=-=-=-=-=-=-= Funsão para carregar CURSOS CONLUÍDOS -=-=--=-=-=-=-=--=-=-=
 async function carregarCursosConcluidos() {
     const token = localStorage.getItem('token');
     if (!token) {

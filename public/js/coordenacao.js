@@ -1,7 +1,9 @@
 import {
     uploadProfileImage, uploadSignature, getFotoPerfil, getAssinatura, getNome,
     logoutUser, monitorarTokenExpiracao, buscarKitsCoordenacao, buscarDocentesCoordenacao,
-    buscarCursosCoordenacao, postDocente, postCurso, postKit, postMaterial, getSolicitacoesEmAndamento, getSolicitacoesEncaminhadas
+    buscarCursosCoordenacao, postDocente, postCurso, postKit, postMaterial,
+    getSolicitacoesEmAndamento, getSolicitacoesEncaminhadas, dadosSolicitacao,
+    trocaParaGestao
 } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     getFotoPerfil();
@@ -401,14 +403,15 @@ document.getElementById('form-material').addEventListener('submit', async (event
     }
 });
 // função para renderizar todas as solicitações
-async function carregarSolicitacoesEmAndamento () {
+async function carregarSolicitacoesEmAndamento() {
     const contentStatus = document.querySelector('#solicitacoes');
     const solicitacoesEmAndamento = await getSolicitacoesEmAndamento();
     //console.log('Dados recebidos:', solicitacoesEmAndamento); // Loga os dados recebidos
     //console.log('É um array?', Array.isArray(solicitacoesEmAndamento)); // Confirma se é um array
     //console.log('Tamanho do array:', solicitacoesEmAndamento.length); // Verifica o tamanho do array
     //
-    if (!Array.isArray(solicitacoesEmAndamento) || solicitacoesEmAndamento.length === 0) {        console.log('Nenhuma solicitação encontrada.'); // Loga se não houver transações
+    if (!Array.isArray(solicitacoesEmAndamento) || solicitacoesEmAndamento.length === 0) {
+        console.log('Nenhuma solicitação encontrada.'); // Loga se não houver transações
         const divInterna = document.createElement('div'); // Cria uma nova div.
         divInterna.classList.add('solicitacao');
         divInterna.innerHTML = `<span>Nenhuma solicitação encontrada.</span>`; // Exibir uma mensagem informando que não há transações
@@ -482,12 +485,67 @@ async function carregarSolicitacoesEncaminhadas() {
         coursesEncaminhados.appendChild(divInterna); // Adiciona à tabela
     });
 }
+
+async function carregarSolicitacoesdoDocente() {
+    const cod_curso = '60';
+    const dadosCursoArray = await dadosSolicitacao(cod_curso);
+    // Extrai o primeiro elemento do array (esperando que a API sempre retorne uma lista)
+    const dadosCurso = dadosCursoArray[0];
+    console.log("Dados do curso:", dadosCurso);
+    // Formata as datas para exibição
+    const dataInicio = new Date(dadosCurso.data_inicio).toLocaleDateString('pt-BR');
+    const dataFim = new Date(dadosCurso.data_fim).toLocaleDateString('pt-BR');
+    // Renderiza os dados no frontend
+    const info = document.getElementById('info');
+    info.innerHTML = `
+                    <div>
+                        <div><b>Cód Curso:</b> ${dadosCurso.cod}</div>
+                        <div><b>Curso:</b> ${dadosCurso.nome}</div>
+                        <div><b>Turno:</b> ${dadosCurso.turno}</div>
+                        <div><b>Período:</b> ${dataInicio} à ${dataFim}</div>
+                        <div><b>Modalidade:</b> ${dadosCurso.modalidade}</div>
+                    </div>
+                    <div>
+                        <div><b>Financiamento:</b><p> ${dadosCurso.financiamento}</p></div>
+                        <div><b>Docente:</b> ${dadosCurso.docente}</div>
+                        <div><b>CH Total:</b> ${dadosCurso.ch_total} horas</div>
+                        <div><b>Matrículas previstas:</b> ${dadosCurso.matriculas_previstas}</div>
+                        <div><b>Localidade:</b> ${dadosCurso.localidade}</div>
+                    </div>`
+    const bodyTable = document.getElementById('body-table');
+    const docentesoli = await getSolicitacoesEmAndamento();
+    console.log(docentesoli);
+    document.getElementById('name-kit').innerText = `Kit de Periféricos`;
+    const numerosSolicitacao = docentesoli.map(item => item.numero_solicitacao).join(', ');
+    document.getElementById('num-solic').innerText = `Número de solicitações: ${numerosSolicitacao}`;
+    function preencherTabela(docentesoli) {
+        bodyTable.innerHTML = '';
+        docentesoli.forEach(docsoli => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td class="cod_produto">${docsoli.cod_produto}</td>
+            <td class="descricao">${docsoli.descricao}</td>
+            <td class="qnt_max">${docsoli.qnt_max}</td>
+            <td class="unidade_medida">${docsoli.unidade_medida}</td>
+            <td class="saldo">${docsoli.saldo}</td>
+            <td class="qnt-req">${docsoli.qnt_requerida}</td>`;
+            bodyTable.appendChild(row);
+        });
+    }
+    preencherTabela(docentesoli);
+    document.getElementById('openModalBtn').addEventListener('click', async () => {
+        //aqui
+        const trocarDado = await trocaParaGestao();
+        console.log(trocarDado);
+    });
+}
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarNome(),
-    carregarKitsCoordenacao(),
-    carregarCursosCoordenacao(),
-    carregarDocentesCoordenacao(),
-    carregarSolicitacoesEmAndamento(),
-    carregarSolicitacoesEncaminhadas()
+        carregarKitsCoordenacao(),
+        carregarCursosCoordenacao(),
+        carregarDocentesCoordenacao(),
+        carregarSolicitacoesEmAndamento(),
+        carregarSolicitacoesEncaminhadas(),
+        carregarSolicitacoesdoDocente()
 });

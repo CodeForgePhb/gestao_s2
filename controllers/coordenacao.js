@@ -228,4 +228,31 @@ export const delCursoVigente = async (req, res) => {
         return res.status(500).send('Erro ao processar a requisição.');
     }
 };
+
+
+export const atualizarSetorDaSolicitacao = async (req, res) => {
+    const setorAtual = 'coordenacao';
+    const statusSolicitacao = 'em andamento';
+    const proximoSetor = 'gestao'
+    try {
+        //
+        const [ coordenacao ] = await db.query(`
+            SELECT * FROM solicitacoes WHERE setor_atual = ? AND status = ?`, [setorAtual, statusSolicitacao]);
+        
+        if(coordenacao.length === 0) {
+            return res.status(404).json({message: 'não há solicitações em andamento'})
+        }
+        //
+        const result = await db.query (`
+            UPDATE solicitacoes
+            SET setor_atual = ?
+            WHERE setor_atual = ?;
+        `, [proximoSetor, setorAtual])
+
+        return res.json(result);
+    } catch(error) {
+        console.error('erro encontrado: ', error);
+        return res.status(500).json({error});
+    }
+}
 // ------------------------ EXPORTAÇÃO ------------------------
