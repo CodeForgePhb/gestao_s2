@@ -219,9 +219,10 @@ body {
 
 /* FIM  */
 .courses {
-  /* background-color: #ffffff; */
-  padding: 10px;
+  background-color: #fFFFFF;
+  padding: 5px;
   border-radius: 5px;
+  max-height: 32%;
   overflow-x: hidden;
 }
 
@@ -229,25 +230,11 @@ body {
   margin-bottom: 15px;
 }
 
-.course {
-  /* background-color: #f3f3f3; */
-  padding: 20px;
+.course, .cursoC {
+  background-color: #f3f3f3;
+  padding: 15px;
   border-radius: 5px;
-  margin-bottom: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  box-sizing: border-box;
-  /* flex-direction: column;  */
-}
-
-.course2 {
-  /* background-color: #f3f3f3; */
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 18px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -265,11 +252,11 @@ section {
   padding: 10px;
 }
 
-.course:hover {
+.course:hover, .cursoC:hover {
   background-color: #eaeaea;
 }
 
-.course .arrow {
+.course .arrow, .cursoC .arrow {
   font-size: 1.2em;
   color: #666;
 }
@@ -332,7 +319,12 @@ h3 {
 .search-filters input[type="date"] {
   max-width: 150px;
 }
-
+.search-courses {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
 .course-item {
   padding: 15px;
   border: 1px solid #ddd;
@@ -367,30 +359,35 @@ h3 {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 100%;
+  margin-bottom: 5px;
 }
-
-/* Estilo para o acordeão */
-.accordion-header {
-  /* background-color: #f1f1f1; */
-  padding: 10px;
-  cursor: pointer;
-  text-align: left;
-  font-size: 16px;
-}
-
 .accordion-header:hover {
-  background-color: #ddd;
+  background-color: #eaeaea;
 }
 
 .accordion-content {
+  /* padding: 15px;
   display: none;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-top: 1px solid #ccc;
+  width: 100%;
+  height: 130px; */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  width: 100%;
 }
-
-.accordion-header.active+.accordion-content {
-  display: block;
+.accordion-content .inf, .accordion-content .inf2{
+  margin: 15px;
+  height: 40%;
+}
+.accordion-content .inf span, .accordion-content .inf2 span  {
+  width: 100%;
+}
+.accordion-content.show {
+  max-height: 500px;
+  /* Valor grande o suficiente para acomodar o conteúdo */
+  opacity: 1;
 }
 
 .course-c {
@@ -409,9 +406,10 @@ span strong {
     width: 100%;
     height: 130px;
   } */
-.inf {
+.inf, .inf2 {
   display: flex;
-  flex-direction: column;
+    justify-content: space-between;
+    height: 50px;
 }
 
 .fa-solid {
@@ -442,8 +440,15 @@ span strong {
   font-size: 12px;
   transition: transform 0.3s;
 }
-
-.course .arrow {
+.arrow i {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+  /* rotate: -180deg; */
+}
+.arrow i.rotate {
+  transform: rotate(180deg);
+}
+.course .arrow, .cursoC .arrow {
   font-size: 10pt;
 }
 
@@ -506,6 +511,13 @@ span strong {
 
 .modal-body {
   padding: 16px;
+  height: 500px;
+  overflow-y: scroll;
+}
+
+#sol-concluidas{
+  height: 630px;
+  overflow-y: scroll;
 }
 
 .search-bar {
@@ -536,7 +548,8 @@ span strong {
   cursor: pointer;
 }
 
-.info {
+.info, .info3 {
+  display: flex;
   font-size: 14px;
   gap: 10px;
   width: 100%;
@@ -1133,21 +1146,6 @@ h1 {
 
 .search-button:hover {
   background-color: #003d82;
-}
-
-.course {
-  border-bottom: 1px solid #eee;
-  padding: 15px 0;
-}
-
-.course h2 {
-  font-size: 18px;
-  margin: 0 0 10px 0;
-}
-
-.course p {
-  font-size: 14px;
-  color: #555;
 }
 
 .download-button {

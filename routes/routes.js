@@ -58,7 +58,9 @@ router.put('/updt-setor-compras', authMiddleware,controllerGestao.atualizarSetor
 //-------------Setor de compras------------
 
 router.get('/solicitacoes-compras', controllerCompras.buscarSolicitacaoEmAndamentoCompras);
+router.get('/solicitacoes-concluidas-compras', controllerCompras.buscarSolicitacaoConcluidasCompras);
 router.get('/todos-cursos', controllerCompras.buscarCursosCompras);
+router.put('/updt-status', authMiddleware,controllerCompras.atualizarSetorDaSolicitacao);
 
 
 export default router; // Exporta o roteador como padrão

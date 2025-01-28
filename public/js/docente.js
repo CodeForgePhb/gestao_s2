@@ -522,9 +522,9 @@ async function carregarSolicitacoesDocente() {
 }
 async function carregarSolicitacoesDocenteConcluidas() {
     const solicDocenteConc = await buscarSolicitacaoDocenteConcluida();
-    console.log('Dados recebidos:', solicDocenteConc); // Loga os dados recebidos
-    console.log('É um array?', Array.isArray(solicDocenteConc)); // Confirma se é um array
-    console.log('Tamanho do array:', solicDocenteConc.length); // Verifica o tamanho do array
+    //console.log('Dados recebidos:', solicDocenteConc); // Loga os dados recebidos
+    //console.log('É um array?', Array.isArray(solicDocenteConc)); // Confirma se é um array
+    //console.log('Tamanho do array:', solicDocenteConc.length); // Verifica o tamanho do array
     const div = document.getElementById('content-wrapper');
     div.innerHTML = ''; // Limpa o conteúdo antes de adicionar as novas transações
     // Verificar se o array está vazio

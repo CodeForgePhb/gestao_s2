@@ -1,9 +1,16 @@
-import { uploadProfileImage, uploadSignature, getFotoPerfil,getAssinatura, getNome, logoutUser, monitorarTokenExpiracao, getSolicitacoesCompras, dadosSolicitacao, getCursosCompras } from '../api.js'; // Ajuste o caminho conforme necessário
+import {
+    uploadProfileImage, uploadSignature, getFotoPerfil, getAssinatura, getNome,
+    logoutUser, monitorarTokenExpiracao, getSolicitacoesCompras, dadosSolicitacao,
+    getSolicitacoesConcluidasCompras, buscarCursosCompras, trocaParaConcluido
+} from '../api.js'; // Ajuste o caminho conforme necessário
 
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
     getAssinatura();
+    carregarCursosCompras();
+    buscarSolicitacoesEmAndamentoCompras();
+    buscarSolicitacoesConcluidasCompras();
 };
 document.addEventListener('DOMContentLoaded', () => {
     //FOTO PERFIL
@@ -95,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         limparAssinatura();
     })
     const saveSignatureImage = document.getElementById('saveSignatureImage');
-   // const signatureContainer = document.getElementById('signatureContainer'); // Container do canvas e da prévia da assinatura
+    // const signatureContainer = document.getElementById('signatureContainer'); // Container do canvas e da prévia da assinatura
     // Função assíncrona para salvar a assinatura
     saveSignatureImage.addEventListener('click', async () => {
         try {
@@ -144,17 +151,17 @@ if (!nome || !nome.nome) {
 }
 
 // função para ajustar nome de usuário
-function transformarNome(nome){
+function transformarNome(nome) {
     return nome.split(" ")
 }
-function ajustandoNome(nomes){
+function ajustandoNome(nomes) {
     let nomeAjustado = ""
 
     nomes.forEach(nome => {
-        if(nome.length > 3){
+        if (nome.length > 3) {
             nomeAjustado += `${nome[0].toUpperCase()}${nome.substring(1)} `
-        }else{
-            nomeAjustado+=nome+" "
+        } else {
+            nomeAjustado += nome + " "
         }
     });
     return nomeAjustado.substring(0, nomeAjustado.length - 1)
@@ -166,9 +173,106 @@ saudacao1.innerText = `${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o
 const saudacao2 = document.getElementsByClassName('saudacao')[1];
 saudacao2.innerText = `Olá, ${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
 
+//GET PARA PEGAR CADA CURSO DE CADA SOLICITAÇÃO
+async function carregarCursosCompras() {
+    const solicDocente = await buscarCursosCompras();
+    // console.log('Dados recebidos:', solicDocente); // Loga os dados recebidos
+    // console.log('É um array?', Array.isArray(solicDocente)); // Confirma se é um array
+    // console.log('Tamanho do array:', solicDocente.length); // Verifica o tamanho do array
+    const div = document.getElementById('cursosC');
+    div.innerHTML = ''; // Limpa o conteúdo antes de adicionar as novas transações
 
-// renderizar solicitações na table
-async function carregarSolicitacoesCompras() {
+    // Verificar se o array de cursos está vazio
+    if (!Array.isArray(solicDocente.cursos) || solicDocente.cursos.length === 0) {
+        console.log('Nenhum curso encontrado.') //Loga se não houver transações
+        const divInterna = document.createElement('div'); // Cria uma nova div.
+        divInterna.classList.add('cursoC');
+        divInterna.innerHTML = `<span>Nenhum curso encontrado.</span>`; //Exibir uma mensagem informando que nao há transações
+        div.appendChild(divInterna); // Adiciona a linha na tabela.
+        return; //Sai da função, já que nao há transaçoes a serem exibidas.
+    }
+
+    // Itera sobre a lista de cursos e cria uma linha de dados para cada curso
+    solicDocente.cursos.forEach(curso => {
+        const divInterna = document.createElement('div'); // Cria uma nova linha
+        divInterna.classList.add('course');
+        divInterna.innerHTML = `
+            <div class="accordion-header">
+                <span>${curso}</span> <!-- Exibe o nome do curso -->
+                <span class="arrow"><i class="fa-solid fa-chevron-down" style="color: #808080;"></i></span>
+            </div>
+            <div class="accordion-content" id="solicitacoes">
+                <!-- Aqui aparece as solicitações -->
+            </div>
+        `;
+        div.appendChild(divInterna); // Adiciona à tabela
+    });
+    // Adiciona funcionalidade de accordion
+    document.querySelectorAll('.course').forEach(solicitacao => {
+        solicitacao.addEventListener('click', () => {
+            const content = solicitacao.querySelector('.accordion-content');
+            const arrowIcon = solicitacao.querySelector('.arrow i'); // Seleciona o <i>
+            if (content.classList.contains('show')) {
+                content.classList.remove('show'); // Fecha
+                arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
+            } else {
+                content.classList.add('show'); // Abre
+                arrowIcon.style.transform = 'rotate(180deg)'; // Rotaciona
+            }
+        });
+    });
+
+    //GET PARA SOLICITAÇÔES EM ANDAMENTO DE CADA CURSO
+    const contentStatus = document.querySelector('#solicitacoes');
+    const solicitacoesEmAndamento = await getSolicitacoesCompras();
+    console.log('Dados recebidos:', solicitacoesEmAndamento); // Loga os dados recebidos
+    console.log('É um array?', Array.isArray(solicitacoesEmAndamento)); // Confirma se é um array
+    console.log('Tamanho do array:', solicitacoesEmAndamento.length); // Verifica o tamanho do array
+
+    // Verificar se é um array e se contém itens
+    if (!Array.isArray(solicitacoesEmAndamento) || solicitacoesEmAndamento.length === 0) {
+        console.log('Nenhuma solicitação encontrada.');
+        const divInterna = document.createElement('div');
+        divInterna.classList.add('cursoC');
+        divInterna.innerHTML = `<span>Nenhuma solicitação encontrada.</span>`;
+        contentStatus.appendChild(divInterna);
+        return;
+    }
+
+    // Itera sobre o array de solicitações
+    solicitacoesEmAndamento.forEach(solAndam => {
+        const divInterna = document.createElement('div');
+        divInterna.classList.add('cursoC');
+        divInterna.innerHTML = `
+            <div class="accordion-header">
+                <span id="num-sol">${solAndam.numero_solicitacao}</span>
+                <span id="nivel-sol">Setor: ${solAndam.setor_atual}</span>
+                <span class="arrow"><i class="fa-solid fa-chevron-down" style="color: #808080;"></i></span>
+            </div>
+            <div class="accordion-content">
+                <button onclick="openModal()" type="submit" class="curso_nome" value="${solAndam.id}" id="${solAndam.numero_solicitacao}">Responder Solicitação</button>
+            </div>
+        `;
+        contentStatus.appendChild(divInterna);
+    });
+
+    // Adiciona funcionalidade de accordion
+    document.querySelectorAll('.cursoC').forEach(solicitacao => {
+        solicitacao.addEventListener('click', () => {
+            const content = solicitacao.querySelector('.accordion-content');
+            const arrowIcon = solicitacao.querySelector('.arrow i');
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                arrowIcon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('show');
+                arrowIcon.style.transform = 'rotate(180deg)';
+            }
+        });
+    });
+}
+//DADOS PARA A TABELA PRA RESPONDER SOLICITAÇÃO
+async function buscarSolicitacoesEmAndamentoCompras() {
     const cod_curso = '60';
     const dadosCursoArray = await dadosSolicitacao(cod_curso);
     // Extrai o primeiro elemento do array (esperando que a API sempre retorne uma lista)
@@ -215,24 +319,48 @@ async function carregarSolicitacoesCompras() {
         });
     }
     preencherTabela(docentesoli);
+    document.getElementById('openModalBtn').addEventListener('click', async () => {
+        //aqui
+        const trocarDado = await trocaParaConcluido();
+        console.log(trocarDado);
+        alert(`Solicitação respondida com sucesso!`);
+        window.location.reload(); // Recarrega a página para evitar estados inconsistentes
+    });
 }
-//
-document.querySelector('#openModal-solicitacao').addEventListener('click', carregarSolicitacoesCompras);
 
+async function buscarSolicitacoesConcluidasCompras() {
 
+    const contentStatus = document.querySelector('#sol-concluidas');
+    const solicitacoesConcluidas = await getSolicitacoesConcluidasCompras();
+    console.log('Dados recebidos:', solicitacoesConcluidas); // Loga os dados recebidos
+    console.log('É um array?', Array.isArray(solicitacoesConcluidas)); // Confirma se é um array
+    console.log('Tamanho do array:', solicitacoesConcluidas.length); // Verifica o tamanho do array
 
+    // Verificar se é um array e se contém itens
+    if (!Array.isArray(solicitacoesConcluidas) || solicitacoesConcluidas.length === 0) {
+        console.log('Nenhuma solicitação encontrada.');
+        const divInterna = document.createElement('div');
+        divInterna.classList.add('course');
+        divInterna.innerHTML = `<span>Nenhuma solicitação encontrada.</span>`;
+        contentStatus.appendChild(divInterna);
+        return;
+    }
 
+    // Itera sobre o array de solicitações
+    solicitacoesConcluidas.forEach(solConc => {
+        const divInterna = document.createElement('div');
+        divInterna.classList.add('course');
+        divInterna.innerHTML = `
+            <h2 class="course-title">${solConc.numero_solicitacao}</h2>
+            <span class="course-date"><strong>Status: ${solConc.status}</strong></span>
+            <button class="download-button">Baixar</button>
+        `;
+        contentStatus.appendChild(divInterna);
+    });
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+document.addEventListener('DOMContentLoaded', () => {
+    carregarCursosCompras(),
+        buscarSolicitacoesEmAndamentoCompras(),
+        buscarSolicitacoesConcluidasCompras()
+});

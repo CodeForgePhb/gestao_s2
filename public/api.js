@@ -895,6 +895,33 @@ export async function trocaParaCompras()  {
     }
 }
 
+export async function trocaParaConcluido()  {
+    const token = localStorage.getItem('token');
+    //
+    try {
+        const response = await fetch(`${API_URL}/routes/updt-status`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        //
+        if(!response.ok) {
+            throw new Error('Erro ao solicitar update');
+        }
+        if(response.length === 0 ) {
+            console.log('Nenhuma solicitação encontrada');
+        return await res.status(404).json({message: 'nada encontrado'})
+        }
+        const result = await response.json()
+        console.log(result);
+        return result;
+    } catch(error) {
+        console.error('Erro na requisição: ', error);
+        return { message: error.message };
+    }
+}
+
 // api para visualizar as solicitações concluídas ou encaminhadas
 export async function getSolicitacoesEncaminhadas() {
     const token = localStorage.getItem('token');
@@ -980,7 +1007,7 @@ export async function buscarSolicitacaoGestaoConcluida() {
     const token = localStorage.getItem('token');
     if (!token) {
         console.error('Token não encontrado.');
-        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+        return { message: 'Token não encontrado' }; //  Pode redirecionar para login ou fazer outra ação
     }
     try {
         const response= await fetch(`${API_URL}/routes/buscar-solicitacoes-encaminhadas`, {
@@ -1015,8 +1042,9 @@ export async function buscarSolicitacaoGestao() {
         const response = await fetch(`${API_URL}/routes/buscar-solicitacoes-gestao`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`
-            }
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
         })
         if(!response.ok) {
             throw new Error('Erro nas solicitações');
@@ -1034,6 +1062,37 @@ export async function buscarSolicitacaoGestao() {
 
 // api para rotas de setor de compras
 
+export async function buscarCursosCompras() {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`${API_URL}/routes/todos-cursos`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro na requisição');
+        }
+
+        const data = await response.json(); // Aguardar a conversão para JSON
+
+        // Verificar se o array de cursos está vazio
+        if (!data.cursos || data.cursos.length === 0) {
+            return { message: 'Sem cursos' }; // Retorna uma mensagem caso não haja cursos
+        }
+
+        return data; // Retorna os dados com o array de cursos
+
+    } catch (error) {
+        console.error('Erro ao buscar cursos', error);
+        return { message: error.message }; // Retorna a mensagem de erro
+    }
+}
+
+
 export async function getSolicitacoesCompras() {
     //
     const token = localStorage.getItem('token');
@@ -1041,8 +1100,9 @@ export async function getSolicitacoesCompras() {
         const response = await fetch(`${API_URL}/routes/solicitacoes-compras`, {
             method: 'GET',
             headers: {
-                Authorization: `Bearer ${token}`
-            }
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
         });
         if(!response.ok) {
             throw new Error('Erro na requisição');
@@ -1058,30 +1118,27 @@ export async function getSolicitacoesCompras() {
     }
 }
 
-export async function getCursosCompras() {
+export async function getSolicitacoesConcluidasCompras() {
+    //
     const token = localStorage.getItem('token');
     try {
-        const response = await fetch(`${API_URL}/routes/todos-cursos`, {
+        const response = await fetch(`${API_URL}/routes/solicitacoes-concluidas-compras`, {
             method: 'GET',
             headers: {
-                Authorization: `Bearer ${token}`
-            }
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
         });
-        //
         if(!response.ok) {
-            throw new Error('Erro encontrado');
+            throw new Error('Erro na requisição');
         }
 
-        if(response.lengt === 0) {
-            return res.send('Nenhum curso encontrado');
+        if(response.length === 0) {
+            return {message: 'Sem solicitações'};
         }
-        return response.json();
-        //
+        return response.json()
     } catch(error) {
-        console.error('Erro ao buscar cursos', error);
+        console.error('Erro ao buscar solicitações', error);
         return {message: error.message};
     }
 }
-
-
-
