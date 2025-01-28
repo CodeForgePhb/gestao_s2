@@ -78,7 +78,13 @@
           <button>Buscar</button>
         </div>
         <div class="courses" id="concluidos">
-            <!-- conteudo da api -->
+          <div class="content-wrapper" id="content-wrapper">
+            <!-- conteúdo da api -->
+            <div class="course-item">
+                <h2 class="course-title">Introdução à Programação</h2>
+                <p class="course-date"> <strong>Concluído<i class="fa-solid fa-check"></i></strong></p>
+            </div>
+        </div>
         </div>
     </div>
     </section>
@@ -125,7 +131,7 @@
     </div>
   </div>
   <!-- Primeiro Modal: Confirmação -->
-  <div id="confirmModal" class="modal-2">
+  <!-- <div id="confirmModal" class="modal-2">
     <div class="modal-content">
       <div class="modal-header">
       </div>
@@ -135,9 +141,9 @@
         <button id="sendBtn">Sim</button>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- Segundo Modal: Sucesso -->
-  <div id="successModal" class="modal-2">
+  <!-- <div id="successModal" class="modal-2">
     <div class="modal-content-2">
       <div class="modal-box"></div>
       <div class="checkmark-container">
@@ -153,7 +159,7 @@
         <button id="okBtn">OK</button>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- MODAL CONFIG -->
   <div class="custom-modal" id="profileModal">
     <div class="custom-modal-content">
@@ -248,19 +254,19 @@
       tbody.innerHTML = '';
     }
     // Fecha o modal de confirmação
-    cancelBtn.addEventListener('click', () => {
-      confirmModal.style.display = 'none';
-    });
+    // cancelBtn.addEventListener('click', () => {
+    //   confirmModal.style.display = 'none';
+    // });
     // Abre o modal de confirmação
-    document.getElementById('openModalBtn').addEventListener('click', () => {
-      confirmModal.style.display = 'flex';
-    });
+    // document.getElementById('openModalBtn').addEventListener('click', () => {
+    //   confirmModal.style.display = 'flex';
+    // });
     // Abre o modal de sucesso
-    sendBtn.addEventListener('click', () => {
-      confirmModal.style.display = 'none';
-      successModal.style.display = 'flex';
-      closeModal();
-    });
+    // sendBtn.addEventListener('click', () => {
+    //   confirmModal.style.display = 'none';
+    //   successModal.style.display = 'flex';
+    //   closeModal();
+    // });
     //Função para ativar uma aba específica
     function activateTab(tabName) {
       //   // Remove a classe ativa de todas as abas e conteúdos
@@ -275,14 +281,14 @@
       }
     }
     // Redireciona para a aba "Status" e fecha todos os modais ao clicar em OK
-    okBtn.addEventListener('click', () => {
-      successModal.style.display = 'none'; // Fecha o modal de sucesso
-      const kitModal = document.getElementById('kitModal');
-      if (kitModal) {
-        kitModal.style.display = 'none'; // Fecha o modal principal de solicitação
-      }
-      activateTab('status'); // Ativa a aba "Status" e seu conteúdo
-    });
+    // okBtn.addEventListener('click', () => {
+    //   successModal.style.display = 'none'; // Fecha o modal de sucesso
+    //   const kitModal = document.getElementById('kitModal');
+    //   if (kitModal) {
+    //     kitModal.style.display = 'none'; // Fecha o modal principal de solicitação
+    //   }
+    //   activateTab('status'); // Ativa a aba "Status" e seu conteúdo
+    // });
     // // Gerencia cliques manuais nas abas
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {

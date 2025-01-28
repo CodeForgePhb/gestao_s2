@@ -537,6 +537,9 @@ async function carregarSolicitacoesdoDocente() {
         //aqui
         const trocarDado = await trocaParaGestao();
         console.log(trocarDado);
+        alert(`Solicitação respondida com sucesso!`);
+        window.location.reload(); // Recarrega a página para evitar estados inconsistentes
+
     });
 }
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.

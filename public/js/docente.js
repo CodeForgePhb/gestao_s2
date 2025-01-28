@@ -354,24 +354,18 @@ async function carregarCursosVigentes() {
     const select = document.getElementById('selecao'); // Obtém o novo seletor
     const bodyTable = document.getElementById('body-table');
     const nameKit = document.getElementById('name-kit');
-
     select.addEventListener('change', async (event) => {
         event.stopImmediatePropagation(); // Impede eventos duplicados
         console.log('Evento change disparado'); // Verifica se o evento está disparando mais de uma vez
-
         const nome_kit = event.target.value; // Captura o valor selecionado
         if (nome_kit) {
             console.log(`Kit selecionado: ${nome_kit}`);
-
             const materiais = await buscarMateriaisDocente(nome_kit);
             console.log('Materiais recebidos:', materiais); // Verifica se os dados estão vindo corretamente
-
             function preencherTabela(materiais) {
                 console.log('Preenchendo tabela...'); // Verifica se essa função é chamada mais de uma vez
-
                 nameKit.innerText = `${nome_kit}`;
                 bodyTable.innerHTML = '';
-
                 materiais.forEach(material => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -391,66 +385,55 @@ async function carregarCursosVigentes() {
                     bodyTable.appendChild(row);
                 });
             }
-
             preencherTabela(materiais);
             console.log('Linhas da tabela preenchidas:', bodyTable.querySelectorAll('tr')); // Verifica se as linhas estão sendo inseridas
         }
     });
-
     const openModalBtn = document.getElementById('openModalBtn');
-
-function handleOpenModal(event) {
-    event.stopImmediatePropagation(); // Impede que o evento seja disparado múltiplas vezes
-
-    const rows = bodyTable.querySelectorAll('tr'); // Captura todas as linhas da tabela
-    console.log('Linhas da tabela:', rows);
-
-    const solicitacoes = Array.from(rows).map(row => {
-        const cod_produto = row.querySelector('.cod_produto')?.innerText || "";
-        const descricao = row.querySelector('.descricao')?.innerText || "";
-        const qnt_max = parseInt(row.querySelector('.qnt_max')?.innerText || 0, 10);
-        const unidade_medida = row.querySelector('.unidade_medida')?.innerText || "";
-        const saldo = parseInt(row.querySelector('.saldo')?.innerText || 0, 10);
-        const qnt_requerida = parseInt(row.querySelector('.qnt_requerida')?.value || 0, 10);
-
-        console.log('Solicitação extraída:', {
-            cod_produto,
-            descricao,
-            qnt_max,
-            unidade_medida,
-            saldo,
-            qnt_requerida
-        });
-
-        return { cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida };
-    });
-
-    console.log('Solicitações:', solicitacoes);
-
-    // Verifica se há solicitações antes de enviar
-    if (solicitacoes.length > 0) {
-        postSolicitacao(solicitacoes)
-            .then(result => {
-                console.log('Resposta da API:', result);
-                document.getElementById('kit-Modal').style.display = 'none';
-                bodyTable.innerHTML = ''; // Limpa a tabela após o envio
-                window.location.reload(); // Recarrega a página para evitar estados inconsistentes
-            })
-            .catch(error => {
-                console.error('Erro ao enviar as solicitações:', error);
-                if (error.response && error.response.status === 409) {
-                    alert('Solicitação já enviada.');
-                }
+    function handleOpenModal(event) {
+        event.stopImmediatePropagation(); // Impede que o evento seja disparado múltiplas vezes
+        const rows = bodyTable.querySelectorAll('tr'); // Captura todas as linhas da tabela
+        console.log('Linhas da tabela:', rows);
+        const solicitacoes = Array.from(rows).map(row => {
+            const cod_produto = row.querySelector('.cod_produto')?.innerText || "";
+            const descricao = row.querySelector('.descricao')?.innerText || "";
+            const qnt_max = parseInt(row.querySelector('.qnt_max')?.innerText || 0, 10);
+            const unidade_medida = row.querySelector('.unidade_medida')?.innerText || "";
+            const saldo = parseInt(row.querySelector('.saldo')?.innerText || 0, 10);
+            const qnt_requerida = parseInt(row.querySelector('.qnt_requerida')?.value || 0, 10);
+            console.log('Solicitação extraída:', {
+                cod_produto,
+                descricao,
+                qnt_max,
+                unidade_medida,
+                saldo,
+                qnt_requerida
             });
-    } else {
-        console.log("Nenhuma solicitação para enviar.");
+            return { cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida };
+        });
+        console.log('Solicitações:', solicitacoes);
+        // Verifica se há solicitações antes de enviar
+        if (solicitacoes.length > 0) {
+            postSolicitacao(solicitacoes)
+                .then(result => {
+                    console.log('Resposta da API:', result);
+                    document.getElementById('kit-Modal').style.display = 'none';
+                    bodyTable.innerHTML = ''; // Limpa a tabela após o envio
+                    window.location.reload(); // Recarrega a página para evitar estados inconsistentes
+                })
+                .catch(error => {
+                    console.error('Erro ao enviar as solicitações:', error);
+                    if (error.response && error.response.status === 409) {
+                        alert('Solicitação já enviada.');
+                    }
+                });
+        } else {
+            console.log("Nenhuma solicitação para enviar.");
+        }
     }
-}
-
-// Removendo evento duplicado antes de adicionar
-openModalBtn.removeEventListener('click', handleOpenModal);
-openModalBtn.addEventListener('click', handleOpenModal, { once: true }); // Garantindo que só será chamado uma vez
-
+    // Removendo evento duplicado antes de adicionar
+    openModalBtn.removeEventListener('click', handleOpenModal);
+    openModalBtn.addEventListener('click', handleOpenModal, { once: true }); // Garantindo que só será chamado uma vez
 }
 //=-=-=-=-=-=-=-= Funsão para carregar CURSOS CONLUÍDOS -=-=--=-=-=-=-=--=-=-=
 async function carregarCursosConcluidos() {

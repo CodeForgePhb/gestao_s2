@@ -1,6 +1,7 @@
 import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature,
-    getNome, logoutUser, monitorarTokenExpiracao, buscarSolicitacaoGestao, 
-    getSolicitacoesEmAndamentoGestao, dadosSolicitacao, trocaParaCompras } from '../api.js'; // Ajuste o caminho conforme necessário
+    getNome, logoutUser, monitorarTokenExpiracao, 
+    getSolicitacoesEmAndamentoGestao, dadosSolicitacao, trocaParaCompras,
+    buscarSolicitacaoGestaoConcluida } from '../api.js'; // Ajuste o caminho conforme necessário
 
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
@@ -9,6 +10,7 @@ window.onload = () => {
     getNome();
     carregarSolicitacoesEmAndamento();
     buscarSolicitacoesEmAndamentoGestao();
+    carregarSolicitacoesGestaoConcluidas();
 };
 //FOTO PERFIL
 document.addEventListener('DOMContentLoaded', async () => {
@@ -224,6 +226,38 @@ async function carregarSolicitacoesEmAndamento() {
         });
     });
 }
+//SOLICITAÇÔES JÁ RESPONDIDAS DE COMPRAS PARTE DE CONCLUIDAS ABAIXO DE EM ANDAMENTO
+async function carregarSolicitacoesGestaoConcluidas() {
+    const solicDocenteConc = await buscarSolicitacaoGestaoConcluida();
+    console.log('Tipo do dado recebido:', typeof solicDocenteConc);
+console.log('Conteúdo do dado recebido:', solicDocenteConc);
+
+    console.log('Dados recebidos:', solicDocenteConc); // Loga os dados recebidos
+    console.log('É um array?', Array.isArray(solicDocenteConc)); // Confirma se é um array
+    console.log('Tamanho do array:', solicDocenteConc.length); // Verifica o tamanho do array
+    const div = document.getElementById('content-wrapper');
+    div.innerHTML = ''; // Limpa o conteúdo antes de adicionar as novas transações
+    // Verificar se o array está vazio
+    if (!Array.isArray(solicDocenteConc) || solicDocenteConc.length === 0) {
+        console.log('Nenhuma solicitação concluída.'); // Loga se não houver transações
+        const divInterna = document.createElement('div'); // Cria uma nova div.
+        divInterna.classList.add('course-item');
+        divInterna.innerHTML = `<span>Nenhuma solicitação concluída.</span>`; // Exibir uma mensagem informando que não há transações
+        div.appendChild(divInterna); // Adiciona a linha na tabela
+        return; // Sai da função, já que não há transações a serem exibidas
+    }
+    // Itera sobre a lista de solicitações e cria uma linha de dados para cada solicitação
+    solicDocenteConc.forEach(solDocConc => {
+        const divInterna = document.createElement('div'); // Criar uma nova linha
+        divInterna.classList.add('course-item');
+        divInterna.innerHTML = `
+            <h2 class="course-title">${solDocConc.numero_solicitacao}</h2>
+            <p class="course-date"> <strong>Concluído<i class="fa-solid fa-check"></i></strong></p>
+        `;
+        div.appendChild(divInterna); // Adiciona à tabela
+    });
+}
+//DADOS PARA A TABELA PRA RESPONDER SOLICITAÇÃO
 async function buscarSolicitacoesEmAndamentoGestao() {
     const cod_curso = '60';
     const dadosCursoArray = await dadosSolicitacao(cod_curso);
@@ -275,6 +309,8 @@ async function buscarSolicitacoesEmAndamentoGestao() {
         //aqui
         const trocarDado = await trocaParaCompras();
         console.log(trocarDado);
+        alert(`Solicitação respondida com sucesso!`);
+        window.location.reload(); // Recarrega a página para evitar estados inconsistentes
     });
 }
 
@@ -282,6 +318,7 @@ async function buscarSolicitacoesEmAndamentoGestao() {
 document.addEventListener('DOMContentLoaded', () => {
     carregarSolicitacoes(),
     buscarSolicitacoesEmAndamentoGestao(),
-    carregarSolicitacoesEmAndamento()
+    carregarSolicitacoesEmAndamento(),
+    carregarSolicitacoesGestaoConcluidas()
 });
     

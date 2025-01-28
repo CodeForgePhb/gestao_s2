@@ -957,8 +957,9 @@ export async function buscarSolicitacaoDocenteConcluida() {
         const response= await fetch(`${API_URL}/routes/buscar-solicitacoes-docente-concluidas`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`
-            }
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
         })
         if(response.status === 404) {
             return {message: 'Nenhuma solicitação concluída'}
@@ -968,6 +969,35 @@ export async function buscarSolicitacaoDocenteConcluida() {
         }
         const [resultado] = await response.json();
         //console.log('api', resultado)
+        return resultado
+    } catch(error) {
+        console.error('Erro ao buscar as solicitações:', error);
+        return { message: error.message}; // Retorna um array vazio em caso de erro
+    }
+}
+
+export async function buscarSolicitacaoGestaoConcluida() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('Token não encontrado.');
+        return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
+    }
+    try {
+        const response= await fetch(`${API_URL}/routes/buscar-solicitacoes-gestao-concluidas`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+        })
+        if(response.status === 404) {
+            return {message: 'Nenhuma solicitação concluída'}
+        }
+        if (!response.ok) {
+            throw new Error('Erro no servidor');
+        }        
+        const resultado = await response.json();
+        console.log('api', resultado)
         return resultado
     } catch(error) {
         console.error('Erro ao buscar as solicitações:', error);

@@ -52,8 +52,8 @@ router.post('/adicionar-solicitacao', authMiddleware, controllerDocente.addSolic
 //=-=-==-=-=-=-==-== GESTÃO -=-=-=--===-=-=-=====-=-=-=--=
 
 router.get('/buscar-solicitacoes-gestao', authMiddleware, controllerGestao.buscarSolicitacaoEmAndamentoGestao);
-//router.get('/buscar-solicitacoes-gestao-concluidas', authMiddleware, controllerGestao.buscarSolicitacaoEncaminhada);
-router.put('/updt-setor-compras', authMiddleware,controllerCoordenacao.atualizarSetorDaSolicitacao);
+router.get('/buscar-solicitacoes-gestao-concluidas', authMiddleware, controllerGestao.todasSolicitacoesGestaoConcluidas);
+router.put('/updt-setor-compras', authMiddleware,controllerGestao.atualizarSetorDaSolicitacao);
 
 //-------------Setor de compras------------
 
