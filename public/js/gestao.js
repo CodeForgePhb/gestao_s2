@@ -1,7 +1,9 @@
-import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature,
-    getNome, logoutUser, monitorarTokenExpiracao, 
+import {
+    getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature,
+    getNome, logoutUser, monitorarTokenExpiracao,
     getSolicitacoesEmAndamentoGestao, dadosSolicitacao, trocaParaCompras,
-    buscarSolicitacaoGestaoConcluida } from '../api.js'; // Ajuste o caminho conforme necessário
+    buscarSolicitacaoGestaoConcluida
+} from '../api.js'; // Ajuste o caminho conforme necessário
 
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
@@ -93,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         limparAssinatura();
     })
     const saveSignatureImage = document.getElementById('saveSignatureImage');
-   // const signatureContainer = document.getElementById('signatureContainer'); // Container do canvas e da prévia da assinatura
+    // const signatureContainer = document.getElementById('signatureContainer'); // Container do canvas e da prévia da assinatura
     // Função assíncrona para salvar a assinatura
     saveSignatureImage.addEventListener('click', async () => {
         try {
@@ -141,27 +143,27 @@ if (!nome || !nome.nome) {
     }; //Exibir uma mensagem informando que nao há transações
 }
 // função para ajustar nome de usuário
-    function transformarNome(nome){
-        return nome.split(" ")
-    }
-    function ajustandoNome(nomes){
-        let nomeAjustado = ""
-    
-        nomes.forEach(nome => {
-            if(nome.length > 3){
-                nomeAjustado += `${nome[0].toUpperCase()}${nome.substring(1)} `
-            }else{
-                nomeAjustado+=nome+" "
-            }
-        });
-        return nomeAjustado.substring(0, nomeAjustado.length - 1)
-    }
-    
-    // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
-    const saudacao1 = document.getElementsByClassName('saudacao')[0];
-    saudacao1.innerText = `${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
-    const saudacao2 = document.getElementsByClassName('saudacao')[1];
-    saudacao2.innerText = `Olá, ${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
+function transformarNome(nome) {
+    return nome.split(" ")
+}
+function ajustandoNome(nomes) {
+    let nomeAjustado = ""
+
+    nomes.forEach(nome => {
+        if (nome.length > 3) {
+            nomeAjustado += `${nome[0].toUpperCase()}${nome.substring(1)} `
+        } else {
+            nomeAjustado += nome + " "
+        }
+    });
+    return nomeAjustado.substring(0, nomeAjustado.length - 1)
+}
+
+// Itera sebre a lista de transações e cria uma linha de tabela para cada transação
+const saudacao1 = document.getElementsByClassName('saudacao')[0];
+saudacao1.innerText = `${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
+const saudacao2 = document.getElementsByClassName('saudacao')[1];
+saudacao2.innerText = `Olá, ${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
 //LOGOUT
 document.querySelector('#btnLogout').addEventListener('click', async (event) => {
     try {
@@ -230,7 +232,7 @@ async function carregarSolicitacoesEmAndamento() {
 async function carregarSolicitacoesGestaoConcluidas() {
     const solicDocenteConc = await buscarSolicitacaoGestaoConcluida();
     console.log('Tipo do dado recebido:', typeof solicDocenteConc);
-console.log('Conteúdo do dado recebido:', solicDocenteConc);
+    console.log('Conteúdo do dado recebido:', solicDocenteConc);
 
     console.log('Dados recebidos:', solicDocenteConc); // Loga os dados recebidos
     console.log('É um array?', Array.isArray(solicDocenteConc)); // Confirma se é um array
@@ -252,7 +254,8 @@ console.log('Conteúdo do dado recebido:', solicDocenteConc);
         divInterna.classList.add('course-item');
         divInterna.innerHTML = `
             <h2 class="course-title">${solDocConc.numero_solicitacao}</h2>
-            <p class="course-date"> <strong>Concluído<i class="fa-solid fa-check"></i></strong></p>
+            <span class="course-date"><strong>Setor Atual: ${solDocConc.setor_atual}</strong></span>
+            <span class="course-date"><strong>Status: ${solDocConc.status}</strong></span>
         `;
         div.appendChild(divInterna); // Adiciona à tabela
     });
@@ -317,8 +320,7 @@ async function buscarSolicitacoesEmAndamentoGestao() {
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarSolicitacoes(),
-    buscarSolicitacoesEmAndamentoGestao(),
-    carregarSolicitacoesEmAndamento(),
-    carregarSolicitacoesGestaoConcluidas()
+        buscarSolicitacoesEmAndamentoGestao(),
+        carregarSolicitacoesEmAndamento(),
+        carregarSolicitacoesGestaoConcluidas()
 });
-    

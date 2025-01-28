@@ -983,7 +983,7 @@ export async function buscarSolicitacaoGestaoConcluida() {
         return { message: 'Token não encontrado' }; // Pode redirecionar para login ou fazer outra ação
     }
     try {
-        const response= await fetch(`${API_URL}/routes/buscar-solicitacoes-gestao-concluidas`, {
+        const response= await fetch(`${API_URL}/routes/buscar-solicitacoes-encaminhadas`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
