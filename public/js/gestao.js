@@ -1,11 +1,12 @@
-import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getNome, logoutUser, monitorarTokenExpiracao } from '../api.js'; // Ajuste o caminho conforme necessário
+import { getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getNome, logoutUser, monitorarTokenExpiracao, buscarSolicitacaoGestao } from '../api.js'; // Ajuste o caminho conforme necessário
+
 window.onload = () => {
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
     getAssinatura();
 };
 //FOTO PERFIL
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // Função assíncrona para preview de imagem
     async function previewImageAsync(input, previewContainer, width, height) {
         if (input.files && input.files[0]) {
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // Configuração do canvas de assinatura
     const signatureCanvas = new fabric.Canvas('signatureCanvas', {
         width: 500,
@@ -167,7 +168,33 @@ document.querySelector('#btnLogout').addEventListener('click', async (event) => 
 
 //GET DE SOLICITAÇOES EM ANDAMENTO
 
+async function carregarSolicitacoes() {
+    const solicitacoes = await buscarSolicitacaoGestao();
+    console.log(solici)
+    const div = document.getElementById('solicitacoes');
+    div.innerHTML = ''; // Limpa o conteúdo antes de adicionar as novas transações
+    // Verificar se o array está vazio
+    if (!cursos.cursos || cursos.cursos.length === 0) {
+        console.log('Nenhuma solicitação concluída.'); // Loga se não houver transações
+        const divInterna = document.createElement('div'); // Cria uma nova div.
+        divInterna.classList.add('course');
+        divInterna.innerHTML = `<span>Nenhuma solicitação concluída.</span>`; // Exibir uma mensagem informando que não há transações
+        div.appendChild(divInterna); // Adiciona a linha na tabela
+        return; // Sai da função, já que não há transações a serem exibidas
+    }
+    // Itera sobre a lista de solicitações e cria uma linha de dados para cada solicitação
+    solicitacoes.forEach(solicitacao => {
+        const divInterna = document.createElement('div'); // Criar uma nova linha
+        divInterna.classList.add('course');
+        divInterna.innerHTML = `
+            <h2 class="course-title">${solicitacao.numero_solicitacao}</h2>
+            <p class="course-date"> <strong>Concluído<i class="fa-solid fa-check"></i></strong></p>
+        `;
+        div.appendChild(divInterna); // Adiciona à tabela
+    });
+}
+
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
-    getNome()
+    carregarSolicitacoes()
 });

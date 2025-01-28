@@ -110,6 +110,8 @@ export const insertDocente = async (docenteData) => {
     }
 };
 
+
+
 // Função para inserir kit-didatico
 // Adicione aqui a lógica para a inserção de kit-didatico, se necessário
 
@@ -144,3 +146,41 @@ export const insertDocente = async (docenteData) => {
 //     });
 // }
 
+export const buscarSolicitacaoEmAndamento = async (req, res) => {
+    const setorAtual = 'compras';
+    const statusSolicitacao = 'em andamento';
+    try {
+        //
+        const [ result ] = await db.query(`
+            SELECT * FROM solicitacoes WHERE setor_atual = ? AND status = ?`, [setorAtual, statusSolicitacao]);
+        
+        if(result.length === 0) {
+            return res.status(404).json({message: 'não há solicitações em andamento'})
+        }
+        //
+        return res.status(200).json(result)
+    } catch(error) {
+        console.error('erro encontrado: ', error);
+        return res.status(500).json({error});
+    }
+}
+
+//visualizar solicitacoes encaminhadas
+export const buscarSolicitacaoEncaminhada = async (req, res) => {
+    const setorAtual = 'setor de compras';
+    
+    try {
+        const [ result ] = await db.query(`SELECT * from solicitacoes WHERE setor_atual = ?`, [setorAtual]);
+    //
+    if(result.length === 0) {
+        //console.log('Nenhuma solicitação existente');
+        return res.status(404).json({message: 'nenhuma solicitação'})
+    }
+    //console.log(result)
+    return res.json(result);
+
+    } catch(error) {
+        console.error('Erro encontrado: ', error);
+        return res.status(500).json({error});
+    }
+}

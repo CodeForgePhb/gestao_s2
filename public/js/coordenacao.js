@@ -400,82 +400,88 @@ document.getElementById('form-material').addEventListener('submit', async (event
         event.target.reset();
     }
 });
-
 // função para renderizar todas as solicitações
-
 async function carregarSolicitacoesEmAndamento () {
     const contentStatus = document.querySelector('#solicitacoes');
     const solicitacoesEmAndamento = await getSolicitacoesEmAndamento();
-    console.log('SOLICITAÇÕES EM ANDAMENTO: ', solicitacoesEmAndamento);
+    //console.log('Dados recebidos:', solicitacoesEmAndamento); // Loga os dados recebidos
+    //console.log('É um array?', Array.isArray(solicitacoesEmAndamento)); // Confirma se é um array
+    //console.log('Tamanho do array:', solicitacoesEmAndamento.length); // Verifica o tamanho do array
     //
-    if(solicitacoesEmAndamento.length === 0) {
-        console.log('Nenhuma solicitação encontrada');
-        contentStatus.innerHTML = '';
-        contentStatus.innerHTML =
-        `
-        <h3>Nenhuma solicitação encontrada</h3>
-        `;
-        return
+    if (!Array.isArray(solicitacoesEmAndamento) || solicitacoesEmAndamento.length === 0) {        console.log('Nenhuma solicitação encontrada.'); // Loga se não houver transações
+        const divInterna = document.createElement('div'); // Cria uma nova div.
+        divInterna.classList.add('solicitacao');
+        divInterna.innerHTML = `<span>Nenhuma solicitação encontrada.</span>`; // Exibir uma mensagem informando que não há transações
+        contentStatus.appendChild(divInterna); // Adiciona a linha na tabela
+        return; // Sai da função, já que não há transações a serem exibidas
     }
-
-    solicitacoesEmAndamento.forEach((produto) => {
-        const divInterna = document.createElement('div');
-        
+    // Itera sobre a lista de solicitações e cria uma linha de dados para cada solicitação
+    solicitacoesEmAndamento.forEach(solAndam => {
+        const divInterna = document.createElement('div'); // Criar uma nova linha
+        divInterna.classList.add('solicitacao');
         divInterna.innerHTML = `
-            <div class="titulo">Produto: ${produto.descricao}</div>
-            <div class="produto-info">Código: ${produto.cod_produto}</div>
-            <div class="produto-info">Quantidade Máxima: ${produto.qnt_max} ${produto.unidade_medida}</div>
-            <div class="produto-info">Saldo: ${produto.saldo} ${produto.unidade_medida}</div>
-            <div class="produto-info">Quantidade Requerida: ${produto.qnt_requerida} ${produto.unidade_medida}</div>
-            <div class="produto-info">Setor Atual: ${produto.setor_atual}</div>
-            <div class="produto-info">Número da Solicitação: ${produto.numero_solicitacao}</div>
-            <div class="produto-info">
-                Status: <span class="status">${produto.status}</span>
+            <div class="accordion-header">              
+                <span id="num-sol">${solAndam.numero_solicitacao}</span>
+                <span id="nivel-sol">Setor: ${solAndam.setor_atual}</span>
+                <span class="arrow"><i class="fa-solid fa-chevron-down" style="color: #808080;"></i></span>
+            </div>
+            <div class="accordion-content">
+                <div class="inf">
+                    <span><strong>Cód Produto</strong> ${solAndam.cod_produto}</span>
+                    <span><strong>Descrição</strong> ${solAndam.descricao}</span>
+                    <span><strong>Unid de Medida</strong> ${solAndam.unidade_medida}</span>
+                    <span><strong>Qnt Requerida</strong> ${solAndam.qnt_requerida}</span>
+                </div>
+                <button onclick="openModal()" type="submit" class="curso_nome" value="${solAndam.id}" id="${solAndam.numero_solicitacao}">Responder Solicitação</button>
             </div>
         `;
-        contentStatus.appendChild(divInterna);
+        contentStatus.appendChild(divInterna); // Adiciona à tabela
+    });
+    // Adiciona funcionalidade de accordion
+    document.querySelectorAll('.solicitacao').forEach(solicitacao => {
+        solicitacao.addEventListener('click', () => {
+            const content = solicitacao.querySelector('.accordion-content');
+            const arrowIcon = solicitacao.querySelector('.arrow i'); // Seleciona o <i>
+            if (content.classList.contains('show')) {
+                content.classList.remove('show'); // Fecha
+                arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
+            } else {
+                content.classList.add('show'); // Abre
+                arrowIcon.style.transform = 'rotate(180deg)'; // Rotaciona
+            }
+        });
     });
 }
-
 // função para renderizar as solicitações encaminhadas
-
 async function carregarSolicitacoesEncaminhadas() {
-
     const coursesEncaminhados = document.getElementById('encaminhados');
     const solicitacoesEncaminhadas = await getSolicitacoesEncaminhadas();
-    console.log('Solicitações encaminhadas: ', solicitacoesEncaminhadas);
-
-    //
+    console.log('Dados recebidos:', solicitacoesEncaminhadas); // Loga os dados recebidos
+    console.log('É um array?', Array.isArray(solicitacoesEncaminhadas)); // Confirma se é um array
+    console.log('Tamanho do array:', solicitacoesEncaminhadas.length); // Verifica o tamanho do array
+    const div = document.getElementById('encaminhados');
+    div.innerHTML = ''; // Limpa o conteúdo antes de adicionar as novas transações
+    // Verificar se o array está vazio
     if (!Array.isArray(solicitacoesEncaminhadas) || solicitacoesEncaminhadas.length === 0) {
-        coursesEncaminhados.innerHTML = `    
-            <h3>Nenhuma solicitação encontrada</h3>
-        `;
-        return;
+        console.log('Nenhuma solicitação concluída.'); // Loga se não houver transações
+        const divInterna = document.createElement('div'); // Cria uma nova div.
+        divInterna.classList.add('course-item');
+        divInterna.innerHTML = `<span>Nenhuma solicitação concluída.</span>`; // Exibir uma mensagem informando que não há transações
+        coursesEncaminhados.appendChild(divInterna); // Adiciona a linha na tabela
+        return; // Sai da função, já que não há transações a serem exibidas
     }
-    //
-    solicitacoesEncaminhadas.forEach((produto)=> {
-        const divInterna = document.createElement('div');
-        coursesEncaminhados.innerHTML = '';
-
-        divInterna.innerHTML=`
-            <div class="titulo">Produto: ${produto.descricao}</div>
-            <div class="produto-info">Código: ${produto.cod_produto}</div>
-            <div class="produto-info">Quantidade Máxima: ${produto.qnt_max} ${produto.unidade_medida}</div>
-            <div class="produto-info">Saldo: ${produto.saldo} ${produto.unidade_medida}</div>
-            <div class="produto-info">Quantidade Requerida: ${produto.qnt_requerida} ${produto.unidade_medida}</div>
-            <div class="produto-info">Setor Atual: ${produto.setor_atual}</div>
-            <div class="produto-info">Número da Solicitação: ${produto.numero_solicitacao}</div>
-            <div class="produto-info">
-                Status: <span class="status">${produto.status}</span>
-            </div> 
+    // Itera sobre a lista de solicitações e cria uma linha de dados para cada solicitação
+    solicitacoesEncaminhadas.forEach(solEncam => {
+        const divInterna = document.createElement('div'); // Criar uma nova linha
+        divInterna.classList.add('course-item');
+        divInterna.innerHTML = `
+            <h2 class="course-title">${solEncam.numero_solicitacao}</h2>
+            <p class="course-date"><strong>${solEncam.setor_atual}<i class="fa-solid fa-check"></i></strong></p>
+            <p class="course-date"><strong>${solEncam.status}<i class="fa-solid fa-check"></i></strong></p>
         `;
-        coursesEncaminhados.appendChild(divInterna);
-    })
+        coursesEncaminhados.appendChild(divInterna); // Adiciona à tabela
+    });
 }
-
-
-
-
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarNome(),

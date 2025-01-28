@@ -164,3 +164,14 @@ const saudacao1 = document.getElementsByClassName('saudacao')[0];
 saudacao1.innerText = `${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
 const saudacao2 = document.getElementsByClassName('saudacao')[1];
 saudacao2.innerText = `Olá, ${ajustandoNome(transformarNome(nome.nome))}`; // Limpa o conteúdo de um unico elemento (se fosse id)
+
+// função para modal
+
+async function openModal() {
+    const modal = document.getElementById('')
+}
+
+
+
+
+

@@ -4,6 +4,7 @@
   box-sizing: border-box;
   font-family: Poppins;
 }
+
 body {
   display: flex;
   height: 100vh;
@@ -11,6 +12,7 @@ body {
   color: #333;
   overflow: hidden;
 }
+
 .sidebar {
   width: 250px;
   background-color: #002366;
@@ -21,13 +23,16 @@ body {
   justify-content: space-between;
   padding-top: 40px;
 }
+
 .sidebar h1 {
   font-size: 1.5em;
   margin-bottom: 20px;
 }
+
 .sidebar img {
   width: 25px;
 }
+
 .sidbox {
   display: flex;
   width: 100%;
@@ -35,14 +40,17 @@ body {
   border-radius: 10px;
   margin-bottom: 15px;
 }
+
 #active {
   border: solid 2px #ffffff;
   background-color: rgb(30, 58, 138);
 }
+
 .no-active {
   border: solid 2px #2222226d;
   pointer-events: none;
 }
+
 .sidebar a {
   text-decoration: none;
   color: #fff;
@@ -55,61 +63,74 @@ body {
   display: flex;
   width: 100%;
 }
+
 .sidebar a:hover {
   background-color: #1a428a;
 }
+
 .sidebar .profile {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 .span-name {
-  /*div para teste*/ /*fran editando*/
+  /*div para teste*/
+  /*fran editando*/
   display: flex;
   flex-direction: column;
   margin: 0px;
 }
+
 .sidebar .profile img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   background-color: #fff;
 }
+
 .sidebar .profile .info {
   font-size: 0.9em;
 }
+
 .name {
   border-bottom: 1px solid #fff;
   padding-bottom: 3px;
   margin-bottom: 3px;
 }
+
 .logout {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-left: 5px;
 }
+
 .logout button {
   background-color: transparent;
   border: none;
   cursor: pointer;
 }
+
 .main {
   flex-grow: 1;
   padding: 20px;
   max-height: 100vh;
 }
+
 /* VIGENTES  */
 .nome-com-linha {
   display: flex;
   align-items: center;
 }
+
 .nome {
   font-size: 24px;
   font-weight: bold;
   margin-right: 10px;
   /* Ajuste a distância entre o nome e a linha */
 }
+
 .nome-com-linha::after {
   content: "";
   flex-grow: 1;
@@ -118,6 +139,7 @@ body {
   /* Ajuste a espessura e a cor da linha */
   margin-right: 30px;
 }
+
 /* FIM  */
 .main-header {
   justify-content: space-between;
@@ -126,12 +148,15 @@ body {
   width: 100%;
   display: flex;
 }
+
 .main-header img {
   width: 80%;
 }
+
 .main-header h2 {
   font-size: 1.5em;
 }
+
 /* CURSOS E STATUS */
 .tabs {
   display: flex;
@@ -139,6 +164,7 @@ body {
   margin: 20px auto;
   position: relative;
 }
+
 .tab {
   flex: 1;
   padding: 10px 20px;
@@ -148,6 +174,7 @@ body {
   transition: background-color 0.3s, color 0.3s;
   position: relative;
 }
+
 .tab.cursos {
   background-color: #002d91;
   color: white;
@@ -156,6 +183,7 @@ body {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
+
 .tab.status {
   background-color: #d3d3d3;
   color: black;
@@ -163,14 +191,17 @@ body {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+
 .tab.active {
   background-color: #002d91;
   color: white;
 }
+
 .tab:not(.active) {
   background-color: #d3d3d3;
   color: black;
 }
+
 .content {
   display: none;
   font-size: 16px;
@@ -181,9 +212,11 @@ body {
   height: 85%;
   overflow-y: hidden;
 }
+
 .content.active {
   display: block;
 }
+
 /* FIM  */
 .courses {
   /* background-color: #ffffff; */
@@ -191,9 +224,11 @@ body {
   border-radius: 5px;
   overflow-x: hidden;
 }
+
 .courses h3 {
   margin-bottom: 15px;
 }
+
 .course {
   /* background-color: #f3f3f3; */
   padding: 20px;
@@ -205,7 +240,7 @@ body {
   cursor: pointer;
   transition: background-color 0.3s;
   box-sizing: border-box;
-   /* flex-direction: column;  */
+  /* flex-direction: column;  */
 }
 
 .course2 {
@@ -219,7 +254,7 @@ body {
   cursor: pointer;
   transition: background-color 0.3s;
   box-sizing: border-box;
-    flex-direction: column;  
+  flex-direction: column;
 }
 
 section {
@@ -229,13 +264,16 @@ section {
   position: relative;
   padding: 10px;
 }
+
 .course:hover {
   background-color: #eaeaea;
 }
+
 .course .arrow {
   font-size: 1.2em;
   color: #666;
 }
+
 /* CONCLUÍDOS */
 .content-wrapper {
   margin: 20px auto;
@@ -245,24 +283,29 @@ section {
   overflow: scroll;
   overflow-x: hidden;
 }
+
 .title {
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
   margin-top: 25px;
 }
+
 h1 {
   margin-top: 30px;
 }
+
 h3 {
   margin-bottom: 20px;
 }
+
 .search-filters {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
   width: 80%;
 }
+
 .search-filters input {
   flex: 1;
   padding: 10px;
@@ -272,6 +315,7 @@ h3 {
   outline: none;
   box-sizing: border-box;
 }
+
 .search-filters button {
   background-color: #002d91;
   color: white;
@@ -280,12 +324,15 @@ h3 {
   border-radius: 6px;
   cursor: pointer;
 }
+
 .search-filters button:hover {
   background-color: #1558b3;
 }
+
 .search-filters input[type="date"] {
   max-width: 150px;
 }
+
 .course-item {
   padding: 15px;
   border: 1px solid #ddd;
@@ -296,16 +343,19 @@ h3 {
   display: flex;
   justify-content: space-between;
 }
+
 .course-title {
   font-size: 18px;
   color: #000;
   margin: 0 0 5px 0;
 }
+
 .course-date {
   font-size: 14px;
   color: #666;
   margin: 0;
 }
+
 /* DROPDOWN CURSOS  */
 .accordion-header {
   font-weight: bold;
@@ -315,6 +365,7 @@ h3 {
   align-items: center;
   width: 100%;
 }
+
 /* Estilo para o acordeão */
 .accordion-header {
   /* background-color: #f1f1f1; */
@@ -323,24 +374,30 @@ h3 {
   text-align: left;
   font-size: 16px;
 }
+
 .accordion-header:hover {
   background-color: #ddd;
 }
+
 .accordion-content {
   display: none;
   padding: 10px;
   background-color: #f9f9f9;
   border-top: 1px solid #ccc;
 }
-.accordion-header.active + .accordion-content {
+
+.accordion-header.active+.accordion-content {
   display: block;
 }
+
 .course-c {
   background-color: #ddd;
 }
+
 span strong {
   font-weight: bold;
 }
+
 /* .accordion-content-course {
     display: none;
     padding: 15px;
@@ -353,13 +410,16 @@ span strong {
   display: flex;
   flex-direction: column;
 }
+
 .fa-solid {
   color: #1558b3;
   margin-left: 4px;
 }
+
 .accordion-content p {
   margin: 5px 0;
 }
+
 .accordion-content button {
   background-color: #002d91;
   color: white;
@@ -370,19 +430,24 @@ span strong {
   display: block;
   margin: 10px auto 0 auto;
 }
+
 .accordion-content button:hover {
   background-color: #1558b3;
 }
+
 .arrow {
   font-size: 12px;
   transition: transform 0.3s;
 }
+
 .course .arrow {
   font-size: 10pt;
 }
+
 .arrow.down {
   transform: rotate(180deg);
 }
+
 /* MODAL  */
 .modal-s {
   font-family: Arial, sans-serif;
@@ -394,6 +459,7 @@ span strong {
   width: 100%;
   position: absolute;
 }
+
 .modal {
   display: none;
   background-color: white;
@@ -404,6 +470,7 @@ span strong {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
+
 .modal-header {
   background: linear-gradient(180deg, #163193 0%, #0f246d 100%);
   color: white;
@@ -418,12 +485,14 @@ span strong {
   gap: 15px;
   margin-bottom: 20px;
 }
+
 .modal-header h2 {
   margin: 0;
   text-align: center;
   width: 100%;
   font-size: 15pt;
 }
+
 .close-button {
   position: absolute;
   right: 2rem;
@@ -431,15 +500,18 @@ span strong {
   top: 50%;
   transform: translateY(-50%);
 }
+
 .modal-body {
   padding: 16px;
 }
+
 .search-bar {
   margin-bottom: 16px;
   display: flex;
   gap: 8px;
   justify-content: center;
 }
+
 .search-bar input {
   width: calc(100% - 100px);
   padding: 8px;
@@ -450,6 +522,7 @@ span strong {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 5px;
 }
+
 .search-bar button {
   padding: 8px 16px;
   font-size: 14px;
@@ -459,21 +532,25 @@ span strong {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .info {
   font-size: 14px;
   gap: 10px;
   width: 100%;
   justify-content: space-between;
 }
+
 .info b {
   display: inline-block;
   width: 100px;
 }
+
 .table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 16px;
 }
+
 .table th,
 .table td {
   border: 1px solid #ddd;
@@ -481,30 +558,37 @@ span strong {
   text-align: center;
   font-size: 14px;
 }
+
 .table th {
   background-color: #002d91;
   color: white;
 }
+
 .table td button {
   border: none;
   padding: 3px 7px;
   border-radius: 4px;
   cursor: pointer;
 }
+
 .btn-cont {
   background-color: #e84910;
   color: white;
 }
+
 .add {
   background-color: #e84910;
   color: white;
 }
+
 .table td button.add {
   background-color: #0554f1;
 }
+
 .additional-materials {
   margin-bottom: 16px;
 }
+
 .additional-materials textarea {
   width: 100%;
   height: 60px;
@@ -513,6 +597,7 @@ span strong {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+
 .modal-2 {
   position: fixed;
   top: 0;
@@ -524,6 +609,7 @@ span strong {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
 .modal-content {
   background-color: white;
   border-radius: 10px;
@@ -535,6 +621,7 @@ span strong {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
 }
+
 .modal-content-2 {
   background-color: white;
   border-radius: 10px;
@@ -546,19 +633,23 @@ span strong {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
 }
+
 .modal-content-2 {
   text-align: center;
   width: 400px;
 }
+
 .modal-box {
   padding: 20px;
 }
+
 .modal-content p {
   padding-top: 20%;
   position: absolute;
   align-items: center;
   width: 100%;
 }
+
 .modal-footer {
   display: flex;
   justify-content: space-between;
@@ -569,6 +660,7 @@ span strong {
   box-sizing: border-box;
   max-width: 800px;
 }
+
 .modal-footer-2 {
   display: flex;
   justify-content: space-between;
@@ -579,6 +671,7 @@ span strong {
   box-sizing: border-box;
   max-width: 800px;
 }
+
 .modal-footer button {
   background-color: #002a80;
   color: white;
@@ -588,9 +681,11 @@ span strong {
   border-radius: 8px;
   cursor: pointer;
 }
+
 .modal-footer button.cancel {
   background-color: #002d91;
 }
+
 #okBtn {
   background-color: #002a80;
   color: white;
@@ -603,6 +698,7 @@ span strong {
   width: 100px;
   justify-content: center;
 }
+
 .open-modal-btn {
   padding: 10px 20px;
   font-size: 16px;
@@ -612,21 +708,33 @@ span strong {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .func {
   margin-top: 10px;
 }
+
 button.delete {
-  background-color: transparent; /* Fundo transparente */
-  border: none; /* Sem borda */
-  color: #000000; /* Ícone preto */
-  cursor: pointer; /* Cursor interativo */
-  margin-left: 8px; /* Espaço entre os botões */
-  font-size: 16px; /* Tamanho do ícone */
-  transition: color 0.3s; /* Transição suave para hover */
+  background-color: transparent;
+  /* Fundo transparente */
+  border: none;
+  /* Sem borda */
+  color: #000000;
+  /* Ícone preto */
+  cursor: pointer;
+  /* Cursor interativo */
+  margin-left: 8px;
+  /* Espaço entre os botões */
+  font-size: 16px;
+  /* Tamanho do ícone */
+  transition: color 0.3s;
+  /* Transição suave para hover */
 }
+
 button.delete:hover {
-  color: #444444; /* Preto mais claro ao passar o mouse */
+  color: #444444;
+  /* Preto mais claro ao passar o mouse */
 }
+
 /* FINAL MODAL  */
 /* MODAL CONFIRMAÇÃO  */
 /* Estilo do Modal */
@@ -642,6 +750,7 @@ button.delete:hover {
   align-items: center;
   z-index: 1000;
 }
+
 .modal-content {
   background: white;
   border-radius: 10px;
@@ -650,6 +759,7 @@ button.delete:hover {
   height: 210px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
+
 /* Botões */
 /* button {
   margin: 10px;
@@ -663,6 +773,7 @@ button.delete:hover {
 button:hover {
   background-color: #0e44b9;
 }
+
 /* Checkmark Animado */
 .checkmark-container {
   position: relative;
@@ -670,6 +781,7 @@ button:hover {
   height: 80px;
   margin: 0 auto 20px;
 }
+
 .checkmark-circle {
   width: 60px;
   height: 60px;
@@ -681,6 +793,7 @@ button:hover {
   animation: circle-scale 0.5s ease-out forwards;
   background: #002d91;
 }
+
 .checkmark {
   position: absolute;
   width: 40px;
@@ -688,6 +801,7 @@ button:hover {
   top: 28px;
   left: 22px;
 }
+
 .checkmark-stem {
   position: absolute;
   width: 4px;
@@ -698,6 +812,7 @@ button:hover {
   transform: rotate(45deg);
   animation: draw-stem 0.5s ease-out forwards 0.5s;
 }
+
 .checkmark-kick {
   fill: none;
   stroke: #ffffff;
@@ -709,52 +824,65 @@ button:hover {
   animation: check-draw 0.6s ease-in-out 0.6s forwards;
   /* Atraso após o círculo */
 }
+
 /* circlo  */
 @keyframes circle-scale {
   0% {
     transform: scale(0);
   }
+
   100% {
     transform: scale(1);
   }
 }
+
 @keyframes check-draw {
   from {
     stroke-dashoffset: 50;
   }
+
   to {
     stroke-dashoffset: 0;
   }
 }
+
 /* Tabs */
 .tabs {
   display: flex;
   margin: 20px 0;
 }
+
 .tab {
   padding: 10px 20px;
   cursor: pointer;
   border: 1px solid #ddd;
 }
+
 .tab.active {
   background-color: #002d91;
   color: white;
 }
+
 .tab-content {
   display: none;
 }
+
 .tab-content.active {
   display: block;
 }
+
 .check {
   fill: none;
-  stroke: #ffffff; /* Check branco */
+  stroke: #ffffff;
+  /* Check branco */
   stroke-width: 5;
   stroke-linecap: round;
   stroke-dasharray: 50;
   stroke-dashoffset: 50;
-  animation: check-draw 0.6s ease-in-out 0.6s forwards; /* Atraso após o círculo */
+  animation: check-draw 0.6s ease-in-out 0.6s forwards;
+  /* Atraso após o círculo */
 }
+
 #cancelBtn {
   background-color: #002d91;
   color: white;
@@ -763,6 +891,7 @@ button:hover {
   border-radius: 6px;
   cursor: pointer;
 }
+
 #sendBtn {
   background-color: #002d91;
   color: white;
@@ -771,11 +900,13 @@ button:hover {
   border-radius: 6px;
   cursor: pointer;
 }
+
 .loading {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .loader {
   align-items: center;
   width: 60px;
@@ -787,34 +918,41 @@ button:hover {
   animation: spin 1s linear infinite;
   /* Animação */
 }
+
 /* Animação keyframe */
 @keyframes spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 @keyframes check-draw {
   from {
     stroke-dashoffset: 50;
   }
+
   to {
     stroke-dashoffset: 0;
   }
 }
+
 .custom-file-input {
   opacity: 0;
   width: 0.1px;
   height: 0.1px;
   position: absolute;
 }
+
 .img-troca {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .Profile {
   display: flex;
   align-items: center;
@@ -827,10 +965,12 @@ button:hover {
   margin-bottom: 20px;
   background-color: rgb(23, 37, 228);
 }
+
 .Profile:hover {
   background-color: rgb(119, 127, 235);
   transition: background-color 0.3s;
 }
+
 /* Estilo do label que funcionará como nosso botão personalizado */
 .custom-file-label {
   display: inline-block;
@@ -843,22 +983,27 @@ button:hover {
   font-size: 16px;
   transition: background-color 0.3s;
 }
+
 /* Hover effect */
 .custom-file-label:hover {
   background-color: rgba(209, 209, 209, 0.344);
 }
+
 .btn1 {
   background-color: rgb(247, 71, 71);
 }
+
 #saveSignatureImage {
   background-color: rgb(23, 37, 228);
 }
+
 /* Estilo para mostrar o nome do arquivo selecionado */
 .file-name {
   margin-left: 10px;
   font-size: 14px;
   color: #666;
 }
+
 /* FINAL  */
 button {
   cursor: pointer;
@@ -869,9 +1014,11 @@ button {
   border-radius: 5px;
   font-size: 14px;
 }
+
 button:hover {
   background-color: #0056b3;
 }
+
 .custom-modal {
   display: none;
   position: fixed;
@@ -883,6 +1030,7 @@ button:hover {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
 .custom-modal-content {
   background-color: white;
   margin: 10% auto;
@@ -892,10 +1040,12 @@ button:hover {
   position: relative;
   text-align: center;
 }
+
 .custom-close {
   font-size: 18px;
   cursor: pointer;
 }
+
 .custom-close:hover,
 .custom-close:focus {
   color: black;
@@ -909,6 +1059,7 @@ button:hover {
   border: 2px solid #007bff;
   object-fit: cover;
 }
+
 .fot {
   width: 70px;
   height: 70px;
@@ -917,17 +1068,21 @@ button:hover {
   justify-content: center;
   width: 100%;
 }
+
 label {
   display: block;
   margin: 15px 0 5px;
 }
+
 input[type="file"] {
   margin-bottom: 10px;
 }
+
 .canvas-container {
   margin: 15px auto 15px auto;
   background-color: rgb(227, 225, 225);
 }
+
 .assinatura {
   margin: 15px auto 15px auto;
 }
@@ -1006,3 +1161,4 @@ h1 {
 .download-button:hover {
   background-color: #003d82;
 }
+

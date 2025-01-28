@@ -1,15 +1,29 @@
-2// Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
+// Supondo que as funções de API estejam em arquivos separados, você pode importá-las assim:
 import {
     getAssinatura, getFotoPerfil, uploadProfileImage, uploadSignature, getCursosVigentes, buscarCursosConcluidos,
     getCursosConcluidos, buscarCursosConcluidosPorPesquisa, buscarMateriaisDocente, getNome, logoutUser, monitorarTokenExpiracao,
-    buscarKitsDocente, postSolicitacao, dadosSolicitacao, buscarSolicitacaoDocente
+    buscarKitsDocente, postSolicitacao, dadosSolicitacao, buscarSolicitacaoDocente, buscarSolicitacaoDocenteConcluida
 } from '../api.js'; // Ajuste o caminho conforme necessário
 window.onload = () => {
     carregarSolicitacoesDocente()
     monitorarTokenExpiracao(); // Verifica a expiração do token assim que a página carrega
     getFotoPerfil();
     getAssinatura();
+    carregarCursosVigentes();
+    buscarSolicitacaoDocente();
 };
+// Função para decodificar o token e gerar o número de solicitação
+function gerarNumeroSolicitacao() {
+    // Supondo que o token JWT esteja armazenado em um local adequado (por exemplo, localStorage ou sessionStorage)
+    const token = localStorage.getItem('token'); // Substitua pelo método adequado para obter o token
+    const decodedToken = jwt_decode(token); // Decodificando o token para extrair userId e name
+    const userId = decodedToken.userId; // Extraindo o userId
+    const name = decodedToken.nome; // Extraindo o nome do docente
+    // Gerando o timestamp único
+    const timestamp = new Date().getTime(); // Timestamp baseado no horário atual
+    // Gerando o número de solicitação no formato userId-name-timestamp
+    return `${userId}-${name}-${timestamp}`;
+}
 // Função para obter nome do "User"
 async function carregarNome() {
     //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
@@ -180,8 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 document.getElementById('buscar-cursos-concluidos').addEventListener('submit', async (event) => {
     event.preventDefault();
-    //Obtém o Token JWT armazenado no localStorage, que é necessário para autencitação.
-    const token = localStorage.getItem('token');
     //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
     const date1 = document.getElementById('date1').value;
     const date2 = document.getElementById('date2').value;
@@ -428,7 +440,6 @@ async function carregarCursosVigentes() {
         }
     });
 }
-
 //=-=-=-=-=-=-=-= Funcção para carregar CURSOS CONLUÍDOS -=-=--=-=-=-=-=--=-=-=
 async function carregarCursosConcluidos() {
     const token = localStorage.getItem('token');
@@ -461,29 +472,27 @@ async function carregarCursosConcluidos() {
         div.appendChild(divInterna); // Adiciona a linha à tabela
     });
 }
-
 //GET PARA SOLICITAÇÕES EM ANDAMENTO
 async function carregarSolicitacoesDocente() {
-    //Chama a função 'getTransactions' que faz a requisição à API para obter todas as transações.
     const solicDocente = await buscarSolicitacaoDocente();
-    //console.log('Docentes:', docenCoord); //Adiciona um log para verificar os dados carregados.
-    //Obtém o corpo da tabela onde as transações serão inseridas.
+    //console.log('Dados recebidos:', solicDocente); // Loga os dados recebidos
+    //console.log('É um array?', Array.isArray(solicDocente)); // Confirma se é um array
+    //console.log('Tamanho do array:', solicDocente.length); // Verifica o tamanho do array
     const div = document.getElementById('sol-docente');
-    div.innerHTML = ''; //Limpa o conteúdo da tabela antes de adicionar as novas transações
-    //Verificar se a lista de trasações está vazia.
-    console.log(solicDocente)
-    if (solicDocente.message === "Nenhuma solicitação encontrada.") {
-        console.log('Nenhuma solicitação encontrada.') //Loga se não houver transações
+    div.innerHTML = ''; // Limpa o conteúdo antes de adicionar as novas transações
+    // Verificar se o array está vazio
+    if (!Array.isArray(solicDocente) || solicDocente.length === 0) {
+        console.log('Nenhuma solicitação encontrada.'); // Loga se não houver transações
         const divInterna = document.createElement('div'); // Cria uma nova div.
-        divInterna.classList.add('course');
-        divInterna.innerHTML = `<span>Nenhuma solicitação encontrada.</span>`; //Exibir uma mensagem informando que nao há transações
-        div.appendChild(divInterna); // Adiciona a linha na tabela.
-        return; //Sai da função, já que nao há transaçoes a serem exibidas.
+        divInterna.classList.add('solicitacao');
+        divInterna.innerHTML = `<span>Nenhuma solicitação encontrada.</span>`; // Exibir uma mensagem informando que não há transações
+        div.appendChild(divInterna); // Adiciona a linha na tabela
+        return; // Sai da função, já que não há transações a serem exibidas
     }
-    // Itera sebre a lista de transações e cria uma linha de tabela para cada transação
+    // Itera sobre a lista de solicitações e cria uma linha de dados para cada solicitação
     solicDocente.forEach(solDoc => {
-        const divInterna = document.createElement('div'); // Criar uma nova linha na tabela.
-        divInterna.classList.add('course');
+        const divInterna = document.createElement('div'); // Criar uma nova linha
+        divInterna.classList.add('solicitacao');
         divInterna.innerHTML = `
             <div class="accordion-header">              
                 <span id="num-sol">${solDoc.numero_solicitacao}</span>
@@ -499,12 +508,13 @@ async function carregarSolicitacoesDocente() {
                 </div>
             </div>
         `;
-        div.appendChild(divInterna); // Adiciona a linha à tabela
+        div.appendChild(divInterna); // Adiciona à tabela
     });
-    document.querySelectorAll('.course').forEach(course => {
-        course.addEventListener('click', () => {
-            const content = course.querySelector('.accordion-content');
-            const arrowIcon = course.querySelector('.arrow i'); // Selecione o <i>
+    // Adiciona funcionalidade de accordion
+    document.querySelectorAll('.solicitacao').forEach(solicitacao => {
+        solicitacao.addEventListener('click', () => {
+            const content = solicitacao.querySelector('.accordion-content');
+            const arrowIcon = solicitacao.querySelector('.arrow i'); // Seleciona o <i>
             if (content.classList.contains('show')) {
                 content.classList.remove('show'); // Fecha
                 arrowIcon.style.transform = 'rotate(0deg)'; // Volta ao estado original
@@ -515,10 +525,38 @@ async function carregarSolicitacoesDocente() {
         });
     });
 }
-
+async function carregarSolicitacoesDocenteConcluidas() {
+    const solicDocenteConc = await buscarSolicitacaoDocenteConcluida();
+    console.log('Dados recebidos:', solicDocenteConc); // Loga os dados recebidos
+    console.log('É um array?', Array.isArray(solicDocenteConc)); // Confirma se é um array
+    console.log('Tamanho do array:', solicDocenteConc.length); // Verifica o tamanho do array
+    const div = document.getElementById('content-wrapper');
+    div.innerHTML = ''; // Limpa o conteúdo antes de adicionar as novas transações
+    // Verificar se o array está vazio
+    if (!Array.isArray(solicDocenteConc) || solicDocenteConc.length === 0) {
+        console.log('Nenhuma solicitação concluída.'); // Loga se não houver transações
+        const divInterna = document.createElement('div'); // Cria uma nova div.
+        divInterna.classList.add('course-item');
+        divInterna.innerHTML = `<span>Nenhuma solicitação concluída.</span>`; // Exibir uma mensagem informando que não há transações
+        div.appendChild(divInterna); // Adiciona a linha na tabela
+        return; // Sai da função, já que não há transações a serem exibidas
+    }
+    // Itera sobre a lista de solicitações e cria uma linha de dados para cada solicitação
+    solicDocenteConc.forEach(solDocConc => {
+        const divInterna = document.createElement('div'); // Criar uma nova linha
+        divInterna.classList.add('course-item');
+        divInterna.innerHTML = `
+            <h2 class="course-title">${solDocConc.numero_solicitacao}</h2>
+            <p class="course-date"> <strong>Concluído<i class="fa-solid fa-check"></i></strong></p>
+        `;
+        div.appendChild(divInterna); // Adiciona à tabela
+    });
+}
 //Adiciona um evento que executa a função 'carregarTransacoes' quando o documento estiver totalmete carregado.
 document.addEventListener('DOMContentLoaded', () => {
     carregarCursosVigentes(),
         carregarCursosConcluidos(),
-        carregarNome()
+        carregarNome(),
+        buscarSolicitacaoDocente(),
+        carregarSolicitacoesDocenteConcluidas()
 });

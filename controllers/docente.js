@@ -64,7 +64,7 @@ export const carregarCursosConcluídos = async (req, res) => {
       return res.status(404).json({ message: 'Nenhum curso encontrado para este professor.' });
     }
     // 5. Retorna a lista de cursos
-    console.log(cursosResult)
+    //console.log(cursosResult)
     return res.status(200).json({ cursos: cursosResult });
   } catch (err) {
     console.error('Erro ao buscar cursos Concluidos:', err);
@@ -103,7 +103,7 @@ export const buscarCursosConcluidos = async (req, res) => {
       return res.status(404).json({ message: 'Nenhum curso encontrado para este professor.' });
     }
     // 5. Retorna a lista de cursos
-    console.log(cursosResult)
+    //console.log(cursosResult)
     return res.status(200).json({ cursos: cursosResult });
   } catch (err) {
     console.error('Erro ao buscar cursos Concluidos:', err);
@@ -152,7 +152,7 @@ export const buscarCursosConcluidosPorPesquisa = async (req, res) => {
       return res.status(404).json({ message: 'Nenhum curso encontrado para este professor.' });
     }
     // 5. Retorna a lista de cursos
-    console.log(cursosResult)
+    //console.log(cursosResult)
     return res.status(200).json({ cursos: cursosResult });
   } catch (err) {
     console.error('Erro ao buscar cursos Concluidos:', err);
@@ -201,7 +201,7 @@ export const todosMateriais = async (req, res) => {
       return res.status(404).json({ message: 'Não há materiais para o kit.' });
     }
 // Retorna os kits encontrados
-    console.log(result); // Mostra todos os kits no console
+    //console.log(result); // Mostra todos os kits no console
     return res.status(200).json(result); // Retorna o array completo no response
   } catch (error) {
     console.error('Erro ao buscar os materiais.', error);
@@ -224,7 +224,7 @@ export const dadosCursoClicado = async (req, res) => {
     if (result.length === 0) {
       return res.status(404).json({ message: 'Não há materiais para o kit.' });
     }
-    console.log(result);
+    //console.log(result);
     return res.status(200).json(result); // Retorna o array completo no response
   } catch (error) {
     console.error('Erro ao buscar os dados.', error);
@@ -289,10 +289,32 @@ export const todasSolicitacoesDocente = async (req, res) => {
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { userId, nome } = decoded;
-    const [result] = await db.query(`SELECT cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida,
+    const result = await db.query(`SELECT cod_produto, descricao, qnt_max, unidade_medida, saldo, qnt_requerida,
        setor_atual, numero_solicitacao, status FROM solicitacoes WHERE numero_solicitacao LIKE ?`, [`${userId}-${nome}%`]);
     if (result.length === 0) {
-      return res.status(404).json({ message: 'Não há solicitações para esse docente.' });
+      return res.status(404).json([]);
+    }
+    //console.log(result);
+    return res.status(200).json(result); // Retorna o array completo no response
+  } catch (error) {
+    console.error('Erro ao buscar as solicitações.', error);
+    return res.status(500).json({ message: 'Erro ao buscar os dados.', error });
+  }
+}; 
+export const todasSolicitacoesDocenteConcluidas = async (req, res) => {
+  const status = 'concluída';
+  try {
+    //1.
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Token não fornecido' })
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { userId, nome } = decoded;
+    const result = await db.query(`SELECT numero_solicitacao FROM solicitacoes WHERE 
+      numero_solicitacao LIKE ? AND status = ?`, [`${userId}-${nome}%`, status]);
+    if (result.length === 0) {
+      return res.status(404).json([]);
     }
     console.log(result);
     return res.status(200).json(result); // Retorna o array completo no response

@@ -288,7 +288,7 @@ content::-webkit-scrollbar-track {
     margin-bottom: 15px;
 }
 
-.course {
+.course, .solicitacao {
     background-color: #f3f3f3;
     padding: 15px;
     border-radius: 5px;
@@ -300,7 +300,6 @@ content::-webkit-scrollbar-track {
     transition: background-color 0.3s;
     box-sizing: border-box;
     flex-direction: column;
-
 }
 
 section {
@@ -312,11 +311,10 @@ section {
     padding: 10px;
 }
 
-.course:hover {
+.course:hover, .solicitacao:hover {
     background-color: #eaeaea;
 }
-
-.course .arrow {
+.course .arrow, .solicitacao .arrow {
     font-size: 1.2em;
     color: #666;
 }
@@ -508,7 +506,7 @@ span strong {
 .arrow i.rotate {
     transform: rotate(180deg);
 }
-.course .arrow {
+.course .arrow , .solicitacao .arrow{
     font-size: 10pt;
 }
 /* .arrow.down {

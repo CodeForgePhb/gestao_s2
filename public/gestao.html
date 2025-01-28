@@ -60,78 +60,13 @@
       </div>
       <div><img src="./assets/logo_gestao_s.svg" alt="logo_gestao_s" class="logo"></div>
     </div>
-    <section class="content active" id="cursos">
-      <div class="nome-com-linha">
-        <span class="nome">Solicitações</span>
-      </div>
-      <div class="courses" id="courses">
-        <div class="loading">
-          <div class="loader"></div>
-        </div>
-      </div>
-      <div class="nome-com-linha">
-        <span class="nome title">Solicitações Concluídos</span>
-      </div>
-      <form class="search-filters" id="buscar-cursos-concluidos">
-        <input type="date" placeholder="dd/mm/aaaa" id="date1">
-        <input type="date" placeholder="dd/mm/aaaa" id="date2">
-        <button>Buscar</button>
-      </form>
-      <input type="text" id="busca-por-cursos-concluidos" placeholder="Busque por cursos concluídos...">
-      <div id="cursos-concluidos" class="content-wrapper">
-        <div class="loading">
-          <div class="loader"></div>
-        </div>
-        <!-- RESULTADO DA PESQUISA EXEMPLO!!!! -->
-        <!-- <div class="course-item">
-                    <h2 class="course-title">Introdução à Programação</h2>
-                    <p class="course-date">Concluído em 01/12/2022</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Design de Interfaces</h2>
-                    <p class="course-date">Concluído em 15/03/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div>
-                <div class="course-item">
-                    <h2 class="course-title">Machine Learning</h2>
-                    <p class="course-date">Concluído em 10/06/2023</p>
-                </div> -->
-      </div>
-    </section>
+    
     <section class="content" id="status">
       <div class="nome-com-linha">
         <span class="nome">Em Andamento</span>
       </div>
-      <div class="courses ">
-        <div class="course">
-          <div class="accordion-header">
-            <span>Administração</span>
-            <span>Nível B - Em Análise</span>
-            <span class="arrow"><i class="fa-solid fa-chevron-down" style="color: #808080;"></i></span>
-          </div>
-          <div class="accordion-content">
-            <div class="inf">
-              <span><strong>Data:</strong> 01/02/2025 13:20</span>
-              <span><strong>Departamento:</strong> Coordenação</span>
-            </div>
-            <div class="inf">
-              <span><strong>Cód:</strong> 000001</span>
-              <span><strong>Turno:</strong> Manhã</span>
-              <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
-            </div>
-          </div>
-        </div>
+      <div class="solicitacoes">
+        
 
       </div>
       <div class="nome-com-linha">
@@ -144,44 +79,7 @@
         <button>Buscar</button>
       </div>
       <div class="content-wrapper" id="content-wrapper">
-        <div>
-          <div class="course-item accordion-header">
-            <h2 class="course-title">Introdução à Programação</h2>
-            <p class="course-date"> <strong>Concluído<i class="fa-solid fa-check"></i></strong></p>
-          </div>
-          <div class="accordion-content course-c">
-            <div class="inf">
-              <span><strong>Nível B:</strong> Em Análise</span>
-              <span><strong>Data:</strong> 01/02/2025 13:20</span>
-              <span><strong>Departamento:</strong> Coordenação</span>
-            </div>
-            <div class="inf">
-              <span><strong>Cód:</strong> 000001</span>
-              <span><strong>Turno:</strong> Manhã</span>
-              <span><strong>Período:</strong> 01/01/2025 à 01/07/2026</span>
-            </div>
-          </div>
-        </div>
-        <div class="course-item">
-          <h2 class="course-title">Design de Interfaces</h2>
-          <p class="course-date">Concluído em 15/03/2023</p>
-        </div>
-        <div class="course-item">
-          <h2 class="course-title">Machine Learning</h2>
-          <p class="course-date">Concluído em 10/06/2023</p>
-        </div>
-        <div class="course-item">
-          <h2 class="course-title">Machine Learning</h2>
-          <p class="course-date">Concluído em 10/06/2023</p>
-        </div>
-        <div class="course-item">
-          <h2 class="course-title">Machine Learning</h2>
-          <p class="course-date">Concluído em 10/06/2023</p>
-        </div>
-        <div class="course-item">
-          <h2 class="course-title">Machine Learning</h2>
-          <p class="course-date">Concluído em 10/06/2023</p>
-        </div>
+        
       </div>
     </section>
   </div>
@@ -191,7 +89,7 @@
     <div class="modal" id="kit-Modal">
       <div class="modal-header">
         <img src="./assets/logo-2.svg" class="logo-2" alt="logo">
-        <h2>Solicitação dos Kits</h2>
+        <h2>Solicitação dos Kits</h2>>:
       </div>
       <div class="modal-body">
         <div class="search-bar">
@@ -340,109 +238,109 @@
     </div>
 </div>
   <script>
-    // Abrir e fechar o modal
-    document.getElementById("openProfileModal").addEventListener("click", function () {
-      document.getElementById("profileModal").style.display = "block";
-    });
-    document.getElementById("closeProfileModal").addEventListener("click", function () {
-      document.getElementById("profileModal").style.display = "none";
-    });
-    // Fechar o modal ao clicar fora do conteúdo
-    window.addEventListener("click", function (event) {
-      const modal = document.getElementById("profileModal");
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
-    });
-    function decreaseValue(button) {
-      const input = button.nextElementSibling;
-      const value = parseInt(input.value);
-      if (value > 0) {
-        input.value = value - 1;
-      }
-    }
-    function increaseValue(button) {
-      const input = button.previousElementSibling;
-      input.value = parseInt(input.value) + 1;
-    }
-    function validateValue(input) {
-      if (input.value < 0) {
-        input.value = 0;
-      }
-    }
-    function deleteRow(button) {
-      const row = button.closest('tr'); // Localiza a linha mais próxima do botão clicado
-      row.remove(); // Remove a linha
-    }
-    // Seleciona elementos do DOM
-    const confirmModal = document.getElementById('confirmModal');
-    const successModal = document.getElementById('successModal');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const sendBtn = document.getElementById('sendBtn');
-    const okBtn = document.getElementById('okBtn');
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.content');
-    // Função para abrir o modal principal       
-    function openModal() {
-      const kitModal = document.getElementById('kit-Modal').style.display = 'block';
-    }
-    // Fecha o modal principal
-    function closeModal() {
-      const kitModal = document.getElementById('kit-Modal').style.display = 'none';
-      const tbody = document.getElementById('body-table');
-      const result = document.getElementById('result');
-      result.innerHTML = '';
-      tbody.innerHTML = '';
-    }
-    // Fecha o modal de confirmação
-    cancelBtn.addEventListener('click', () => {
-      confirmModal.style.display = 'none';
-    });
-    // Abre o modal de confirmação
-    document.getElementById('openModalBtn').addEventListener('click', () => {
-      confirmModal.style.display = 'flex';
-    });
-    // Abre o modal de sucesso
-    sendBtn.addEventListener('click', () => {
-      confirmModal.style.display = 'none';
-      successModal.style.display = 'flex';
-      closeModal();
-    });
-    // Função para ativar uma aba específica
-    // function activateTab(tabName) {
-    //   // Remove a classe ativa de todas as abas e conteúdos
-    //   tabs.forEach(tab => tab.classList.remove('active'));
-    //   contents.forEach(content => content.classList.remove('active'));
-    //   // Adiciona a classe ativa à aba e ao conteúdo correspondente
-    //   const targetTab = document.querySelector(`.tab.${tabName}`);
-    //   const targetContent = document.getElementById(tabName);
-    //   if (targetTab && targetContent) {
-    //     targetTab.classList.add('active');
-    //     targetContent.classList.add('active');
+    // // Abrir e fechar o modal
+     document.getElementById("openProfileModal").addEventListener("click", function () {
+       document.getElementById("profileModal").style.display = "block";
+     });
+     document.getElementById("closeProfileModal").addEventListener("click", function () {
+       document.getElementById("profileModal").style.display = "none";
+     });
+     // Fechar o modal ao clicar fora do conteúdo
+     window.addEventListener("click", function (event) {
+       const modal = document.getElementById("profileModal");
+       if (event.target === modal) {
+         modal.style.display = "none";
+       }
+     });
+    // function decreaseValue(button) {
+    //   const input = button.nextElementSibling;
+    //   const value = parseInt(input.value);
+    //   if (value > 0) {
+    //     input.value = value - 1;
     //   }
     // }
-    // // Redireciona para a aba "Status" e fecha todos os modais ao clicar em OK
-    // okBtn.addEventListener('click', () => {
-    //   successModal.style.display = 'none'; // Fecha o modal de sucesso
-    //   const kitModal = document.getElementById('kitModal');
-    //   if (kitModal) {
-    //     kitModal.style.display = 'none'; // Fecha o modal principal de solicitação
+    // function increaseValue(button) {
+    //   const input = button.previousElementSibling;
+    //   input.value = parseInt(input.value) + 1;
+    // }
+    // function validateValue(input) {
+    //   if (input.value < 0) {
+    //     input.value = 0;
     //   }
-    //   activateTab('status'); // Ativa a aba "Status" e seu conteúdo
+    // }
+    // function deleteRow(button) {
+    //   const row = button.closest('tr'); // Localiza a linha mais próxima do botão clicado
+    //   row.remove(); // Remove a linha
+    // }
+    // // Seleciona elementos do DOM
+    // const confirmModal = document.getElementById('confirmModal');
+    // const successModal = document.getElementById('successModal');
+    // const cancelBtn = document.getElementById('cancelBtn');
+    // const sendBtn = document.getElementById('sendBtn');
+    // const okBtn = document.getElementById('okBtn');
+    // const tabs = document.querySelectorAll('.tab');
+    // const contents = document.querySelectorAll('.content');
+    // // Função para abrir o modal principal       
+    // function openModal() {
+    //   const kitModal = document.getElementById('kit-Modal').style.display = 'block';
+    // }
+    // // Fecha o modal principal
+    // function closeModal() {
+    //   const kitModal = document.getElementById('kit-Modal').style.display = 'none';
+    //   const tbody = document.getElementById('body-table');
+    //   const result = document.getElementById('result');
+    //   result.innerHTML = '';
+    //   tbody.innerHTML = '';
+    // }
+    // // Fecha o modal de confirmação
+    // cancelBtn.addEventListener('click', () => {
+    //   confirmModal.style.display = 'none';
     // });
-    // // Gerencia cliques manuais nas abas
-    // tabs.forEach(tab => {
-    //   tab.addEventListener('click', () => {
-    //     // Remover a classe ativa de todas as abas e conteúdos
-    //     tabs.forEach(t => t.classList.remove('active'));
-    //     contents.forEach(c => c.classList.remove('active'));
-    //     // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
-    //     tab.classList.add('active');
-    //     const target = document.getElementById(tab.dataset.tab);
-    //     target.classList.add('active');
-    //   });
+    // // Abre o modal de confirmação
+    // document.getElementById('openModalBtn').addEventListener('click', () => {
+    //   confirmModal.style.display = 'flex';
     // });
-    //FIM DO SCRIPT PARA INTERAÇÕES DA PÁGINA DOCENTE.HTML ----------------------------------------------------
+    // // Abre o modal de sucesso
+    // sendBtn.addEventListener('click', () => {
+    //   confirmModal.style.display = 'none';
+    //   successModal.style.display = 'flex';
+    //   closeModal();
+    // });
+    //  //Função para ativar uma aba específica
+    //  function activateTab(tabName) {
+    // //   // Remove a classe ativa de todas as abas e conteúdos
+    //    tabs.forEach(tab => tab.classList.remove('active'));
+    //    contents.forEach(content => content.classList.remove('active'));
+    // //   // Adiciona a classe ativa à aba e ao conteúdo correspondente
+    //    const targetTab = document.querySelector(`.tab.${tabName}`);
+    //    const targetContent = document.getElementById(tabName);
+    //    if (targetTab && targetContent) {
+    //      targetTab.classList.add('active');
+    //      targetContent.classList.add('active');
+    //    }
+    //  }
+    //  // Redireciona para a aba "Status" e fecha todos os modais ao clicar em OK
+    //  okBtn.addEventListener('click', () => {
+    //    successModal.style.display = 'none'; // Fecha o modal de sucesso
+    //    const kitModal = document.getElementById('kitModal');
+    //    if (kitModal) {
+    //      kitModal.style.display = 'none'; // Fecha o modal principal de solicitação
+    //    }
+    //    activateTab('status'); // Ativa a aba "Status" e seu conteúdo
+    //  });
+    // // // Gerencia cliques manuais nas abas
+    //  tabs.forEach(tab => {
+    //    tab.addEventListener('click', () => {
+    //      // Remover a classe ativa de todas as abas e conteúdos
+    //      tabs.forEach(t => t.classList.remove('active'));
+    //      contents.forEach(c => c.classList.remove('active'));
+    //      // Adicionar a classe ativa ao botão clicado e ao conteúdo correspondente
+    //      tab.classList.add('active');
+    //      const target = document.getElementById(tab.dataset.tab);
+    //      target.classList.add('active');
+    //    });
+    //  });
+    //FIM DO SCRIPT PARA INTERAÇÕES DA PÁGINA GESTAO.HTML ----------------------------------------------------
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
   <script type="module" src="./js/gestao.js"></script>

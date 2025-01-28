@@ -116,7 +116,7 @@ export const buscarCursosConcluidos = async (req, res) => {
     try {
         await db.execute('CALL AtualizarCursosConcluidos()'); // oque é isso elaine?
         const [resultado] = await db.execute('SELECT * FROM cursos_concluidos');
-        console.log(resultado);
+        //console.log(resultado);
         return res.json(resultado);
     } catch (error) {
         console.error('Erro ao processar a requisição.', error);
@@ -163,13 +163,13 @@ export const buscarSolicitacaoEncaminhada = async (req, res) => {
     const setorAtual = 'gestao' || 'setor de compras';
     
     try {
-        const [ result ] = await db.query(`SELECT* from solicitacoes WHERE setor_atual = ?`, [setorAtual]);
+        const [ result ] = await db.query(`SELECT * from solicitacoes WHERE setor_atual = ?`, [setorAtual]);
     //
     if(result.length === 0) {
-        console.log('Nenhuma solicitação existente');
+        //console.log('Nenhuma solicitação existente');
         return res.status(404).json({message: 'nenhuma solicitação'})
     }
-    console.log(result)
+    //console.log(result)
     return res.json(result);
 
     } catch(error) {

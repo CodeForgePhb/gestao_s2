@@ -135,8 +135,9 @@
                         <select id="curso-select">
                             <option value="">Selecione o curso</option>
                             <option value="cur1">Padaria</option>
-                            <option value="cur2">Padaria</option> n, parece que ´=
-                            <!-- Adicione outras opções aqui -->                        </select>
+                            <option value="cur2">Padaria</option>
+                            <!-- Adicione outras opções aqui -->                        
+                        </select>
                         <button type="button" id="canc">Cancelar</button>
                         <button type="submit">Salvar</button>
                     </form>
@@ -151,12 +152,14 @@
                             <option value="">Selecione o código do kit</option>
                             <option value="cod-kit1">456</option>
                             <option value="cod-kit2">101</option>
+                            <option value="cod-kit3">100</option>
                             <!-- Adicione outras opções aqui -->
                         </select>
                         <select id="nome-kit-select">
                             <option value="">Selecione o kit</option>
                             <option value="kit1">Kit Utensílios</option>
                             <option value="kit2">Kit Ferramentas</option>
+                            <option value="kit3">Kit de Periféricos</option>
                             <!-- Adicione outras opções aqui -->
                         </select>
                         <div style="margin-top: 20px;">
@@ -206,6 +209,47 @@
             </div>
         </section>
     </div>
+    <!-- MODAL SOLICITAÇÕES -->
+    <div class="modal-s">
+        <div class="modal" id="kit-Modal">
+            <div class="modal-header">
+                <img src="./assets/logo-2.svg" class="logo-2" alt="logo">
+                <h2>Solicitação dos Kits</h2>
+            </div>
+            <div class="modal-body">
+                <h3>Solicitação nº 000000</h3>
+                <div class="info info2" id="info">
+                    <!-- conteudo da api -->
+                </div>
+                <table class="table" id="table-materiais">
+                    <thead>
+                        <tr>
+                            <th colspan="6" style="text-align: center; border: 1px solid #000;" id="name-kit"></th>
+                        </tr>
+                        <tr>
+                            <th colspan="1">COD. PROTHEUS</th>
+                            <th colspan="1">PRODUTO</th>
+                            <th colspan="1">QUANTIDADE MAX</th>
+                            <th colspan="1">UNIDADE</th>
+                            <th colspan="1">SALDO</th>
+                            <th colspan="1">QUANTIDADE REQUERIDA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body-table">
+                        <!-- dados do servidor -->
+                    </tbody>
+                </table>
+                <div class="additional-materials">
+                    <label for="additional">MATERIAIS ADICIONAIS</label>
+                    <textarea id="additional" placeholder="Docente não solicitou materiais adicionais."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel" onclick="closeModal()">Cancelar</button>
+                <button id="openModalBtn" type="submit">Aceitar</button>
+            </div>
+        </div>
+    </div>
     <!-- Primeiro Modal: Confirmação -->
     <div id="confirmModal" class="modal-2">
         <div class="modal-content">
@@ -213,8 +257,8 @@
             </div>
             <p>Tem certeza que deseja enviar?</p>
             <div class="modal-footer-2">
-                <button id="cancelBtn" class="cancel" onclick="closeModal()">Não</button>
-                <button id="openModalBtn">Sim</button>
+                <button id="cancelBtn" class="cancel">Não</button>
+                <button id="sendBtn">Sim</button>
             </div>
         </div>
     </div>
@@ -297,6 +341,60 @@
             if (event.target === modal) {
                 modal.style.display = "none";
             }
+        });
+        // Seleciona elementos do DOM
+        const confirmModal = document.getElementById('confirmModal');
+        const successModal = document.getElementById('successModal');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const sendBtn = document.getElementById('sendBtn');
+        const okBtn = document.getElementById('okBtn');
+        // Função para abrir o modal principal       
+        function openModal() {
+            const kitModal = document.getElementById('kit-Modal').style.display = 'block';
+        }
+        // Fecha o modal principal
+        function closeModal() {
+            const kitModal = document.getElementById('kit-Modal').style.display = 'none';
+            const tbody = document.getElementById('body-table');
+            const result = document.getElementById('result');
+            result.innerHTML = '';
+            tbody.innerHTML = '';
+        }
+        // Fecha o modal de confirmação
+        cancelBtn.addEventListener('click', () => {
+            confirmModal.style.display = 'none';
+        });
+        // Abre o modal de confirmação
+        document.getElementById('openModalBtn').addEventListener('click', () => {
+            confirmModal.style.display = 'flex';
+        });
+        // Abre o modal de sucesso
+        sendBtn.addEventListener('click', () => {
+            confirmModal.style.display = 'none';
+            successModal.style.display = 'flex';
+            closeModal();
+        });
+         // Função para ativar uma aba específica
+         function activateTab(tabName) {
+            // Remove a classe ativa de todas as abas e conteúdos
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            // Adiciona a classe ativa à aba e ao conteúdo correspondente
+            const targetTab = document.querySelector(`.tab.${tabName}`);
+            const targetContent = document.getElementById(tabName);
+            if (targetTab && targetContent) {
+                targetTab.classList.add('active');
+                targetContent.classList.add('active');
+            }
+        }
+        // Redireciona para a aba "Status" e fecha todos os modais ao clicar em OK
+        okBtn.addEventListener('click', () => {
+            successModal.style.display = 'none'; // Fecha o modal de sucesso
+            const kitModal = document.getElementById('kitModal');
+            if (kitModal) {
+                kitModal.style.display = 'none'; // Fecha o modal principal de solicitação
+            }
+            activateTab('status'); // Ativa a aba "Status" e seu conteúdo
         });
         document.addEventListener("DOMContentLoaded", () => {
             const buttons = document.querySelectorAll(".toggle-button");

@@ -296,7 +296,7 @@ body {
 .courses h3 {
     margin-bottom: 15px;
 }
-.course {
+.course, .solicitacao {
     background-color: #f3f3f3;
     padding: 15px;
     border-radius: 5px;
@@ -311,15 +311,15 @@ body {
 }
 section {
     height: 97%;
-    /* Define a altura do pai */
+    /* Define a altura do pai  */
     width: 100%;
     position: relative;
     padding: 10px;
 }
-.course:hover {
+.course:hover, .solicitacao:hover {
     background-color: #eaeaea;
 }
-.course .arrow {
+.course .arrow, .solicitacao .arrow {
     font-size: 1.2em;
     color: #666;
 }
@@ -490,7 +490,7 @@ span {
 .arrow i.rotate {
     transform: rotate(180deg);
 }
-.course .arrow {
+.course .arrow , .solicitacao .arrow{
     font-size: 10pt;
 }
 /* .arrow.down {
