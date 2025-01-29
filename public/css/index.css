@@ -432,5 +432,10 @@ form.sign-in-form {
 
 .content h3 {
   padding-bottom: 10px;
-  text-shadow: 1px 1px 1px black;
+  color: #00000000;
+  text-shadow: 2px 2px 4px #000000ed;
+  -webkit-text-stroke: 0.4px #3f3f3f36;
+  -webkit-text-fill-color: #ededed;
+  font-weight: bold;
+  font-size: 30px;
 }
