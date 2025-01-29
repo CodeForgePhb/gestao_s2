@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `gestao_s2` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `gestao_s2`;
--- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: gestao_s2
 -- ------------------------------------------------------
--- Server version	8.0.40
+-- Server version	8.0.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,7 +35,7 @@ CREATE TABLE `kit` (
   KEY `cod_kit` (`cod_kit`) /*!80000 INVISIBLE */,
   KEY `nome_kit` (`nome_kit`),
   CONSTRAINT `kit_ibfk_1` FOREIGN KEY (`curso`) REFERENCES `curso` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `kit` (
 
 LOCK TABLES `kit` WRITE;
 /*!40000 ALTER TABLE `kit` DISABLE KEYS */;
-INSERT INTO `kit` VALUES (1,101,'Kit de Ferramentas','Permanente','Excel Avançado'),(2,100,'Kit de Periféricos','Semi-permanente','Administração'),(3,100,'Kit de Periféricos','Permanente','Administração'),(4,100,'Kit de Periféricos','Permanente','Excel Avançado'),(18,456,'Kit Utensílios','Permanente','Padaria');
+INSERT INTO `kit` VALUES (19,100,'Kit de Periféricos','Permanente','Técnico em Informática para Internet');
 /*!40000 ALTER TABLE `kit` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-27 10:58:51
+-- Dump completed on 2025-01-28 22:02:40

@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `gestao_s2` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `gestao_s2`;
--- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: gestao_s2
 -- ------------------------------------------------------
--- Server version	8.0.40
+-- Server version	8.0.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -45,7 +45,6 @@ CREATE TABLE `cursos_concluidos` (
 
 LOCK TABLES `cursos_concluidos` WRITE;
 /*!40000 ALTER TABLE `cursos_concluidos` DISABLE KEYS */;
-INSERT INTO `cursos_concluidos` VALUES (1,'Excel Avançado','miguel sousinha','2024-07-02','2024-12-02'),(4,'Administração','Elaine','2023-12-02','2024-12-02'),(5,'Técnico de Informática para Internet',NULL,'2023-09-04','2024-12-04'),(6,'Técnico de Informática para Internet',NULL,'2023-01-01','2025-01-01');
 /*!40000 ALTER TABLE `cursos_concluidos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-27 10:58:51
+-- Dump completed on 2025-01-28 22:02:40

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitação de Material</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: white;
+        }
+
+        .container {
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #000;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header img {
+            padding-left: 50px;
+            max-width: 250px;
+            max-height: 100px;
+        }
+
+        .header-info {
+            text-align: center;
+            font-size: small;
+        }
+
+        .course-info {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .course-info span {
+            font-weight: bold;
+        }
+
+        .materials-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .materials-table th,
+        .materials-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .materials-table th {
+            background-color: #f5f5f5;
+        }
+
+        .materials-section {
+            margin-bottom: 20px;
+        }
+
+        .footer-text {
+            margin: 20px 0;
+            font-size: 0.9em;
+            border: 1px solid #000;
+            padding: 10px;
+        }
+
+        /* Container principal de assinaturas */
+        .signatures {
+            display: flex;
+            flex-wrap: wrap;
+            /* Permite que as assinaturas quebrem linha */
+            gap: 20px;
+            /* Espaçamento entre os cartões */
+            justify-content: center;
+            /* Centraliza os cartões no container */
+        }
+
+        /* Cartão individual de assinatura */
+        .signature-card img {
+            width: 200px;
+            height: 100px;
+        }
+        .signature {
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #fff;
+            width: 220px;
+            /* Largura fixa para cada cartão */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Sombra para destaque */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Animação suave */
+        }
+
+        .signature:hover {
+            transform: translateY(-5px);
+            /* Levanta o cartão ao passar o mouse */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            /* Intensifica a sombra */
+        }
+
+        /* Linha da assinatura */
+        .signature-line {
+            height: 2px;
+            background-color: #000;
+            margin: 10px 0;
+        }
+
+        /* Imagem da assinatura */
+        .signature img {
+            max-width: 100%;
+            /* Garante que a imagem não ultrapasse o tamanho do cartão */
+            height: auto;
+            /* Mantém a proporção da imagem */
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        /* Papel ou nome do assinante */
+        .signature div {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .date {
+            margin-top: 30px;
+            text-align: left;
+        }
+        .additional-materials{margin-top: 15px;}
+
+        @media print {
+            body {
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                border: none;
+            }
+
+            @page {
+                size: A4;
+                margin: 2cm;
+            }
+        }
+    </style>
+    <script>
+
+
+        // Obtém a data atual no formato local (pt-BR) e a insere no campo de data.
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const dataAtual = new Date().toLocaleDateString('pt-BR', options);
+        document.getElementById('current-date').textContent = dataAtual;
+
+
+        // Abre a interface de impressão automaticamente.
+        window.print();
+
+        // Fecha a janela após a impressão ser concluída.
+        window.onafterprint = () => {
+            window.close();
+        };
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <div class="header">
+            <div>
+                <img src="./img/Imagem1.jpg" alt="Logo">
+            </div>
+            <div class="header-info">
+                <div>CFP - JOSÉ DE MORAES CORREIA</div>
+                <div>AV: CAPITÃO CLARO 199, PARNAÍBA-PI</div>
+                <div>FONE: 3321-2640 ou 99434-4867</div>
+                <div>CNPJ: 03.809.074/0002-42</div>
+            </div>
+        </div>
+
+        <!-- Informações do Curso -->
+        <div class="course-info" id="info">
+            <!-- conteudo da api -->
+        </div>
+
+        <!-- Tabelas de Materiais -->
+        <div id="tables-container">
+            <h3 id="num-solic">Solicitação nº 000000</h3>
+            <table class="table" id="table-materiais">
+                <thead>
+                    <tr>
+                        <th colspan="6" style="text-align: center; border: 1px solid #000;" id="name-kit"></th>
+                    </tr>
+                    <tr>
+                        <th colspan="1">COD. PROTHEUS</th>
+                        <th colspan="1">PRODUTO</th>
+                        <th colspan="1">QUANTIDADE MAX</th>
+                        <th colspan="1">UNIDADE</th>
+                        <th colspan="1">SALDO</th>
+                        <th colspan="1">QUANTIDADE REQUERIDA</th>
+                    </tr>
+                </thead>
+                <tbody id="body-table">
+                    <!-- dados do servidor -->
+                </tbody>
+            </table>
+            <div class="additional-materials">
+                <label for="additional">MATERIAIS ADICIONAIS</label>
+                <p>Docente não solicitou materiais adicionais.</p>
+            </div>
+        </div>
+
+        <!-- Texto do Rodapé -->
+        <div class="footer-text">
+            Caso seja vencedor da proposta o pagamento será em até 15 dias por meio de transferência
+            eletrônica em conta Jurídica material deve ser entregue acompanhado de nf, recibo ou boleto.
+            Valores a partir de 500,00 faz-se necessário cnds - União, estado e município e FGTS.
+        </div>
+
+        <!-- Container para as assinaturas -->
+        <div class="signatures" id="signature-container">
+            <!-- Assinaturas serão inseridas dinamicamente pelo JavaScript -->
+        </div>
+
+        <!-- Data -->
+        <div class="date">
+            <span id="current-date"></span>
+        </div>
+    </div>
+</body>
+<script>
+// Função para atualizar a data corretamente
+function atualizarData() {
+    const dataAtual = new Date();
+
+    // Formata a data no estilo "28 de Janeiro de 2025"
+    const dataFormatada = dataAtual.toLocaleDateString('pt-BR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+
+    // Garante que o elemento existe antes de modificar o texto
+    const dataElemento = document.getElementById('current-date');
+    if (dataElemento) {
+        dataElemento.innerText = `Parnaíba, ${dataFormatada}`;
+    }
+}
+
+// Garante que o script só rode após o carregamento completo da página
+document.addEventListener('DOMContentLoaded', atualizarData);
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+<script type="module" src="./js/print.js"></script>
+<script type="module" src="./api.js"></script>
+
+</html>

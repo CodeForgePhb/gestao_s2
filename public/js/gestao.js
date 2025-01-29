@@ -262,7 +262,7 @@ async function carregarSolicitacoesGestaoConcluidas() {
 }
 //DADOS PARA A TABELA PRA RESPONDER SOLICITAÇÃO
 async function buscarSolicitacoesEmAndamentoGestao() {
-    const cod_curso = '60';
+    const cod_curso = '1';
     const dadosCursoArray = await dadosSolicitacao(cod_curso);
     // Extrai o primeiro elemento do array (esperando que a API sempre retorne uma lista)
     const dadosCurso = dadosCursoArray[0];

@@ -21,6 +21,7 @@ export const buscarCursosVigentes = async (req, res) => {
       return res.status(404).json({ message: 'Usuário não encontrado.' });
     }
     const { nome } = userResult[0]; // Nome do usuário
+    await db.execute('CALL AtualizarCursosVigentes()');
     // 4. Busca os cursos onde professor = nome_usuario
     const [cursosResult] = await db.query(
       `SELECT 

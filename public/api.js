@@ -1142,3 +1142,32 @@ export async function getSolicitacoesConcluidasCompras() {
         return {message: error.message};
     }
 }
+
+export async function getAssinaturas() {
+    const token = localStorage.getItem('token'); // Pegando o token do localStorage
+
+    try {
+        const response = await fetch(`${API_URL}/routes/signatures`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`, // Cabeçalho com o token
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro na requisição');
+        }
+
+        const data = await response.json();
+
+        if (data.length === 0) {
+            return { message: 'Sem assinaturas disponíveis' };
+        }
+console.log(data)
+        return data;
+    } catch (error) {
+        console.error('Erro ao buscar assinaturas:', error);
+        return { message: error.message };
+    }
+}

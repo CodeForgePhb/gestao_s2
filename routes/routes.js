@@ -9,6 +9,8 @@ import * as controllerDocente from '../controllers/docente.js'; // Importa todas
 import * as controllerCoordenacao from '../controllers/coordenacao.js';
 import * as controllerGestao from '../controllers/gestao.js';
 import * as controllerCompras from '../controllers/setorCompras.js';
+import * as controllerPrint from '../controllers/print.js';
+
 import authMiddleware from '../middleware/authorization.js'; // Importa o middleware
 
 const router = express.Router();
@@ -61,6 +63,9 @@ router.get('/solicitacoes-compras', controllerCompras.buscarSolicitacaoEmAndamen
 router.get('/solicitacoes-concluidas-compras', controllerCompras.buscarSolicitacaoConcluidasCompras);
 router.get('/todos-cursos', controllerCompras.buscarCursosCompras);
 router.put('/updt-status', authMiddleware,controllerCompras.atualizarSetorDaSolicitacao);
+
+//----------------Print------------------------
+router.get('/signatures', authMiddleware,controllerPrint.getAssinaturas);
 
 
 export default router; // Exporta o roteador como padrão

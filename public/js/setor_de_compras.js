@@ -273,7 +273,7 @@ async function carregarCursosCompras() {
 }
 //DADOS PARA A TABELA PRA RESPONDER SOLICITAÇÃO
 async function buscarSolicitacoesEmAndamentoCompras() {
-    const cod_curso = '60';
+    const cod_curso = '1';
     const dadosCursoArray = await dadosSolicitacao(cod_curso);
     // Extrai o primeiro elemento do array (esperando que a API sempre retorne uma lista)
     const dadosCurso = dadosCursoArray[0];
@@ -355,8 +355,15 @@ async function buscarSolicitacoesConcluidasCompras() {
             <span class="course-date"><strong>Status: ${solConc.status}</strong></span>
             <button class="download-button">Baixar</button>
         `;
+        // Adicionar o evento de clique ao botão
+        const button = divInterna.querySelector('.download-button');
+        button.addEventListener('click', () => {
+            window.location.href = './print.html';
+        });
         contentStatus.appendChild(divInterna);
     });
+
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {

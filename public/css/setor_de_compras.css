@@ -548,9 +548,14 @@ span strong {
   cursor: pointer;
 }
 
-.info, .info3 {
-  display: flex;
+.info{
   font-size: 14px;
+  gap: 10px;
+  width: 100%;
+  justify-content: space-between;
+}
+.info3{
+  display: flex;
   gap: 10px;
   width: 100%;
   justify-content: space-between;

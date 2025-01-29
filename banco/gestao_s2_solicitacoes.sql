@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `gestao_s2` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `gestao_s2`;
--- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: gestao_s2
 -- ------------------------------------------------------
--- Server version	8.0.40
+-- Server version	8.0.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,9 +35,8 @@ CREATE TABLE `solicitacoes` (
   `setor_atual` enum('docente','coordenacao','gestao','compras') NOT NULL DEFAULT 'docente',
   `numero_solicitacao` varchar(255) NOT NULL,
   `status` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `numero_solicitacao` (`numero_solicitacao`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +45,6 @@ CREATE TABLE `solicitacoes` (
 
 LOCK TABLES `solicitacoes` WRITE;
 /*!40000 ALTER TABLE `solicitacoes` DISABLE KEYS */;
-INSERT INTO `solicitacoes` VALUES (19,234,'mouse',2,'un',2,2,'docente','19-miguel sousa-1737939035919-234','em andamento'),(20,234,'mouse',2,'un',2,1,'gestao','19-miguel sousa-1737939356998-234','em andamento'),(21,234,'mouse',2,'un',2,1,'coordenacao','19-miguel sousa-1737975484662-234','em andamento'),(22,234,'mouse',2,'un',2,2,'compras','19-miguel sousa-1737985202867-234','em andamento');
 /*!40000 ALTER TABLE `solicitacoes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-27 10:58:51
+-- Dump completed on 2025-01-28 22:02:40
